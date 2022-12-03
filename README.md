@@ -19,7 +19,8 @@ bundle exec ruby examples/fibonacci.rb
 
 MIT
 
-This Gem contains the code for the following projects
+This Gem contains the code of the following projects.
+The former is MIT. The latter is the library needed to build Wasm in Crystal.
 
 * [sorcerer](https://github.com/rspec-given/sorcerer)
 * [wasm-libs](https://github.com/lbguilherme/wasm-libs)
