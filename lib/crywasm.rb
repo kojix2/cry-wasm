@@ -66,7 +66,13 @@ module CryWasm
     Tempfile.create('wasm') do |wasm_out|
       Tempfile.create('crywasm') do |crystal_code|
         File.write(crystal_code.path, @code.join("\n"))
-        `crystal build #{crystal_code.path} -o #{wasm_out.path} --target wasm32-wasi --link-flags="--export #{@names.join(',')}"`
+        link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
+        result = system "crystal build #{crystal_code.path} -o #{wasm_out.path} --target wasm32-wasi --link-flags=#{link_flags}"
+        unless result
+          warn 'Failed to compile Crystal code to WASM'
+          warn @code.join("\n")
+          raise 'crystal build failed' unless result
+        end
         wasm_bytes = IO.read(wasm_out.path, mode: 'rb')
       end
     end
