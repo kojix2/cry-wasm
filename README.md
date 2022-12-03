@@ -1,5 +1,7 @@
 # CryWasm
 
+Ruby code is converted to Crystal at runtime and compiled into Wasm. ruby calls Wasm functions in wasmer. This is a prototype created to show that this concept works in practice.
+
 ```mermaid
 flowchart LR
 style id1 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 5
