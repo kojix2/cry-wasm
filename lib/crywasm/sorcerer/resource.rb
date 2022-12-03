@@ -2,7 +2,7 @@
 
 require 'ripper'
 
-module Crystalline
+module CryWasm
   module Sorcerer
     class Resource
       class SorcererError < StandardError

@@ -1,4 +1,4 @@
-module Crystalline
+module CryWasm
   module Sorcerer
     class Signature
       attr_reader :normal_args, :default_args, :rest_arg, :keyword_args, :opts_arg, :block_arg

@@ -1,4 +1,4 @@
-module Crystalline
+module CryWasm
   module Sorcerer
     class Subexpression
       def initialize(sexp)

@@ -1,4 +1,4 @@
-module Crystalline
+module CryWasm
   module Sorcerer
     VERSION_NUMBERS = [
       VERSION_MAJOR = 2,

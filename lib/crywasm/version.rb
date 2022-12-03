@@ -1,3 +1,3 @@
-module Crystalline
+module CryWasm
   VERSION = '0.0.0'
 end

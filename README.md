@@ -1,3 +1,3 @@
-# Crystalline
+# CryWasm
 
 Ruby -> Crystal -> Wasm -> Ruby
