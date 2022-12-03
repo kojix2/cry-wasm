@@ -60,22 +60,25 @@ module CryWasm
       :check_ret_type
   end
 
-  def cry_wasm
+  def cry_wasm(wasm_out = nil)
     wasm_bytes = nil
     ENV['CRYSTAL_LIBRARY_PATH'] = File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
-    Tempfile.create('wasm') do |wasm_out|
-      Tempfile.create('crywasm') do |crystal_code|
-        File.write(crystal_code.path, @code.join("\n"))
-        link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
-        result = system "crystal build #{crystal_code.path} -o #{wasm_out.path} --target wasm32-wasi --link-flags=#{link_flags}"
-        unless result
-          warn 'Failed to compile Crystal code to WASM'
-          warn @code.join("\n")
-          raise 'crystal build failed' unless result
-        end
-        wasm_bytes = IO.read(wasm_out.path, mode: 'rb')
-      end
+    unless wasm_out
+      output_file = Tempfile.create('wasm')
+      wasm_out = output_file.path
     end
+    Tempfile.create('crywasm') do |crystal_code|
+      File.write(crystal_code.path, @code.join("\n"))
+      link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
+      result = system "crystal build #{crystal_code.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
+      unless result
+        warn 'Failed to compile Crystal code to WASM'
+        warn @code.join("\n")
+        raise 'crystal build failed' unless result
+      end
+      wasm_bytes = IO.read(wasm_out, mode: 'rb')
+    end
+    output_file.close if output_file
 
     store = Wasmer::Store.new
     module_ = Wasmer::Module.new store, wasm_bytes
