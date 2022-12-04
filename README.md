@@ -71,6 +71,8 @@ gem install cry_wasm
 
 ## Development
 
+- [Trying out WASM Support](https://forum.crystal-lang.org/t/trying-out-wasm-support/4508/48) - A thread in the Crystal Forum on how to compile a wasm from crystal.
+
 ```
 git clone https://github.com/kojix2/cry_wasm
 cd cry_wasm
@@ -78,6 +80,8 @@ cd cry_wasm
 bundle exec ruby examples/fibonacci.rb
 # rake install
 ```
+
+- [CrystalでWebAssemblyに出力した関数をRubyから呼び出す](https://qiita.com/kojix2/items/b233f1419b26f7fc0e1b)
 
 ## license
 
