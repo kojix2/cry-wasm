@@ -8,7 +8,7 @@ module CryWasm
       return super(name)
     end
 
-    fun = find_method(@r, name.to_s)
+    fun = find_method_in_s_expression(@r, name.to_s)
     arg_names = []
     if fun[2][0] == :paren && (fun[2][1][0] == :params)
       fun[2][1][1].each do |arg|
@@ -25,12 +25,12 @@ module CryWasm
     super(name)
   end
 
-  def find_method(arr, n)
+  def find_method_in_s_expression(arr, n)
     arr.each_with_index do |item, _index|
       if item.is_a?(Array)
         if item[0] == :def
           return item if item[1][0] == :@ident && (item[1][1] == n) && (item[1][2][0] > @l)
-        elsif r = find_method(item, n)
+        elsif r = find_method_in_s_expression(item, n)
           return r
         end
       end
