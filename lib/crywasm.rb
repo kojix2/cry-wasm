@@ -4,11 +4,9 @@ require_relative 'crywasm/sorcerer'
 
 module CryWasm
   def method_added(name)
-    unless @flag
-      return super(name)
-    end
+    return super(name) unless @crywasm_flag
 
-    fun = find_method_in_s_expression(@r, name.to_s)
+    fun = find_method_in_s_expression(@s_expression, name.to_s)
     arg_names = []
     if fun[2][0] == :paren && (fun[2][1][0] == :params)
       fun[2][1][1].each do |arg|
@@ -16,11 +14,11 @@ module CryWasm
       end
     end
     code = Sorcerer.source(fun, multiline: true, indent: true)
-    hoge = arg_names.zip(@arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
-    dec = "fun #{name}(#{hoge}) : #{@ret_type}\n"
-    @names << name
-    @code << code.lines[1..-1].unshift(dec).join
-    @flag = false
+    hoge = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
+    dec = "fun #{name}(#{hoge}) : #{@crystal_arg_type}\n"
+    @method_names << name
+    @crystal_code_blocks << code.lines[1..-1].unshift(dec).join
+    @crywasm_flag = false
 
     super(name)
   end
@@ -29,7 +27,7 @@ module CryWasm
     arr.each_with_index do |item, _index|
       if item.is_a?(Array)
         if item[0] == :def
-          return item if item[1][0] == :@ident && (item[1][1] == n) && (item[1][2][0] > @l)
+          return item if item[1][0] == :@ident && (item[1][1] == n) && (item[1][2][0] > @line_number)
         elsif r = find_method_in_s_expression(item, n)
           return r
         end
@@ -39,14 +37,14 @@ module CryWasm
   end
 
   def cry(arg_types, ret_type)
-    @code ||= []
-    @names ||= []
+    @crystal_code_blocks ||= []
+    @method_names ||= []
     f, l = caller[0].split(':')
-    @l = l.to_i
-    @r = Ripper::SexpBuilder.new(IO.read(f)).parse
-    @flag = true
-    @arg_types = check_arg_types(arg_types)
-    @ret_type = check_ret_type(ret_type)
+    @line_number = l.to_i
+    @s_expression = Ripper::SexpBuilder.new(IO.read(f)).parse
+    @crywasm_flag = true
+    @crystal_arg_types = check_arg_types(arg_types)
+    @crystal_arg_type = check_ret_type(ret_type)
   end
 
   def check_arg_types(arg_types)
@@ -58,28 +56,30 @@ module CryWasm
   end
 
   def cry_wasm(wasm_out = nil)
-    crystal_code = @code.join("\n")
+    crystal_code = @crystal_code_blocks.join("\n")
     wasm_bytes = crystal_build_wasm(crystal_code, wasm_out)
     wasm_func = create_wasm_function(wasm_bytes)
 
-    @names.each do |name|
+    @method_names.each do |name|
       define_method(name) do |*args|
         wasm_func.call(*args)
       end
     end
   end
 
-  def crystal_build_wasm(crystal_code, wasm_out)
+  def crystal_build_wasm(crystal_code, wasm_out = nil)
     wasm_bytes = nil
-    ENV['CRYSTAL_LIBRARY_PATH'] = File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
+    ENV['CRYSTAL_LIBRARY_PATH'] ||= File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
     unless wasm_out
       output_file = Tempfile.create('wasm')
       wasm_out = output_file.path
     end
     Tempfile.create('crywasm') do |crystal_file|
       File.write(crystal_file.path, crystal_code)
-      link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
-      result = system "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
+      link_flags = '"' + @method_names.map { |n| "--export #{n} " }.join + '"'
+      result = system(
+        "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
+      )
       unless result
         warn 'Failed to compile Crystal code to WASM'
         warn crystal_code
@@ -88,7 +88,7 @@ module CryWasm
       wasm_bytes = IO.read(wasm_out, mode: 'rb')
     end
     output_file.close if output_file
-    return wasm_bytes
+    wasm_bytes
   end
 
   def create_wasm_function(wasm_bytes)
