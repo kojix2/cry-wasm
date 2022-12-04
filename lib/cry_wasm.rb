@@ -4,6 +4,8 @@ require 'tempfile'
 require 'wasmer'
 
 module CryWasm
+  VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].freeze
+
   def method_added(name)
     return super(name) unless @cry_wasm_flag
 
@@ -33,8 +35,6 @@ module CryWasm
     @crystal_arg_types = validate_type_names(arg_types)
     @crystal_ret_type = validate_type_name(ret_type)
   end
-
-  VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64].freeze
 
   def validate_type_names(type_names)
     type_names.map { |t| validate_type_name(t) }
