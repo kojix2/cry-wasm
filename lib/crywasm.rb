@@ -1,47 +1,68 @@
+# frozen_string_literal: true
+
 require 'tempfile'
 require 'wasmer'
 require_relative 'crywasm/sorcerer'
 
 module CryWasm
+  class MySexp
+    def initialize(str)
+      @sexp = Ripper::SexpBuilder.new(str).parse
+    end
+
+    def extract_source_with_arguments(name, line_number)
+      exp = find_method(name, line_number)
+      arg_names = []
+      if exp[2][0] == :paren && (exp[2][1][0] == :params)
+        exp[2][1][1].each do |arg|
+          arg_names << arg[1] if arg[0] == :@ident
+        end
+      end
+      source = Sorcerer.source(exp, multiline: true, indent: true)
+      [source, arg_names]
+    end
+
+    def find_method(name, line_number)
+      @line_number = line_number
+      name = name.to_s
+      find_method2(@sexp, name)
+    end
+
+    def find_method2(arr, name)
+      arr.each do |item|
+        if item.is_a?(Array)
+          if item[0] == :def
+            return item if item[1][0] == :@ident && (item[1][1] == name) && (item[1][2][0] > @line_number)
+          elsif r = find_method2(item, name)
+            return r
+          end
+        end
+      end
+      nil
+    end
+  end
+
   def method_added(name)
     return super(name) unless @crywasm_flag
 
-    fun = find_method_in_s_expression(@s_expression, name.to_s)
-    arg_names = []
-    if fun[2][0] == :paren && (fun[2][1][0] == :params)
-      fun[2][1][1].each do |arg|
-        arg_names << arg[1] if arg[0] == :@ident
-      end
-    end
-    code = Sorcerer.source(fun, multiline: true, indent: true)
-    hoge = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
-    dec = "fun #{name}(#{hoge}) : #{@crystal_arg_type}\n"
-    @method_names << name
-    @crystal_code_blocks << code.lines[1..-1].unshift(dec).join
+    ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @line_number)
+    crystal_args = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
+    crystal_define_fun = "fun #{name}(#{crystal_args}) : #{@crystal_arg_type}\n"
+    crystal_code_block = ruby_code_block.lines[1..].unshift(crystal_define_fun).join
+    @crystal_code_blocks << crystal_code_block
+
+    @marked_methods << name
     @crywasm_flag = false
 
     super(name)
   end
 
-  def find_method_in_s_expression(arr, n)
-    arr.each_with_index do |item, _index|
-      if item.is_a?(Array)
-        if item[0] == :def
-          return item if item[1][0] == :@ident && (item[1][1] == n) && (item[1][2][0] > @line_number)
-        elsif r = find_method_in_s_expression(item, n)
-          return r
-        end
-      end
-    end
-    nil
-  end
-
   def cry(arg_types, ret_type)
     @crystal_code_blocks ||= []
-    @method_names ||= []
+    @marked_methods ||= []
     f, l = caller[0].split(':')
     @line_number = l.to_i
-    @s_expression = Ripper::SexpBuilder.new(IO.read(f)).parse
+    @s_expression = MySexp.new(IO.read(f))
     @crywasm_flag = true
     @crystal_arg_types = check_arg_types(arg_types)
     @crystal_arg_type = check_ret_type(ret_type)
@@ -60,7 +81,7 @@ module CryWasm
     wasm_bytes = crystal_build_wasm(crystal_code, wasm_out)
     wasm_func = create_wasm_function(wasm_bytes)
 
-    @method_names.each do |name|
+    @marked_methods.each do |name|
       define_method(name) do |*args|
         wasm_func.call(*args)
       end
@@ -76,7 +97,7 @@ module CryWasm
     end
     Tempfile.create('crywasm') do |crystal_file|
       File.write(crystal_file.path, crystal_code)
-      link_flags = '"' + @method_names.map { |n| "--export #{n} " }.join + '"'
+      link_flags = '"' + @marked_methods.map { |n| "--export #{n} " }.join + '"'
       result = system(
         "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
       )
@@ -87,7 +108,7 @@ module CryWasm
       end
       wasm_bytes = IO.read(wasm_out, mode: 'rb')
     end
-    output_file.close if output_file
+    output_file&.close
     wasm_bytes
   end
 
