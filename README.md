@@ -50,13 +50,13 @@ Fibonacci.new.fib(40)
 1. Once the method is defined, CryWasm captures the source code.
     1. Ripper converts source code to S-expressions.
     1. The S exp of the target method is extracted from the S-expression. 
-    1. The S exp of the target method is returned to the source code by Sorcerer.
+    1. The S exp of the target method is recovered to the source code by Sorcerer.
     1. The Crystal type restriction is added and becomes a Crystal code block.
-    1. The Crystal code block is stocked.
+    1. CryWasm stock the crystal code block.
 1. The Crystal compiler compiles the Crystal code into WebAssembly.
-    1. Use `cry_wasm` method to build the crystal code blocks.
-1. The compiled byte_code is loaded on the fly and an instance of Wasmer is created.
-1. Methods are redefined to call Wasmer functions.
+    1. Call `cry_wasm` method to build the crystal code blocks.
+1. The compiled byte_code is loaded and an instance of Wasmer is created.
+1. The target method is dynamically redefined to call a Wasmer function.
 
 Currently, only numbers are accepted as arguments. In the future, strings will also be acceptable.
 
