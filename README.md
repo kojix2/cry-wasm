@@ -14,7 +14,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
     id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
 ```
 
-:space_invader: *experimental*
+:space_invader: *highly experimental*
 
 ## Quick Start
 
@@ -41,6 +41,18 @@ end
 
 Fibonacci.new.fib(40)
 ```
+
+## Benchmark
+
+[fib_bench.rb](https://github.com/kojix2/cry_wasm/blob/main/examples/fib_bench.rb) - 10 x faster on the [Fibonacci benchmark](https://crystal-lang.org/2016/07/15/fibonacci-benchmark/).
+
+```
+                 user     system      total        real
+fib_ruby(40)  7.461878   0.004760   7.466638 (  7.466798)
+fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
+```
+
+<img src="https://user-images.githubusercontent.com/5798442/205485566-5f7d1bae-4908-43a1-8f9a-801ae8d7d33e.png" width=20% height="20%">
 
 ## How does this work?
 
