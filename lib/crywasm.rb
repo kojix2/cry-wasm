@@ -77,6 +77,16 @@ module CryWasm
     end
     output_file.close if output_file
 
+    wasm_func = create_wasm_function(wasm_bytes)
+
+    @names.each do |name|
+      define_method(name) do |*args|
+        wasm_func.call(*args)
+      end
+    end
+  end
+
+  def create_wasm_function(wasm_bytes)
     store = Wasmer::Store.new
     module_ = Wasmer::Module.new store, wasm_bytes
 
@@ -94,12 +104,6 @@ module CryWasm
 
     instance = Wasmer::Instance.new module_, import_object
     wasm_func = instance.exports.fib
-
-    @names.each do |name|
-      define_method(name) do |*args|
-        wasm_func.call(*args)
-      end
-    end
   end
 
   def stash_method_name(name)
