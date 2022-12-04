@@ -6,7 +6,8 @@ require_relative 'crywasm/sorcerer'
 
 module CryWasm
   class MySexp
-    def initialize(str)
+    def initialize(fname)
+      str = IO.read(fname)
       @sexp = Ripper::SexpBuilder.new(str).parse
     end
 
@@ -47,33 +48,42 @@ module CryWasm
 
     ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @line_number)
     crystal_args = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
-    crystal_define_fun = "fun #{name}(#{crystal_args}) : #{@crystal_arg_type}\n"
+    crystal_define_fun = "fun #{name}(#{crystal_args}) : #{@crystal_ret_type}\n"
     crystal_code_block = ruby_code_block.lines[1..].unshift(crystal_define_fun).join
     @crystal_code_blocks << crystal_code_block
 
     @marked_methods << name
+    @line_number = 0
     @crywasm_flag = false
 
     super(name)
   end
 
   def cry(arg_types, ret_type)
-    @crystal_code_blocks ||= []
-    @marked_methods ||= []
-    f, l = caller[0].split(':')
+    fname, l = caller[0].split(':')
+    # In most cases, previously parsed S-expressions can be reused.
+    if fname != @fname
+      @s_expression = MySexp.new(fname)
+      @fname = fname
+    end
+    # Searches for methods that appear on a line later than cry was called.
     @line_number = l.to_i
-    @s_expression = MySexp.new(IO.read(f))
     @crywasm_flag = true
-    @crystal_arg_types = check_arg_types(arg_types)
-    @crystal_arg_type = check_ret_type(ret_type)
+    @crystal_arg_types = validate_type_names(arg_types)
+    @crystal_ret_type = validate_type_name(ret_type)
   end
 
-  def check_arg_types(arg_types)
-    arg_types
+  VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64].freeze
+
+  def validate_type_names(type_names)
+    type_names.map { |t| validate_type_name(t) }
   end
 
-  def check_ret_type(ret_type)
-    ret_type
+  def validate_type_name(type_name)
+    type_name = type_name.to_sym 
+    raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
+
+    type_name
   end
 
   def cry_wasm(wasm_out = nil)
@@ -132,14 +142,17 @@ module CryWasm
     wasm_func = instance.exports.fib
   end
 
-  def stash_method_name(name)
-    "_#{name}_raw"
-  end
-
   def self.extended(obj)
     obj.private_class_method\
       :cry,
-      :check_arg_types,
-      :check_ret_type
+      :validate_type_name,
+      :validate_type_names
+
+    # initialize class instance variables
+    obj.instance_variable_set(:@crywasm_flag, false)
+    obj.instance_variable_set(:@crystal_code_blocks, [])
+    obj.instance_variable_set(:@marked_methods, [])
+    obj.instance_variable_set(:@fname, '')
+    obj.instance_variable_set(:@line_number, 0)
   end
 end
