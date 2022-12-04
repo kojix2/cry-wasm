@@ -22,11 +22,11 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 require 'cry_wasm'
 
 class Fibonacci
-  extend CryWasm
+  extend CryWasm              # <-- Extend CryWasm module
 
   def initialize; end
 
-  cry [:Int32], :Int32
+  cry [:Int32], :Int32        # <-- Set crystal [argument], return types
   def fib(n)
     if n <= 1
       1
@@ -34,12 +34,11 @@ class Fibonacci
       fib(n - 1) + fib(n - 2)
     end
   end
-  alias fib_ruby fib
 
-  cry_wasm
+  cry_wasm                    # <-- Crystal compiles the fib method into Wasm.
 end
 
-Fibonacci.new.fib(40)
+Fibonacci.new.fib(40)         # <-- The wasm function is called here!
 ```
 
 ## Benchmark
