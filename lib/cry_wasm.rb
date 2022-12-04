@@ -1,6 +1,3 @@
-# Check if crystal is in the path
-raise 'crystal is not in the path' unless system 'crystal --version'
-
 require_relative 'cry_wasm/sexp'
 require_relative 'cry_wasm/crystal_compiler'
 require 'tempfile'
