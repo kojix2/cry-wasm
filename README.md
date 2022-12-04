@@ -16,10 +16,16 @@ style id5 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 
   <img src="https://user-images.githubusercontent.com/5798442/205445992-509b20d8-42c9-4341-8ea8-200d7ff3ee61.png" width=50% height=50%>
 </div>
 
-## Development
+## Installation
 
-Install crystal.
-Then: 
+Install [crystal](https://github.com/crystal-lang/crystal).
+
+```sh
+# Not yet available.
+gem install cry_wasm
+```
+
+## Development
 
 ```
 git clone https://github.com/kojix2/cry_wasm
@@ -29,6 +35,23 @@ bundle exec ruby examples/fibonacci.rb
 # rake install
 ```
 
+## How does this work?
+
+1. Extend the CryWasm module to the target class.
+1. Write the type information just before the method.
+    1. Use `cry` method to restrict argument types and return types
+1. Once the method is defined, CryWasm captures the source code.
+    1. Ripper converts source code to S-expressions.
+    1. The S exp of the target method is extracted from the S-expression. 
+    1. The S exp of the target method is returned to the source code by Sorcerer.
+    1. The Crystal type restriction is added and becomes a Crystal code block.
+    1. The Crystal code block is stocked.
+1. The Crystal compiler compiles the Crystal code into WebAssembly.
+    1. Use `cry_wasm` method to build the crystal code blocks.
+1. The compiled byte_code is loaded on the fly and an instance of Wasmer is created.
+1. Methods are redefined to call Wasmer functions.
+
+Currently, only numbers are accepted as arguments. In the future, strings will also be acceptable.
 ## license
 
 MIT
