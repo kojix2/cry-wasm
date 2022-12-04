@@ -13,14 +13,21 @@ class Fibonacci
       fib(n - 1) + fib(n - 2)
     end
   end
-  alias fib_ruby fib
+
+  def fib_rb(n)
+    if n <= 1
+      1
+    else
+      fib_rb(n - 1) + fib_rb(n - 2)
+    end
+  end
 
   cry_wasm
 end
 
 print 'ruby start : '
 s = Time.new
-puts Fibonacci.new.fib_ruby(40)
+puts Fibonacci.new.fib_rb(40)
 puts "time : #{Time.new - s}"
 
 print 'wasm start : '
