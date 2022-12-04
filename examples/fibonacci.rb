@@ -14,15 +14,12 @@ class Fibonacci
     end
   end
 
-  # This works.
-  # However, the argument types in the wasm file are Int32.
-
   cry %i[Int64 Int64], :Int64
   def fib64(n, i)
     if n <= 1
       i
     else
-      fib64(n - 1, i) + fib64(n - 1, i)
+      fib64(n - 1, i) + fib64(n - 2, i)
     end
   end
 
@@ -35,6 +32,6 @@ a = Fibonacci.new
   puts a.fib(i)
 end
 
-(1..20).each do |i|
+(1..46).each do |i|
   puts a.fib64(i, 1)
 end

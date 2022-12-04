@@ -53,11 +53,12 @@ module CryWasm
   def cry_wasm(wasm_out = nil)
     crystal_code = @crystal_code_blocks.join("\n")
     wasm_bytes = @crystal_compiler.build_wasm(crystal_code, export: @marked_methods, out: wasm_out)
-    wasm_func = create_wasm_function(wasm_bytes)
+    wasm_funcs = create_wasm_function(wasm_bytes)
 
     @marked_methods.each do |name|
+      func = wasm_funcs.public_send(name)
       define_method(name) do |*args|
-        wasm_func.call(*args)
+        func.call(*args)
       end
     end
   end
@@ -79,7 +80,7 @@ module CryWasm
     import_object = wasi_env.generate_import_object store, wasi_version
 
     instance = Wasmer::Instance.new module_, import_object
-    wasm_func = instance.exports.fib
+    wasm_func = instance.exports
   end
 
   def self.extended(obj)
