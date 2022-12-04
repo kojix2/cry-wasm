@@ -1,4 +1,4 @@
-require 'crywasm'
+require 'cry_wasm'
 
 class Fibonacci
   extend CryWasm

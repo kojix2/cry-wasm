@@ -1,14 +1,14 @@
 # Check if crystal is in the path
 raise 'crystal is not in the path' unless system 'crystal --version'
 
-require_relative 'crywasm/sexp'
-require_relative 'crywasm/crystal_compiler'
+require_relative 'cry_wasm/sexp'
+require_relative 'cry_wasm/crystal_compiler'
 require 'tempfile'
 require 'wasmer'
 
 module CryWasm
   def method_added(name)
-    return super(name) unless @crywasm_flag
+    return super(name) unless @cry_wasm_flag
 
     ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @line_number)
     crystal_args = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
@@ -18,7 +18,7 @@ module CryWasm
 
     @marked_methods << name
     @line_number = 0
-    @crywasm_flag = false
+    @cry_wasm_flag = false
 
     super(name)
   end
@@ -32,7 +32,7 @@ module CryWasm
     end
     # Searches for methods that appear on a line later than cry was called.
     @line_number = l.to_i
-    @crywasm_flag = true
+    @cry_wasm_flag = true
     @crystal_arg_types = validate_type_names(arg_types)
     @crystal_ret_type = validate_type_name(ret_type)
   end
@@ -88,7 +88,7 @@ module CryWasm
       :validate_type_names
 
     # initialize class instance variables
-    obj.instance_variable_set(:@crywasm_flag, false)
+    obj.instance_variable_set(:@cry_wasm_flag, false)
     obj.instance_variable_set(:@crystal_code_blocks, [])
     obj.instance_variable_set(:@marked_methods, [])
     obj.instance_variable_set(:@fname, '')

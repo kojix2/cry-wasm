@@ -22,8 +22,8 @@ Install crystal.
 Then: 
 
 ```
-git clone https://github.com/kojix2/crywasm
-cd crywasm
+git clone https://github.com/kojix2/cry_wasm
+cd cry_wasm
 ./download-wasm-libs.sh
 bundle exec ruby examples/fibonacci.rb
 # rake install
