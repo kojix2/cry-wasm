@@ -6,12 +6,12 @@ By applying simple type restrictions to Ruby code, convert it to [Crystal](https
 
 ```mermaid
 flowchart LR
-style id1 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 5
-style id2 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 5
-style id3 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 5
-style id4 fill:#bbf,stroke:#f66,stroke-width:1px,color:#fff,stroke-dasharray: 5 5
-    id1(Ruby Code) -- ripper/sorcerer --> id2(Crystal Code) -- compiler --> id3(Wasm)
-    id4(Ruby Code) <-- wasmer --> id3(Wasm)
+style id1 fill:#c5c,stroke:#f66,stroke-width:1px,color:#fff
+style id2 fill:#555,stroke:#3ff,stroke-width:1px,color:#fff
+style id3 fill:#66f,stroke:#f66,stroke-width:1px,color:#fff
+style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
+    id1(Ruby Code) -- ripper/sorcerer --> id2(Crystal Code) -- crystal compiler --> id3[WebAssembly]
+    id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
 ```
 
 :space_invader: *experimental*
