@@ -18,12 +18,12 @@ class Fibonacci
   cry_wasm
 end
 
-print "ruby start : "
+print 'ruby start : '
 s = Time.new
 puts Fibonacci.new.fib_ruby(40)
 puts "time : #{Time.new - s}"
 
-print "wasm start : "
+print 'wasm start : '
 s = Time.new
 puts Fibonacci.new.fib(40)
 puts "time: #{Time.new - s}"
