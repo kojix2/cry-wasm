@@ -1,9 +1,8 @@
 # Check if crystal is in the path
-unless system "crystal --version"
-  raise "crystal is not in the path"
-end
+raise 'crystal is not in the path' unless system 'crystal --version'
 
 require_relative 'crywasm/sexp'
+require_relative 'crywasm/crystal_compiler'
 require 'tempfile'
 require 'wasmer'
 
@@ -53,7 +52,7 @@ module CryWasm
 
   def cry_wasm(wasm_out = nil)
     crystal_code = @crystal_code_blocks.join("\n")
-    wasm_bytes = crystal_build_wasm(crystal_code, wasm_out)
+    wasm_bytes = @crystal_compiler.build_wasm(crystal_code, export: @marked_methods, out: wasm_out)
     wasm_func = create_wasm_function(wasm_bytes)
 
     @marked_methods.each do |name|
@@ -61,30 +60,6 @@ module CryWasm
         wasm_func.call(*args)
       end
     end
-  end
-
-  def crystal_build_wasm(crystal_code, wasm_out = nil)
-    wasm_bytes = nil
-    ENV['CRYSTAL_LIBRARY_PATH'] ||= File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
-    unless wasm_out
-      output_file = Tempfile.create('wasm')
-      wasm_out = output_file.path
-    end
-    Tempfile.create('crywasm') do |crystal_file|
-      File.write(crystal_file.path, crystal_code)
-      link_flags = '"' + @marked_methods.map { |n| "--export #{n} " }.join + '"'
-      result = system(
-        "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
-      )
-      unless result
-        warn 'Failed to compile Crystal code to WASM'
-        warn crystal_code
-        raise 'crystal build failed' unless result
-      end
-      wasm_bytes = IO.read(wasm_out, mode: 'rb')
-    end
-    output_file&.close
-    wasm_bytes
   end
 
   def create_wasm_function(wasm_bytes)
@@ -109,7 +84,6 @@ module CryWasm
 
   def self.extended(obj)
     obj.private_class_method\
-      :cry,
       :validate_type_name,
       :validate_type_names
 
@@ -119,5 +93,6 @@ module CryWasm
     obj.instance_variable_set(:@marked_methods, [])
     obj.instance_variable_set(:@fname, '')
     obj.instance_variable_set(:@line_number, 0)
+    obj.instance_variable_set(:@crystal_compiler, CrystalCompiler.new)
   end
 end
