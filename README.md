@@ -48,9 +48,9 @@ Fibonacci.new.fib(40)
 1. Write the type information just before the method.
     1. Use `cry` method to restrict argument types and return types
 1. Once the method is defined, CryWasm captures the source code.
-    1. Ripper converts source code to S-expressions.
+    1. [Ripper](https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html) converts source code to S-expressions.
     1. The S exp of the target method is extracted from the S-expression. 
-    1. The S exp of the target method is recovered to the source code by Sorcerer.
+    1. The S exp of the target method is recovered to the source code by [Sorcerer](https://github.com/rspec-given/sorcerer).
     1. The Crystal type restriction is added and becomes a Crystal code block.
     1. CryWasm stock the crystal code block.
 1. The Crystal compiler compiles the Crystal code into WebAssembly.
@@ -58,7 +58,11 @@ Fibonacci.new.fib(40)
 1. The compiled byte_code is loaded and an instance of Wasmer is created.
 1. The target method is dynamically redefined to call a Wasmer function.
 
-Currently, only numbers are accepted as arguments. In the future, strings will also be acceptable.
+## Limitations
+
+* CryWasm allows you to define functions, not Crystal methods
+  * default arguments, keyword arguments, and block arguments are not available.
+* Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
 
 ## Installation
 
