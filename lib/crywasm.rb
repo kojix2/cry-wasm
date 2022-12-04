@@ -1,4 +1,7 @@
-# frozen_string_literal: true
+# Check if crystal is in the path
+unless system "crystal --version"
+  raise "crystal is not in the path"
+end
 
 require_relative 'crywasm/sexp'
 require 'tempfile'
