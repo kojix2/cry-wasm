@@ -1,48 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'crywasm/sexp'
 require 'tempfile'
 require 'wasmer'
-require_relative 'crywasm/sorcerer'
 
 module CryWasm
-  class MySexp
-    def initialize(fname)
-      str = IO.read(fname)
-      @sexp = Ripper::SexpBuilder.new(str).parse
-    end
-
-    def extract_source_with_arguments(name, line_number)
-      exp = find_method(name, line_number)
-      arg_names = []
-      if exp[2][0] == :paren && (exp[2][1][0] == :params)
-        exp[2][1][1].each do |arg|
-          arg_names << arg[1] if arg[0] == :@ident
-        end
-      end
-      source = Sorcerer.source(exp, multiline: true, indent: true)
-      [source, arg_names]
-    end
-
-    def find_method(name, line_number)
-      @line_number = line_number
-      name = name.to_s
-      find_method2(@sexp, name)
-    end
-
-    def find_method2(arr, name)
-      arr.each do |item|
-        if item.is_a?(Array)
-          if item[0] == :def
-            return item if item[1][0] == :@ident && (item[1][1] == name) && (item[1][2][0] > @line_number)
-          elsif r = find_method2(item, name)
-            return r
-          end
-        end
-      end
-      nil
-    end
-  end
-
   def method_added(name)
     return super(name) unless @crywasm_flag
 
@@ -63,7 +25,7 @@ module CryWasm
     fname, l = caller[0].split(':')
     # In most cases, previously parsed S-expressions can be reused.
     if fname != @fname
-      @s_expression = MySexp.new(fname)
+      @s_expression = Sexp.new(fname)
       @fname = fname
     end
     # Searches for methods that appear on a line later than cry was called.
@@ -80,7 +42,7 @@ module CryWasm
   end
 
   def validate_type_name(type_name)
-    type_name = type_name.to_sym 
+    type_name = type_name.to_sym
     raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
 
     type_name
