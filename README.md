@@ -66,10 +66,10 @@ Fibonacci.new.fib(40)
 
 ## Installation
 
-Install [crystal](https://github.com/crystal-lang/crystal).
+Install [Crystal](https://github.com/crystal-lang/crystal).
 
 ```sh
-# Not yet available.
+# Not yet available. Please see development section.
 gem install cry_wasm
 ```
 
