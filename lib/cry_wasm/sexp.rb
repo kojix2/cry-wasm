@@ -1,4 +1,4 @@
-require_relative 'sorcerer'
+require 'sorcerer'
 
 module CryWasm
   class Sexp
