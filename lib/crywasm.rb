@@ -58,25 +58,8 @@ module CryWasm
   end
 
   def cry_wasm(wasm_out = nil)
-    wasm_bytes = nil
-    ENV['CRYSTAL_LIBRARY_PATH'] = File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
-    unless wasm_out
-      output_file = Tempfile.create('wasm')
-      wasm_out = output_file.path
-    end
-    Tempfile.create('crywasm') do |crystal_code|
-      File.write(crystal_code.path, @code.join("\n"))
-      link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
-      result = system "crystal build #{crystal_code.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
-      unless result
-        warn 'Failed to compile Crystal code to WASM'
-        warn @code.join("\n")
-        raise 'crystal build failed' unless result
-      end
-      wasm_bytes = IO.read(wasm_out, mode: 'rb')
-    end
-    output_file.close if output_file
-
+    crystal_code = @code.join("\n")
+    wasm_bytes = crystal_build_wasm(crystal_code, wasm_out)
     wasm_func = create_wasm_function(wasm_bytes)
 
     @names.each do |name|
@@ -84,6 +67,28 @@ module CryWasm
         wasm_func.call(*args)
       end
     end
+  end
+
+  def crystal_build_wasm(crystal_code, wasm_out)
+    wasm_bytes = nil
+    ENV['CRYSTAL_LIBRARY_PATH'] = File.expand_path('../vendor/wasm32-wasi-libs', __dir__)
+    unless wasm_out
+      output_file = Tempfile.create('wasm')
+      wasm_out = output_file.path
+    end
+    Tempfile.create('crywasm') do |crystal_file|
+      File.write(crystal_file.path, crystal_code)
+      link_flags = '"' + @names.map { |n| "--export #{n} " }.join + '"'
+      result = system "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
+      unless result
+        warn 'Failed to compile Crystal code to WASM'
+        warn crystal_code
+        raise 'crystal build failed' unless result
+      end
+      wasm_bytes = IO.read(wasm_out, mode: 'rb')
+    end
+    output_file.close if output_file
+    return wasm_bytes
   end
 
   def create_wasm_function(wasm_bytes)
