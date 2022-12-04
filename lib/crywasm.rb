@@ -4,7 +4,9 @@ require_relative 'crywasm/sorcerer'
 
 module CryWasm
   def method_added(name)
-    return unless @flag
+    unless @flag
+      return super(name)
+    end
 
     fun = find2(@r, name.to_s)
     arg_names = []
@@ -19,6 +21,8 @@ module CryWasm
     @names << name
     @code << code.lines[1..-1].unshift(dec).join
     @flag = false
+
+    super(name)
   end
 
   def find2(arr, n)
@@ -51,13 +55,6 @@ module CryWasm
 
   def check_ret_type(ret_type)
     ret_type
-  end
-
-  def self.extended(obj)
-    obj.private_class_method\
-      :cry,
-      :check_arg_types,
-      :check_ret_type
   end
 
   def cry_wasm(wasm_out = nil)
@@ -103,5 +100,16 @@ module CryWasm
         wasm_func.call(*args)
       end
     end
+  end
+
+  def stash_method_name(name)
+    "_#{name}_raw"
+  end
+
+  def self.extended(obj)
+    obj.private_class_method\
+      :cry,
+      :check_arg_types,
+      :check_ret_type
   end
 end
