@@ -28,10 +28,8 @@ end
 
 a = Fibonacci.new
 
-(1..20).each do |i|
+(1..45).each do |i|
   puts a.fib(i)
 end
 
-(1..46).each do |i|
-  puts a.fib64(i, 1)
-end
+puts a.fib64(46, 1)
