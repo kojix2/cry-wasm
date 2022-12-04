@@ -1,4 +1,4 @@
-# CryWasm
+# cry_wasm
 
 Ruby code is converted to Crystal at runtime and compiled into Wasm. ruby calls Wasm functions in wasmer. This is a prototype created to show that this concept works in practice.
 
