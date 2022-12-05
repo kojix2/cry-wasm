@@ -1,5 +1,7 @@
 # cry_wasm
 
+[![test](https://github.com/kojix2/cry_wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry_wasm/actions/workflows/ci.yml)
+
 cry_wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
 By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer).
