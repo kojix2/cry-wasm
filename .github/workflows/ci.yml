@@ -21,7 +21,8 @@ jobs:
       - name: Install (macos)
         if: ${{ matrix.os == 'macos' }}
         run: |
-          brew -v
+          brew update
+          brew install llvm
       - name: Install (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
