@@ -25,8 +25,8 @@ jobs:
       - name: Install (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
-          gem install wasmer sorcerer
           sudo apt update -y
+          sudo apt install lld
       - name: Build and test with Rake
         run: |
           ./download-wasm-libs.sh
