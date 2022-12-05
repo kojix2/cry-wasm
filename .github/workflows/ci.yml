@@ -21,13 +21,11 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
         run: |
           brew -v
-          bundle exec rake -T
       - name: Install (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
           gem install wasmer sorcerer
           sudo apt update -y
-          bundle exec rake -T
       - name: Build and test with Rake
         run: |
           ruby examples/fib.rb
