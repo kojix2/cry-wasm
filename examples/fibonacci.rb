@@ -2,6 +2,7 @@ require 'cry/wasm'
 
 class Fibonacci
   extend Cry::Wasm
+  using Cry::Numeric
 
   def initialize; end
 
@@ -14,12 +15,12 @@ class Fibonacci
     end
   end
 
-  cry %i[Int64 Int64], :Int64
-  def fib64(n, i)
+  cry %i[Int64], :Int64
+  def fib64(n)
     if n <= 1
-      i
+      1.to_i64
     else
-      fib64(n - 1, i) + fib64(n - 2, i)
+      fib64(n - 1) + fib64(n - 2)
     end
   end
 
@@ -29,7 +30,7 @@ end
 a = Fibonacci.new
 
 (1..45).each do |i|
-  puts a.fib(i)
+  puts "#{i} #{a.fib(i)}"
 end
 
-puts a.fib64(46, 1)
+puts "#{46} #{a.fib64(46)}"

@@ -1,3 +1,4 @@
+require_relative 'numeric'
 require_relative 'sexp'
 require_relative 'compiler'
 require 'tempfile'
