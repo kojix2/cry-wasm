@@ -79,12 +79,18 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 
 ## Installation
 
-Install [Crystal](https://github.com/crystal-lang/crystal).
+1. Install [Crystal](https://github.com/crystal-lang/crystal). Installation instructions for each platform are [here](https://crystal-lang.org/install/).
+1. Install [Rust](https://www.rust-lang.org/). Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
+1. Install llvm for macOS and lld for Ubuntu. Set PATH so that `wasm-ld` can be called.
+    1. For example, if you install llvm on macOS with homebrew, `PATH="/usr/local/opt/llvm/bin:$PATH"` or `PATH="/opt/homebrew/Cellar/llvm/<version>/bin:$PATH"`
+1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `./download-wasm-libs.sh`
 
 ```sh
 # Not yet available. Please see development section.
 gem install cry_wasm
 ```
+
+Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry_wasm/blob/main/.github/workflows/ci.yml).
 
 ## Development
 
