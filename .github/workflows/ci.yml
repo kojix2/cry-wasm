@@ -25,6 +25,8 @@ jobs:
       - name: Install (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
+          gem install specific_install
+          gem specific_install https://github.com/wasmerio/wasmer-ruby
           sudo apt update -y
           bundle exec rake -T
       - name: Build and test with Rake
