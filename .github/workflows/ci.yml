@@ -16,22 +16,24 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-#         bundler-cache: true  <- This causes an error in wasmer
-      - name: Install (macos)
+#         bundler-cache: true  <- Avoid wasmer gem installation fails.
+      - name: Install crystal and llvm (macos)
         if: ${{ matrix.os == 'macos' }}
         run: |
           brew update
           brew install llvm crystal
           echo $(dirname $(brew ls llvm | grep wasm-ld)) >> $GITHUB_PATH
-      - name: Install (ubuntu)
+        # Add the directory where wasm-ld is located to the PATH.
+      - name: Install crystal and lld (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt install lld
           curl -fsSL https://crystal-lang.org/install.sh | sudo bash
-      - name: Build and test with Rake
+      - name: Download wasm-libs
         run: |
           ./download-wasm-libs.sh
+      - name: Install gems and run test
           bundle install
           bundle exec ruby examples/fib.rb
