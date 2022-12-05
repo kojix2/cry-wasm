@@ -1,8 +1,8 @@
-# cry_wasm
+# cry-wasm
 
-[![test](https://github.com/kojix2/cry_wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry_wasm/actions/workflows/ci.yml)
+[![test](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml)
 
-cry_wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
+cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
 By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer).
 
@@ -21,10 +21,10 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 ## Quick Start
 
 ```ruby
-require 'cry_wasm'
+require 'cry/wasm'
 
 class Fibonacci
-  extend CryWasm              # <-- Extend CryWasm module
+  extend Cry::Wasm              # <-- Extend Cry::Wasm module
 
   def initialize; end
 
@@ -45,7 +45,7 @@ Fibonacci.new.fib(40)         # <-- The wasm function is called here!
 
 ## Benchmark
 
-[fib_bench.rb](https://github.com/kojix2/cry_wasm/blob/main/examples/fib_bench.rb) - 10 x faster on the [Fibonacci benchmark](https://crystal-lang.org/2016/07/15/fibonacci-benchmark/).
+[fib_bench.rb](https://github.com/kojix2/cry-wasm/blob/main/examples/fib_bench.rb) - 10 x faster on the [Fibonacci benchmark](https://crystal-lang.org/2016/07/15/fibonacci-benchmark/).
 
 ```
                  user     system      total        real
@@ -57,15 +57,15 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 
 ## How does this work?
 
-1. Extend the CryWasm module to the target class.
+1. Extend the Cry::Wasm module to the target class.
 1. Write the type information just before the method.
    1. Use `cry` method to restrict argument types and return types
-1. Once the method is defined, CryWasm captures the source code.
+1. Once the method is defined, Cry::Wasm captures the source code.
    1. [Ripper](https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html) converts source code to S-expressions.
    1. The S exp of the target method is extracted from the S-expression.
    1. The S exp of the target method is recovered to the source code by [Sorcerer](https://github.com/rspec-given/sorcerer).
    1. The Crystal type restriction is added and becomes a Crystal code block.
-   1. CryWasm stock the crystal code block.
+   1. Cry::Wasm stock the crystal code block.
 1. The Crystal compiler compiles the Crystal code into WebAssembly.
    1. Call `cry_wasm` method to build the crystal code blocks.
 1. The compiled byte_code is loaded and an instance of Wasmer is created.
@@ -73,7 +73,7 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 
 ## Limitations
 
-- CryWasm allows you to define functions, not Crystal methods
+- Cry::Wasm allows you to define functions, not Crystal methods
   - default arguments, keyword arguments, and block arguments are not available.
 - Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
 
@@ -87,10 +87,10 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 
 ```sh
 # Not yet available. Please see development section.
-gem install cry_wasm
+gem install cry/wasm
 ```
 
-Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry_wasm/blob/main/.github/workflows/ci.yml).
+Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml).
 
 ## Development
 
@@ -98,8 +98,8 @@ Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry_
 - [wasm-libs](https://github.com/lbguilherme/wasm-libs) - WebAssembly Libs for WASI. You need to download the compiled wasm library.
 
 ```
-git clone https://github.com/kojix2/cry_wasm
-cd cry_wasm
+git clone https://github.com/kojix2/cry-wasm
+cd cry-wasm
 ./download-wasm-libs.sh
 bundle exec ruby examples/fibonacci.rb
 # rake install

@@ -1,5 +1,5 @@
-module CryWasm
-  class CrystalCompiler
+module Cry
+  class Compiler
     def build_wasm(crystal_code, export:, out: nil)
       exported_methods = export
       wasm_out = out
@@ -9,7 +9,7 @@ module CryWasm
         output_file = Tempfile.create('wasm')
         wasm_out = output_file.path
       end
-      Tempfile.create('cry_wasm') do |crystal_file|
+      Tempfile.create('cry-wasm') do |crystal_file|
         File.write(crystal_file.path, crystal_code)
         link_flags = '"' + exported_methods.map { |n| "--export #{n} " }.join + '"'
         result = system(

@@ -1,8 +1,8 @@
-require 'cry_wasm'
+require 'cry/wasm'
 require 'benchmark/plot'
 
 class Fibonacci
-  extend CryWasm
+  extend Cry::Wasm
 
   cry [:Int32], :Int32
   def fib32(n)
@@ -38,10 +38,10 @@ Benchmark.plot(n) do |x|
 end
 
 Benchmark.bm(10) do |r|
-  r.report "fib_ruby(40)" do
+  r.report 'fib_ruby(40)' do
     a.fib_ruby(40)
   end
-  r.report "fib_wasm(40)" do
+  r.report 'fib_wasm(40)' do
     a.fib32(40)
   end
 end

@@ -1,7 +1,7 @@
-require 'cry_wasm'
+require 'cry/wasm'
 
 class Fibonacci
-  extend CryWasm
+  extend Cry::Wasm
 
   def initialize; end
 

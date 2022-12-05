@@ -1,6 +1,6 @@
 require 'sorcerer'
 
-module CryWasm
+module Cry
   class Sexp
     def initialize(fname)
       str = IO.read(fname)
