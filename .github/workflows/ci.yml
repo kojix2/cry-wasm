@@ -22,7 +22,7 @@ jobs:
         run: |
           brew update
           brew install llvm crystal
-          echo $(dirname $(brew ls llvm | grep wasm-ld)) >> $GITHUB_PATH
+          echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
         # Add the directory where wasm-ld is located to the PATH.
       - name: Install crystal and lld (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
