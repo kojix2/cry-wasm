@@ -35,5 +35,6 @@ jobs:
         run: |
           ./download-wasm-libs.sh
       - name: Install gems and run test
+        run: |
           bundle install
           bundle exec ruby examples/fib.rb
