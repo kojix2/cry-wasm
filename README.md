@@ -79,7 +79,9 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 
 ## Installation
 
-Install [Crystal](https://github.com/crystal-lang/crystal).
+1. Install [Crystal](https://github.com/crystal-lang/crystal). Installation instructions for each platform are [here](https://crystal-lang.org/install/).
+1. Install [Rust](https://www.rust-lang.org/). To install the [wasmer gem](https://github.com/wasmerio/wasmer-ruby), you need an environment that can compile 
+
 
 ```sh
 # Not yet available. Please see development section.
