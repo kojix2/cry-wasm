@@ -17,6 +17,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
 #         bundler-cache: true  <- This causes an error in wasmer
+      - uses: crystal-lang/install-crystal@v1
       - name: Install (macos)
         if: ${{ matrix.os == 'macos' }}
         run: |
@@ -28,5 +29,6 @@ jobs:
           sudo apt update -y
       - name: Build and test with Rake
         run: |
+          ./download-wasm-libs.sh
           bundle install
           bundle exec ruby examples/fib.rb
