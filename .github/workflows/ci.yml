@@ -7,7 +7,7 @@ jobs:
       fail-fast: false
       matrix:
         os:   ['ubuntu', 'macos', 'windows']
-        ruby: ['3.1']
+        ruby: ['2.7', '3.0', '3.1']
     runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,7 +16,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+#         bundler-cache: true  <- This causes an error in wasmer
       - name: Install (macos)
         if: ${{ matrix.os == 'macos' }}
         run: |
@@ -28,4 +28,5 @@ jobs:
           sudo apt update -y
       - name: Build and test with Rake
         run: |
-          ruby examples/fib.rb
+          bundle install
+          bundle exec ruby examples/fib.rb
