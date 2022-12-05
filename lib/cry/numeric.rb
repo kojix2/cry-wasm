@@ -110,6 +110,10 @@ module Cry
       def to_u8!
         to_i
       end
+
+      def not_nil!
+        self
+      end
     end
   end
 end
