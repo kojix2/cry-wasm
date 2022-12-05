@@ -22,6 +22,7 @@ jobs:
         run: |
           brew update
           brew install llvm crystal
+          echo $(dirname $(brew ls llvm | grep wasm-ld)) >> $GITHUB_PATH
       - name: Install (ubuntu)
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
