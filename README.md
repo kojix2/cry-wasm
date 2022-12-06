@@ -61,9 +61,9 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 1. Write the type information just before the method.
    1. Use `cry` method to restrict argument types and return types
 1. Once the method is defined, Cry::Wasm captures the source code.
-   1. [Ripper](https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html) converts source code to S-expressions.
-   1. The S exp of the target method is extracted from the S-expression.
-   1. The S exp of the target method is recovered to the source code by [Sorcerer](https://github.com/rspec-given/sorcerer).
+   1. [Ripper](https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html) converts source code to [S-expression](https://en.wikipedia.org/wiki/S-expression).
+   1. The S-expression of the target method is extracted from the S-expression.
+   1. The S-expression of the target method is recovered to the source code by [Sorcerer](https://github.com/rspec-given/sorcerer).
    1. The Crystal type restriction is added and becomes a Crystal code block.
    1. Cry::Wasm stock the crystal code block.
 1. The Crystal compiler compiles the Crystal code into WebAssembly.
@@ -94,7 +94,7 @@ Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-
 
 ## Development
 
-- [Trying out WASM Support](https://forum.crystal-lang.org/t/trying-out-wasm-support/4508/48) - A thread in the Crystal Forum on how to compile a wasm from crystal.
+- [Trying out WASM Support](https://forum.crystal-lang.org/t/trying-out-wasm-support/4508) - A thread in the Crystal Forum on how to compile a wasm from crystal.
 - [wasm-libs](https://github.com/lbguilherme/wasm-libs) - WebAssembly Libs for WASI. You need to download the compiled wasm library.
 
 ```
