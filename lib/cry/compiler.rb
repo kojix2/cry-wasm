@@ -1,29 +1,71 @@
 module Cry
   class Compiler
-    def build_wasm(crystal_code, export:, out: nil)
-      exported_methods = export
-      wasm_out = out
+    Options = Struct.new(:input, :output, :release, :export, :target, :link_flags)
+    
+    def initialize
+      @options = Options.new
+    end
+
+    def options
+      @options
+    end
+
+    def set_crystal_library_path(path = nil)
+      if path
+        ENV['CRYSTAL_LIBRARY_PATH'] = path
+      else
+        ENV['CRYSTAL_LIBRARY_PATH'] ||= File.expand_path('../../vendor/wasm32-wasi-libs', __dir__)
+      end
+    end
+
+    def get_crystal_library_path
+      ENV['CRYSTAL_LIBRARY_PATH']
+    end
+
+    def build_wasm(crystal_code, **opts)
+      options.output = opts[:output] || nil
+      options.release = opts[:release] || false
+      options.export = opts[:export] || []
+      options.target = opts[:target] || 'wasm32-wasi'
+      options.link_flags = opts[:link_flags] || ''
+
+      # Set CRYSTAL_LIBRARY_PATH
+      set_crystal_library_path
+
+      # Return compiled WASM bytes
       wasm_bytes = nil
-      ENV['CRYSTAL_LIBRARY_PATH'] ||= File.expand_path('../../vendor/wasm32-wasi-libs', __dir__)
-      unless wasm_out
-        output_file = Tempfile.create('wasm')
-        wasm_out = output_file.path
+
+      unless options.output
+        output_tempfile = Tempfile.create('wasm')
+        options.output = output_tempfile.path
       end
-      Tempfile.create('cry-wasm') do |crystal_file|
-        File.write(crystal_file.path, crystal_code)
-        link_flags = '"' + exported_methods.map { |n| "--export #{n} " }.join + '"'
-        result = system(
-          "crystal build #{crystal_file.path} -o #{wasm_out} --target wasm32-wasi --link-flags=#{link_flags}"
-        )
-        unless result
-          warn 'Failed to compile Crystal code to WASM'
-          warn crystal_code
-          raise 'crystal build failed' unless result
-        end
-        wasm_bytes = IO.read(wasm_out, mode: 'rb')
+
+      unless options.input
+        input_tempfile = Tempfile.create('crystal')
+        options.input = input_tempfile.path
       end
-      output_file&.close
+      File.write(options.input, crystal_code)
+
+      command = build_command
+      result = system(command)
+      input_tempfile&.close
+
+      unless result
+        warn '[cry-wasm] Failed to compile Crystal code to WASM'
+        warn "[cry-wasm] #{command}"
+        warn crystal_code
+        raise 'crystal build failed' unless result
+      end
+
+      wasm_bytes = IO.read(options.output, mode: 'rb')
+      output_tempfile&.close
+
       wasm_bytes
+    end
+
+    def build_command
+      link_flags = "\"#{options.link_flags}" + options.export.map { |n| "--export #{n} " }.join + '"'
+      "crystal build #{options.input} -o #{options.output} --target #{options.target} --link-flags=#{link_flags}"
     end
   end
 end

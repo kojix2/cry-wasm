@@ -51,7 +51,7 @@ module Cry
 
     def cry_wasm(wasm_out = nil)
       crystal_code = @cry_wasm[:crystal_code_blocks].join("\n")
-      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], out: wasm_out)
+      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], output: wasm_out)
       wasm_funcs = create_wasm_function(wasm_bytes)
 
       @cry_wasm[:marked_methods].each do |name|
