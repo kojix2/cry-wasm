@@ -63,13 +63,13 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 1. Once the method is defined, Cry::Wasm captures the source code.
    1. [Ripper](https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html) converts source code to [S-expression](https://en.wikipedia.org/wiki/S-expression).
    1. The S-expression of the target method is extracted from the S-expression.
-   1. The S-expression of the target method is recovered to the source code by [Sorcerer](https://github.com/rspec-given/sorcerer).
-   1. The Crystal type restriction is added and becomes a Crystal code block.
+   1. The source code of the target method is recovered from the S-expression by [Sorcerer](https://github.com/rspec-given/sorcerer).
+   1. The crystal code block is generated with additional crystal type restrictions.
    1. Cry::Wasm stock the crystal code block.
-1. The Crystal compiler compiles the Crystal code into WebAssembly.
+1. The Crystal compiler and wasm-ld compiles the Crystal code into WebAssembly.
    1. Call `cry_wasm` method to build the crystal code blocks.
-1. The compiled byte_code is loaded and an instance of Wasmer is created.
-1. The target method is dynamically redefined to call a Wasmer function.
+1. An instance of Wasmer is created by loading the compiled byte_code.
+1. The target methods are dynamically redefined to call Wasmer functions.
 
 ## Limitations
 
