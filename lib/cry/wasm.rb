@@ -87,10 +87,12 @@ module Cry
         :validate_type_name,
         :validate_type_names
 
-      # initialize class instance variables
+      # Initialize class instance variables
       if obj.instance_variable_defined?(:@cry_wasm)
         raise "class instance variable '@cry_wasm' is already defined"
       end
+      # Only one class instance variable is used here.
+      # to avoid bugs caused by overwriting.
       obj.instance_variable_set(:@cry_wasm, {
         flag: false,
         crystal_code_blocks: [],
