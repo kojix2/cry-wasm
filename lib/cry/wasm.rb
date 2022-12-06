@@ -9,17 +9,17 @@ module Cry
     VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].freeze
 
     def method_added(name)
-      return super(name) unless @cry_wasm_flag
+      return super(name) unless @cry_wasm[:flag]
 
-      ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @line_number)
+      ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @cry_wasm[:caller_line_number])
       crystal_args = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
       crystal_define_fun = "fun #{name}(#{crystal_args}) : #{@crystal_ret_type}\n"
       crystal_code_block = ruby_code_block.lines[1..].unshift(crystal_define_fun).join
-      @crystal_code_blocks << crystal_code_block
+      @cry_wasm[:crystal_code_blocks] << crystal_code_block
 
-      @marked_methods << name
-      @line_number = 0
-      @cry_wasm_flag = false
+      @cry_wasm[:marked_methods] << name
+      @cry_wasm[:caller_line_number] = 0
+      @cry_wasm[:flag] = false
 
       super(name)
     end
@@ -27,13 +27,13 @@ module Cry
     def cry(arg_types, ret_type)
       fname, l = caller[0].split(':')
       # In most cases, previously parsed S-expressions can be reused.
-      if fname != @fname
+      if fname != @cry_wasm[:source_file_name]
         @s_expression = Sexp.new(fname)
-        @fname = fname
+        @cry_wasm[:source_file_name] = fname
       end
       # Searches for methods that appear on a line later than cry was called.
-      @line_number = l.to_i
-      @cry_wasm_flag = true
+      @cry_wasm[:caller_line_number] = l.to_i
+      @cry_wasm[:flag] = true
       @crystal_arg_types = validate_type_names(arg_types)
       @crystal_ret_type = validate_type_name(ret_type)
     end
@@ -50,11 +50,11 @@ module Cry
     end
 
     def cry_wasm(wasm_out = nil)
-      crystal_code = @crystal_code_blocks.join("\n")
-      wasm_bytes = @crystal_compiler.build_wasm(crystal_code, export: @marked_methods, out: wasm_out)
+      crystal_code = @cry_wasm[:crystal_code_blocks].join("\n")
+      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], out: wasm_out)
       wasm_funcs = create_wasm_function(wasm_bytes)
 
-      @marked_methods.each do |name|
+      @cry_wasm[:marked_methods].each do |name|
         func = wasm_funcs.public_send(name)
         define_method(name) do |*args|
           func.call(*args)
@@ -88,12 +88,17 @@ module Cry
         :validate_type_names
 
       # initialize class instance variables
-      obj.instance_variable_set(:@cry_wasm_flag, false)
-      obj.instance_variable_set(:@crystal_code_blocks, [])
-      obj.instance_variable_set(:@marked_methods, [])
-      obj.instance_variable_set(:@fname, '')
-      obj.instance_variable_set(:@line_number, 0)
-      obj.instance_variable_set(:@crystal_compiler, Compiler.new)
+      if obj.instance_variable_defined?(:@cry_wasm)
+        raise "class instance variable '@cry_wasm' is already defined"
+      end
+      obj.instance_variable_set(:@cry_wasm, {
+        flag: false,
+        crystal_code_blocks: [],
+        marked_methods: [],
+        fname: '',
+        line_number: 0,
+        compiler: Compiler.new
+      })
     end
   end
 end
