@@ -9,4 +9,4 @@ tasks:
       sudo bash install.sh
       rm install.sh
       CARGO_MAKEFLAGS=-j$(nproc) bundle install
-      ./download-wasm-libs.sh
+      bundle exec rake vendor:wasi_libs
