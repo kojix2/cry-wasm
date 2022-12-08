@@ -1,3 +1,4 @@
+require 'sorcerer'
 require_relative 'codegen/ruby_method'
 require_relative 'codegen/crystal_function'
 require_relative 'codegen/crystallizer'
