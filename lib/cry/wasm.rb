@@ -33,6 +33,8 @@ module Cry
     def cry(arg_types, ret_type)
       fname, l = caller[0].split(':')
       # In most cases, previously parsed S-expressions can be reused.
+      # However, if the class definition is in the multiple files,
+      # such as when using Open classes, the S-expressions must be re-parsed.
       if fname != @cry_wasm[:source_file_name]
         @codegen = Codegen.new(fname)
         @cry_wasm[:source_file_name] = fname
