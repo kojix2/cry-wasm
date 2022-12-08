@@ -13,7 +13,6 @@ module Cry
       @source_path = nil
       @function_names = [] # Function names to be exported
       @crystal_code_blocks = []
-      @crystal_code_blocks << allo
     end
 
     def source_path=(fname)
