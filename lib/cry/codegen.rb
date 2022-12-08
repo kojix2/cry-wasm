@@ -1,4 +1,6 @@
-require 'sorcerer'
+require_relative 'codegen/ruby_method'
+require_relative 'codegen/crystal_function'
+require_relative 'codegen/crystallizer'
 
 module Cry
   class Codegen
@@ -10,32 +12,14 @@ module Cry
     end
 
     def crystalize(name, crystal_arg_types, crystal_ret_type, line_number)
-      ruby_code_block, arg_names = extract_ruby_method(name, line_number)
-      declaration = function_declaration(name, arg_names, crystal_arg_types, crystal_ret_type)
-      definition = ruby_code_block.lines[1..] # FIXME?
-      crystal_code_block = definition.unshift(declaration).join
-    end
-
-    def function_declaration(name, arg_names, crystal_arg_types, crystal_ret_type)
-      crystal_args = arg_names.zip(crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
-      "fun #{name}(#{crystal_args}) : #{crystal_ret_type}\n"
+      ruby_method = extract_ruby_method(name, line_number)
+      c = Crystallizer.new(ruby_method, crystal_arg_types, crystal_ret_type)
+      cry_func = c.source
     end
 
     def extract_ruby_method(name, line_number)
       exp = find_ruby_method(name, line_number)
-      source = Sorcerer.source(exp, multiline: true, indent: true)
-      arg_names = extract_arg_names(exp)
-      [source, arg_names]
-    end
-
-    def extract_arg_names(exp)
-      arg_names = []
-      if exp[2][0] == :paren && (exp[2][1][0] == :params)
-        exp[2][1][1].each do |arg|
-          arg_names << arg[1] if arg[0] == :@ident
-        end
-      end
-      arg_names
+      RubyMethod.new_from_sexp(name, exp)
     end
 
     def find_ruby_method(name, line_number)
