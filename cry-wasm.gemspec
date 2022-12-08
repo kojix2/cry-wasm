@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'sorcerer'
   spec.add_dependency 'wasmer'
+  # sped.add_dependency 'wasmtime'
 end
