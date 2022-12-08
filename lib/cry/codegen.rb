@@ -5,11 +5,32 @@ require_relative 'codegen/crystallizer'
 
 module Cry
   class Codegen
-    attr_accessor :sexp
+    attr_accessor :sexp, :crystal_code_blocks
+    attr_reader :source_path
 
-    def initialize(fname)
-      str = IO.read(fname)
-      @sexp = Ripper::SexpBuilder.new(str).parse
+    def initialize
+      @sexp = nil
+      @source_path = nil
+      @crystal_code_blocks = []
+    end
+
+    def source_path=(fname)
+      # In most cases, previously parsed S-expressions can be reused.
+      # However, if the class definition is in the multiple files,
+      # such as when using Open classes, the S-expressions must be re-parsed.
+      if @source_path != fname
+        str = IO.read(fname)
+        @sexp = Ripper::SexpBuilder.new(str).parse
+      end
+      @source_path = fname
+    end
+
+    def crystal_code
+      @crystal_code_blocks.join("\n")
+    end
+
+    def add_crystal_function(name, crystal_arg_types, crystal_ret_type, line_number)
+      @crystal_code_blocks << crystalize(name, crystal_arg_types, crystal_ret_type, line_number)
     end
 
     def crystalize(name, crystal_arg_types, crystal_ret_type, line_number)

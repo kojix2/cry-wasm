@@ -14,14 +14,12 @@ module Cry
     def method_added(name)
       return super(name) unless @cry_wasm[:flag]
 
-      crystal_code_block = @codegen.crystalize(
+      @cry_wasm[:codegen].add_crystal_function(
         name,
         @crystal_arg_types,
         @crystal_ret_type,
         @cry_wasm[:caller_line_number]
       )
-
-      @cry_wasm[:crystal_code_blocks] << crystal_code_block
 
       @cry_wasm[:marked_methods] << name
       @cry_wasm[:caller_line_number] = 0
@@ -32,13 +30,8 @@ module Cry
 
     def cry(arg_types, ret_type)
       fname, l = caller[0].split(':')
-      # In most cases, previously parsed S-expressions can be reused.
-      # However, if the class definition is in the multiple files,
-      # such as when using Open classes, the S-expressions must be re-parsed.
-      if fname != @cry_wasm[:source_file_name]
-        @codegen = Codegen.new(fname)
-        @cry_wasm[:source_file_name] = fname
-      end
+      @cry_wasm[:codegen].source_path = fname
+
       # Searches for methods that appear on a line later than cry was called.
       @cry_wasm[:caller_line_number] = l.to_i
       @cry_wasm[:flag] = true
@@ -58,7 +51,7 @@ module Cry
     end
 
     def cry_wasm(wasm_out = nil, **options)
-      crystal_code = @cry_wasm[:crystal_code_blocks].join("\n")
+      crystal_code = @cry_wasm[:codegen].crystal_code
       wasm_bytes = @cry_wasm[:compiler].build_wasm(
         crystal_code,
         export: @cry_wasm[:marked_methods],
@@ -86,11 +79,11 @@ module Cry
       # to avoid bugs caused by overwriting.
       obj.instance_variable_set(:@cry_wasm, {
                                   flag: false,
-                                  crystal_code_blocks: [],
                                   marked_methods: [],
                                   fname: '',
                                   line_number: 0,
-                                  compiler: Compiler.new
+                                  compiler: Compiler.new,
+                                  codegen: Codegen.new,
                                 })
     end
   end
