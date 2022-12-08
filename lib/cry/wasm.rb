@@ -83,7 +83,7 @@ module Cry
                                   fname: '',
                                   line_number: 0,
                                   compiler: Compiler.new,
-                                  codegen: Codegen.new,
+                                  codegen: Codegen.new
                                 })
     end
   end

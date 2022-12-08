@@ -59,7 +59,7 @@ end
 
 a = Fibonacci.new
 
-(0..47).each do |i|
+48.times do |i|
   print i + 1
   puts a.fib(i).to_s.rjust(12)
 end
