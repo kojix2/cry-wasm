@@ -43,7 +43,7 @@ class Fibonacci
   cry %i[Int32], :Int64
   def fib(i)
     case i
-    when 1..10
+    when 0..10
       fib8(i.to_i8)
     when 11..22
       fib16(i.to_i16)
@@ -59,7 +59,7 @@ end
 
 a = Fibonacci.new
 
-(1..46).each do |i|
-  print i
+(0..47).each do |i|
+  print i + 1
   puts a.fib(i).to_s.rjust(12)
 end

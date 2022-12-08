@@ -25,7 +25,7 @@ class Fibonacci
 end
 
 a = Fibonacci.new
-n = (1..20).to_a
+n = (0...20).to_a
 
 Benchmark.plot(n) do |x|
   x.report('fib_ruby') do |i|
