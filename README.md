@@ -24,7 +24,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 require 'cry/wasm'
 
 class Fibonacci
-  extend Cry::Wasm              # <-- Extend Cry::Wasm module
+  extend Cry::Wasm            # <-- Extend Cry::Wasm module
 
   def initialize; end
 
