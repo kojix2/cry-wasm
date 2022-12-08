@@ -100,7 +100,8 @@ Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-
 ```
 git clone https://github.com/kojix2/cry-wasm
 cd cry-wasm
-./download-wasm-libs.sh
+bundle install
+bundle exec rake vendor:wasi_libs
 bundle exec ruby examples/fibonacci.rb
 # rake install
 ```
