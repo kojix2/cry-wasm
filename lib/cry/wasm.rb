@@ -2,10 +2,13 @@ require_relative 'numeric'
 require_relative 'sexp'
 require_relative 'compiler'
 require 'tempfile'
-require 'wasmer'
 
 module Cry
   module Wasm
+    require_relative 'wasmer'
+    # require_relative 'wasmtime'
+    Runtime = Wasmer
+
     VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].freeze
 
     def method_added(name)
@@ -49,37 +52,16 @@ module Cry
       type_name
     end
 
-    def cry_wasm(wasm_out = nil)
+    def cry_wasm(wasm_out = nil, **options)
       crystal_code = @cry_wasm[:crystal_code_blocks].join("\n")
-      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], output: wasm_out)
-      wasm_funcs = create_wasm_function(wasm_bytes)
-
+      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], output: wasm_out, **options)
+      runtime = Runtime.new(wasm_bytes)
       @cry_wasm[:marked_methods].each do |name|
-        func = wasm_funcs.public_send(name)
+        func = runtime.function(name)
         define_method(name) do |*args|
           func.call(*args)
         end
       end
-    end
-
-    def create_wasm_function(wasm_bytes)
-      store = Wasmer::Store.new
-      module_ = Wasmer::Module.new store, wasm_bytes
-
-      wasi_version = Wasmer::Wasi.get_version module_, true
-
-      wasi_env = Wasmer::Wasi::StateBuilder
-                 .new('wasi_test_program')
-                 .argument('--test')
-                 .environment('COLOR', 'true')
-                 .environment('APP_SHOULD_LOG', 'false')
-                 .map_directory('the_host_current_dir', '.')
-                 .finalize
-
-      import_object = wasi_env.generate_import_object store, wasi_version
-
-      instance = Wasmer::Instance.new module_, import_object
-      wasm_func = instance.exports
     end
 
     def self.extended(obj)
@@ -88,19 +70,18 @@ module Cry
         :validate_type_names
 
       # Initialize class instance variables
-      if obj.instance_variable_defined?(:@cry_wasm)
-        raise "class instance variable '@cry_wasm' is already defined"
-      end
+      raise "class instance variable '@cry_wasm' is already defined" if obj.instance_variable_defined?(:@cry_wasm)
+
       # Only one class instance variable is used here.
       # to avoid bugs caused by overwriting.
       obj.instance_variable_set(:@cry_wasm, {
-        flag: false,
-        crystal_code_blocks: [],
-        marked_methods: [],
-        fname: '',
-        line_number: 0,
-        compiler: Compiler.new
-      })
+                                  flag: false,
+                                  crystal_code_blocks: [],
+                                  marked_methods: [],
+                                  fname: '',
+                                  line_number: 0,
+                                  compiler: Compiler.new
+                                })
     end
   end
 end
