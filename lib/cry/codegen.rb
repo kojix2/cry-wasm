@@ -5,13 +5,15 @@ require_relative 'codegen/crystallizer'
 
 module Cry
   class Codegen
-    attr_accessor :sexp, :crystal_code_blocks
+    attr_accessor :sexp, :crystal_code_blocks, :function_names
     attr_reader :source_path
 
     def initialize
       @sexp = nil
       @source_path = nil
+      @function_names = [] # Function names to be exported
       @crystal_code_blocks = []
+      @crystal_code_blocks << allo
     end
 
     def source_path=(fname)
@@ -30,6 +32,7 @@ module Cry
     end
 
     def add_crystal_function(name, crystal_arg_types, crystal_ret_type, line_number)
+      @function_names << name
       @crystal_code_blocks << crystalize(name, crystal_arg_types, crystal_ret_type, line_number)
     end
 

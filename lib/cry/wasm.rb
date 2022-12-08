@@ -54,7 +54,7 @@ module Cry
       crystal_code = @cry_wasm[:codegen].crystal_code
       wasm_bytes = @cry_wasm[:compiler].build_wasm(
         crystal_code,
-        export: @cry_wasm[:marked_methods],
+        export: @cry_wasm[:codegen].function_names, # There are other methods other than marked_method that must be exported.
         output: wasm_out,
         **options
       )
