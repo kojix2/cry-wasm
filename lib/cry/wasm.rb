@@ -1,5 +1,5 @@
 require_relative 'numeric'
-require_relative 'sexp'
+require_relative 'codegen'
 require_relative 'compiler'
 require 'tempfile'
 
@@ -14,10 +14,13 @@ module Cry
     def method_added(name)
       return super(name) unless @cry_wasm[:flag]
 
-      ruby_code_block, arg_names = @s_expression.extract_source_with_arguments(name, @cry_wasm[:caller_line_number])
-      crystal_args = arg_names.zip(@crystal_arg_types).map { |n, t| "#{n} : #{t}" }.join(', ')
-      crystal_define_fun = "fun #{name}(#{crystal_args}) : #{@crystal_ret_type}\n"
-      crystal_code_block = ruby_code_block.lines[1..].unshift(crystal_define_fun).join
+      crystal_code_block = @codegen.crystalize(
+        name,
+        @crystal_arg_types,
+        @crystal_ret_type,
+        @cry_wasm[:caller_line_number]
+      )
+
       @cry_wasm[:crystal_code_blocks] << crystal_code_block
 
       @cry_wasm[:marked_methods] << name
@@ -31,7 +34,7 @@ module Cry
       fname, l = caller[0].split(':')
       # In most cases, previously parsed S-expressions can be reused.
       if fname != @cry_wasm[:source_file_name]
-        @s_expression = Sexp.new(fname)
+        @codegen = Codegen.new(fname)
         @cry_wasm[:source_file_name] = fname
       end
       # Searches for methods that appear on a line later than cry was called.
@@ -54,7 +57,12 @@ module Cry
 
     def cry_wasm(wasm_out = nil, **options)
       crystal_code = @cry_wasm[:crystal_code_blocks].join("\n")
-      wasm_bytes = @cry_wasm[:compiler].build_wasm(crystal_code, export: @cry_wasm[:marked_methods], output: wasm_out, **options)
+      wasm_bytes = @cry_wasm[:compiler].build_wasm(
+        crystal_code,
+        export: @cry_wasm[:marked_methods],
+        output: wasm_out,
+        **options
+      )
       runtime = Runtime.new(wasm_bytes)
       @cry_wasm[:marked_methods].each do |name|
         func = runtime.function(name)
