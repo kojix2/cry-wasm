@@ -85,7 +85,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 1. Install [Rust](https://www.rust-lang.org/). Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
 1. Install llvm for macOS and lld for Ubuntu. Set PATH so that `wasm-ld` can be called.
     1. For example, if you install llvm on macOS with homebrew, `PATH="/usr/local/opt/llvm/bin:$PATH"` or `PATH="/opt/homebrew/Cellar/llvm/<version>/bin:$PATH"`
-1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `./download-wasm-libs.sh`
+1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `rake vendor:wasi_libs`
 
 ```sh
 # Not yet available. Please see development section.
