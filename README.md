@@ -6,16 +6,6 @@ cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
 By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer).
 
-```mermaid
-flowchart LR
-style id1 fill:#c5c,stroke:#f66,stroke-width:1px,color:#fff
-style id2 fill:#555,stroke:#3ff,stroke-width:1px,color:#fff
-style id3 fill:#66f,stroke:#f66,stroke-width:1px,color:#fff
-style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
-    id1(Ruby Code) -- ripper/sorcerer --> id2(Crystal Code) -- crystal compiler --> id3[WebAssembly]
-    id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
-```
-
 <div align="center"><img src="doc/overview.drawio.png" width=50% height=50%></div>
 
 :space_invader: _highly experimental_
@@ -58,6 +48,16 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 <img src="https://user-images.githubusercontent.com/5798442/205485566-5f7d1bae-4908-43a1-8f9a-801ae8d7d33e.png" width=20% height="20%">
 
 ## How does this work?
+
+```mermaid
+flowchart LR
+style id1 fill:#c5c,stroke:#f66,stroke-width:1px,color:#fff
+style id2 fill:#555,stroke:#3ff,stroke-width:1px,color:#fff
+style id3 fill:#66f,stroke:#f66,stroke-width:1px,color:#fff
+style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
+    id1(Ruby Code) -- ripper/sorcerer --> id2(Crystal Code) -- crystal compiler --> id3[WebAssembly]
+    id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
+```
 
 1. Extend the Cry::Wasm module to the target class.
 1. Write the type information just before the method.
