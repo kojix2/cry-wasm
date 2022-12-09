@@ -71,6 +71,8 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 1. The compiled byte_code is read, and an instance of Wasmer is created.
 1. The target methods are dynamically redefined to call Wasmer functions.
 
+<img src="doc/overview.drawio.svg" width=20% height=20%>
+
 ## Limitations
 
 - Cry::Wasm allows you to define functions, not Crystal methods
