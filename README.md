@@ -55,8 +55,8 @@ style id1 fill:#c5c,stroke:#f66,stroke-width:1px,color:#fff
 style id2 fill:#555,stroke:#3ff,stroke-width:1px,color:#fff
 style id3 fill:#66f,stroke:#f66,stroke-width:1px,color:#fff
 style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
-    id1(Ruby Code) -- ripper/sorcerer --> id2(Crystal Code) -- crystal compiler --> id3[WebAssembly]
-    id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
+    id1(Ruby Methods) -- Ripper + Sorcerer --> id2(Crystal Functions) -- Crystal Compiler --> id3[WebAssembly]
+    id4(Ruby Code) <-- Wasmer/Wasmtime --> id3[WebAssembly]
 ```
 
 1. Extend the Cry::Wasm module to the target class.
