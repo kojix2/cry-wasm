@@ -16,6 +16,8 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
     id4(Ruby Code) <-- wasmer --> id3[WebAssembly]
 ```
 
+<div align="center"><img src="doc/overview.drawio.png" width=50% height=50%></div>
+
 :space_invader: _highly experimental_
 
 ## Quick Start
@@ -70,8 +72,6 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
    1. Call the `cry_wasm` method to build the crystal code blocks.
 1. The compiled byte_code is read, and an instance of Wasmer is created.
 1. The target methods are dynamically redefined to call Wasmer functions.
-
-<img src="doc/overview.drawio.svg" width=20% height=20%>
 
 ## Limitations
 
