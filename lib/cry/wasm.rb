@@ -55,10 +55,6 @@ module Cry
     end
 
     def self.extended(obj)
-      obj.private_class_method\
-        :validate_type_name,
-        :validate_type_names
-
       # Initialize class instance variables
       raise "class instance variable '@cry_wasm' is already defined" if obj.instance_variable_defined?(:@cry_wasm)
 
