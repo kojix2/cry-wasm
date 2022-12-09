@@ -9,8 +9,6 @@ module Cry
     # require_relative 'wasmtime'
     Runtime = Wasmer
 
-    VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].freeze
-
     def method_added(name)
       return super(name) unless @cry_wasm[:flag]
 
@@ -35,19 +33,8 @@ module Cry
       # Searches for methods that appear on a line later than cry was called.
       @cry_wasm[:caller_line_number] = l.to_i
       @cry_wasm[:flag] = true
-      @crystal_arg_types = validate_type_names(arg_types)
-      @crystal_ret_type = validate_type_name(ret_type)
-    end
-
-    def validate_type_names(type_names)
-      type_names.map { |t| validate_type_name(t) }
-    end
-
-    def validate_type_name(type_name)
-      type_name = type_name.to_sym
-      raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
-
-      type_name
+      @crystal_arg_types = arg_types
+      @crystal_ret_type = ret_type
     end
 
     def cry_wasm(wasm_out = nil, **options)
