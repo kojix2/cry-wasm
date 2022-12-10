@@ -11,7 +11,7 @@ class Fibonacci
     m[0] = 1
     m[1] = 1
     n.times do |i|
-      m[i+2] = m[i] + m[i+1]
+      m[i + 2] = m[i] + m[i + 1]
     end
     m
   end

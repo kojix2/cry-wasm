@@ -59,16 +59,17 @@ module Cry
           new_args = []
 
           itfc.crystal_arg_types.each_with_index do |t, i|
+            t = t.to_s
             unless t.include?('*') or t.include?('Array')
               new_args << args[i]
               next
             end
 
-            if t.to_s.include?('*') # Pointer
+            if t.include?('*') # Pointer
               t2 = t.sub('*', '').downcase
               l = args[i].length
             else
-              t.to_s.include?('Array')
+              t.include?('Array')
               t2 = t.sub('Array(', '')[0..-2].downcase
               l = args[i].length
             end
@@ -98,11 +99,14 @@ module Cry
             new_args << addr
             new_args << l if t.to_s.include?('Array')
           end
+
+          r = itfc.crystal_ret_type.to_s
+
           result = func.call(*new_args)
 
           # FIXME: support return type as pointer
 
-          if itfc.crystal_ret_type.include?('*')
+          if r.include?('*')
             t2 = itfc.crystal_ret_type.sub('Array(', '')[0..-2].downcase
             offset = case t2
                      when 'int8', 'uint8' then result / 1
