@@ -64,12 +64,12 @@ module Cry
             addr = runtime.invoke("__alloc_buffer_#{t2}", l)
             # FIXME: support wasmer-ruby only
             offset = case t2
-                      when 'int8', 'uint8' then addr / 1
-                      when 'int16', 'uint16' then addr / 2
-                      when 'int32', 'uint32' then addr / 4
-                      # when 'int64', 'uint64' then addr / 8
-                      else raise "unsupported type: #{t2}"
-                      end
+                     when 'int8', 'uint8' then addr / 1
+                     when 'int16', 'uint16' then addr / 2
+                     when 'int32', 'uint32' then addr / 4
+                     # when 'int64', 'uint64' then addr / 8
+                     else raise "unsupported type: #{t2}"
+                     end
             view = runtime.memory.public_send("#{t2}_view", offset)
             # FIXME: memory size
             loop do
