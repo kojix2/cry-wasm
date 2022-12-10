@@ -86,6 +86,8 @@ module Cry
             args[i] = addr
           end
           result = func.call(*args)
+          # FIXME: support return type as pointer
+          # FIXME: Release memory
         end
       end
     end
