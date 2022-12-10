@@ -57,7 +57,7 @@ module Cry
           raise ArgumentError, 'block is not supported' if block
 
           itfc.crystal_arg_types.each_with_index do |t, i|
-            next unless t.include?('*') # Pointer
+            next unless t.to_s.include?('*') # Pointer
 
             t2 = t.sub('*', '').downcase
             l = args[i].length
