@@ -1,7 +1,10 @@
 module Cry
   class Codegen
     class Crystallizer
-      VALID_CRYSTAL_TYPES = %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].freeze
+      VALID_CRYSTAL_TYPES = \
+        %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].flat_map do |t|
+          [t, "#{t}*".to_sym]
+        end.freeze
 
       attr_accessor :ruby_method, :crystal_arg_types, :crystal_ret_type
 

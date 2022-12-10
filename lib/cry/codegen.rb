@@ -15,8 +15,16 @@ module Cry
       @source_path = nil
       @function_names = [] # Function names to be exported
       @interface = {} # Type information for each function
-      head = IO.read(File.expand_path('codegen/header.cr', __dir__))
-      @crystal_code_blocks = [head]
+      @crystal_code_blocks = []
+      prelude(File.expand_path('codegen/header.cr', __dir__))
+    end
+
+    def prelude(fpath)
+      @crystal_code_blocks << IO.read(fpath)
+      # FIXME
+      File.readlines(fpath).grep(/fun /).map do |l|
+        @function_names << l.split[1].split('(')[0]
+      end
     end
 
     def source_path=(fname)

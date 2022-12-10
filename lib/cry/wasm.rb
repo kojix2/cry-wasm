@@ -48,8 +48,44 @@ module Cry
       runtime = Runtime.new(wasm_bytes)
       @cry_wasm[:marked_methods].each do |name|
         func = runtime.function(name)
-        define_method(name) do |*args|
-          func.call(*args)
+        itfc = @cry_wasm[:codegen].interface(name)
+        define_method(name) do |*args, **kwargs, &block|
+          # NOTE: This is a temporary implementation.
+          #       In the future, keyword arguments may be used
+          #       as a specification of local variable types.
+          raise ArgumentError, 'keyword arguments are not supported' unless kwargs.empty?
+          raise ArgumentError, 'block is not supported' if block
+
+          itfc.crystal_arg_types.each_with_index do |t, i|
+            next unless t.include?('*') # Pointer
+
+            t2 = t.sub('*', '').downcase
+            l = args[i].length
+            addr = runtime.invoke("__alloc_buffer_#{t2}", l)
+            # FIXME: support wasmer-ruby only
+            offset = case t2
+                      when 'int8', 'uint8' then addr / 1
+                      when 'int16', 'uint16' then addr / 2
+                      when 'int32', 'uint32' then addr / 4
+                      # when 'int64', 'uint64' then addr / 8
+                      else raise "unsupported type: #{t2}"
+                      end
+            view = runtime.memory.public_send("#{t2}_view", offset)
+            # FIXME: memory size
+            loop do
+              flag = false
+              begin
+                view[l]
+                flag = true
+              rescue IndexError
+                runtime.memory.grow(1)
+              end
+              break if flag
+            end
+            l.times { |j| view[j] = args[i][j] }
+            args[i] = addr
+          end
+          result = func.call(*args)
         end
       end
     end

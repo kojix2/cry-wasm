@@ -28,5 +28,9 @@ module Cry
     def invoke(name, *args)
       @instance.exports.public_send(name).call(*args)
     end
+
+    def memory
+      @instance.exports.memory
+    end
   end
 end
