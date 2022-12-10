@@ -99,7 +99,20 @@ module Cry
             new_args << l if t.to_s.include?('Array')
           end
           result = func.call(*new_args)
+
           # FIXME: support return type as pointer
+
+          if itfc.crystal_ret_type.include?('*')
+            t2 = itfc.crystal_ret_type.sub('Array(', '')[0..-2].downcase
+            offset = case t2
+                     when 'int8', 'uint8' then result / 1
+                     when 'int16', 'uint16' then result / 2
+                     when 'int32', 'uint32' then result / 4
+                     # when 'int64', 'uint64' then addr / 8
+                     else raise "unsupported type: #{t2}"
+                     end
+            view = runtime.memory.public_send("#{t2}_view", offset)
+          end
           # FIXME: Release memory
         end
       end
