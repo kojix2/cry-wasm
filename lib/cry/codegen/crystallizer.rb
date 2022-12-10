@@ -3,7 +3,7 @@ module Cry
     class Crystallizer
       VALID_CRYSTAL_TYPES = \
         %w[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].flat_map do |t|
-          [t, "#{t}*"]
+          [t, "#{t}*", "Array(#{t})"]
         end.freeze
 
       attr_accessor :ruby_method, :crystal_arg_types, :crystal_ret_type
@@ -21,11 +21,19 @@ module Cry
       end
 
       def function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
+        init = []
         crystal_args = ruby_method.arg_names
                                   .zip(crystal_arg_types)
-                                  .map { |n, t| "#{n} : #{t}" }
+                                  .map do |n, t|
+                                    if t =~ /Array\((.*)\)/
+                                      init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}\n" # better copy ?
+                                      "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
+                                    else
+                                      "#{n} : #{t}"
+                                    end
+                                  end
                                   .join(', ')
-        "fun #{ruby_method.name}(#{crystal_args}) : #{crystal_ret_type}\n"
+        "fun #{ruby_method.name}(#{crystal_args}) : #{crystal_ret_type}\n" << init.join
       end
 
       def function_definition(ruby_method)

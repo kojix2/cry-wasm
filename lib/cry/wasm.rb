@@ -56,11 +56,23 @@ module Cry
           raise ArgumentError, 'keyword arguments are not supported' unless kwargs.empty?
           raise ArgumentError, 'block is not supported' if block
 
-          itfc.crystal_arg_types.each_with_index do |t, i|
-            next unless t.to_s.include?('*') # Pointer
+          new_args = []
 
-            t2 = t.sub('*', '').downcase
-            l = args[i].length
+          itfc.crystal_arg_types.each_with_index do |t, i|
+            unless t.include?('*') or t.include?('Array')
+              new_args << args[i]
+              next
+            end
+
+            if t.to_s.include?('*') # Pointer
+              t2 = t.sub('*', '').downcase
+              l = args[i].length
+            else
+              t.to_s.include?('Array')
+              t2 = t.sub('Array(', '')[0..-2].downcase
+              l = args[i].length
+            end
+
             addr = runtime.invoke("__alloc_buffer_#{t2}", l)
             # FIXME: support wasmer-ruby only
             offset = case t2
@@ -83,9 +95,10 @@ module Cry
               break if flag
             end
             l.times { |j| view[j] = args[i][j] }
-            args[i] = addr
+            new_args << addr
+            new_args << l if t.to_s.include?('Array')
           end
-          result = func.call(*args)
+          result = func.call(*new_args)
           # FIXME: support return type as pointer
           # FIXME: Release memory
         end

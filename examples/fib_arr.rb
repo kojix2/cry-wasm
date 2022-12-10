@@ -5,16 +5,12 @@ class Sum
 
   def initialize; end
 
-  cry ['Int32*', 'Int32'], 'Int32'
-  def run(arr, l)
-    s = 0
-    l.times do |i|
-      s += arr[i]
-    end
-    s
+  cry ['Array(Int32)', 'Array(Int8)'], 'Int32'
+  def run(arr1, arr2)
+    arr1.sum + arr2.sum
   end
 
   cry_wasm
 end
 
-p Sum.new.run((1..100).to_a, 100)
+p Sum.new.run((1..100).to_a, (1..10).to_a)
