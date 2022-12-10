@@ -79,6 +79,26 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
   - default arguments, keyword arguments, and block arguments are not available.
 - Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
 
+## Type conversion
+
+:construction: work in progress :pick:
+
+### Arguments - Ruby --> Crystal
+
+|Ruby class|Crystal class|
+|---|---|
+|`Integer`|`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|
+|`Float`|`Float32` `Float64`|
+|`Array(Integer)`|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)`|
+
+### Return values - Crystal --> Ruby
+
+|Crystal class|Ruby class|
+|---|---|
+|`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|`Integer`|
+|`Float32` `Float64`|`Float`|
+|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer|
+
 ## Installation
 
 1. Install [Crystal](https://github.com/crystal-lang/crystal). Installation instructions for each platform are [here](https://crystal-lang.org/install/).
