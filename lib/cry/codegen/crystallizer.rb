@@ -2,8 +2,8 @@ module Cry
   class Codegen
     class Crystallizer
       VALID_CRYSTAL_TYPES = \
-        %i[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].flat_map do |t|
-          [t, "#{t}*".to_sym]
+        %w[Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64 Float32 Float64].flat_map do |t|
+          [t, "#{t}*"]
         end.freeze
 
       attr_accessor :ruby_method, :crystal_arg_types, :crystal_ret_type
@@ -42,7 +42,7 @@ module Cry
       end
 
       def validate_type_name(type_name)
-        type_name = type_name.to_sym
+        type_name = type_name.to_s
         raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
 
         type_name
