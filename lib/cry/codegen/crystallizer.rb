@@ -5,10 +5,10 @@ module Cry
 
       attr_accessor :ruby_method, :crystal_arg_types, :crystal_ret_type
 
-      def initialize(ruby_method, crystal_arg_types, crystal_ret_type)
+      def initialize(ruby_method, interface)
         @ruby_method = ruby_method
-        @crystal_arg_types = validate_type_names(crystal_arg_types)
-        @crystal_ret_type = validate_type_name(crystal_ret_type)
+        @crystal_arg_types = validate_type_names(interface.crystal_arg_types)
+        @crystal_ret_type = validate_type_name(interface.crystal_ret_type)
       end
 
       def crystallize

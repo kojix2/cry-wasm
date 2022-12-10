@@ -8,11 +8,15 @@ module Cry
     attr_accessor :sexp, :crystal_code_blocks, :function_names
     attr_reader :source_path
 
+    Interface = Struct.new(:name, :crystal_arg_types, :crystal_ret_type)
+
     def initialize
       @sexp = nil
       @source_path = nil
       @function_names = [] # Function names to be exported
-      @crystal_code_blocks = []
+      @interface = {} # Type information for each function
+      head = IO.read(File.expand_path('codegen/header.cr', __dir__))
+      @crystal_code_blocks = [head]
     end
 
     def source_path=(fname)
@@ -30,14 +34,20 @@ module Cry
       @crystal_code_blocks.join("\n")
     end
 
-    def add_crystal_function(name, crystal_arg_types, crystal_ret_type, line_number)
-      @function_names << name
-      @crystal_code_blocks << crystalize(name, crystal_arg_types, crystal_ret_type, line_number)
+    def interface(name)
+      @interface[name]
     end
 
-    def crystalize(name, crystal_arg_types, crystal_ret_type, line_number)
+    def add_crystal_function(name, crystal_arg_types, crystal_ret_type, line_number)
+      @function_names << name
+      interface = Interface.new(name, crystal_arg_types, crystal_ret_type)
+      @interface[name] = interface
+      @crystal_code_blocks << crystallize(name, interface, line_number)
+    end
+
+    def crystallize(name, interface, line_number)
       ruby_method = extract_ruby_method(name, line_number)
-      c = Crystallizer.new(ruby_method, crystal_arg_types, crystal_ret_type)
+      c = Crystallizer.new(ruby_method, interface)
       cry_func = c.source
     end
 
