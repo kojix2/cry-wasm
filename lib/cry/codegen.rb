@@ -8,7 +8,35 @@ module Cry
     attr_accessor :sexp, :crystal_code_blocks, :function_names
     attr_reader :source_path
 
-    Interface = Struct.new(:name, :crystal_arg_types, :crystal_ret_type)
+    class Interface
+      attr_reader :name, :crystal_arg_types, :crystal_ret_type
+
+      def initialize(name, crystal_arg_types, crystal_ret_type)
+        @name = name
+        @crystal_arg_types = crystal_arg_types.map do |t|
+          add_singleton_method_to_string(t.to_s)
+        end
+        @crystal_ret_type = add_singleton_method_to_string(crystal_ret_type.to_s)
+      end
+
+      private
+
+      # FIXME
+      def add_singleton_method_to_string(s)
+        s.define_singleton_method(:is_pointer?) { end_with?('*') }
+        s.define_singleton_method(:is_array?) { start_with?('Array(') && end_with?(')') }
+        s.define_singleton_method(:inner) do
+          if is_pointer?
+            self[0..-2]
+          elsif is_array?
+            self[6..-2]
+          else
+            self
+          end
+        end
+        s
+      end
+    end
 
     def initialize
       @sexp = nil

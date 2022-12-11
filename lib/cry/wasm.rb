@@ -59,35 +59,26 @@ module Cry
           new_args = []
 
           itfc.crystal_arg_types.zip(args).each do |t, arg|
-            t = t.to_s
-            unless t.include?('*') or t.include?('Array')
+            if t.is_array? or t.is_pointer?
+              t2 = t.inner.downcase
+              l = arg.length
+
+              addr = runtime.invoke("__alloc_buffer_#{t2}", l)
+              runtime.hoge(addr, t2, l, arg)
+
+              new_args << addr
+              new_args << l if t.is_array?
+            else
               new_args << arg
-              next
             end
-
-            if t.include?('*') # Pointer
-              t2 = t.sub('*', '').downcase
-              l = arg.length
-            elsif t.include?('Array')
-              t2 = t.sub('Array(', '')[0..-2].downcase
-              l = arg.length
-            end
-
-            addr = runtime.invoke("__alloc_buffer_#{t2}", l)
-            # FIXME: support wasmer-ruby only
-            runtime.hoge(addr, t2, l, arg)
-
-            new_args << addr
-            new_args << l if t.to_s.include?('Array')
           end
 
-          r = itfc.crystal_ret_type.to_s
+          r = itfc.crystal_ret_type
 
           result = func.call(*new_args)
 
-          if r.include?('*')
-            t2 = t.sub('*', '').downcase
-            view = runtime.get_view(result, t2)
+          if r.is_pointer?
+            view = runtime.get_view(result, r.inner.downcase)
           else
             result
           end
