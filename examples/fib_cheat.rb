@@ -8,18 +8,16 @@ class Fibonacci
   cry ['UInt32'], 'UInt32*'
   def fib(n)
     m = Pointer(UInt32).malloc(n + 2)
-    m[0] = 1
-    m[1] = 1
-    n.times do |i|
-      m[i + 2] = m[i] + m[i + 1]
-    end
+    n > 0 && (m[0] = 1)
+    n > 1 && (m[1] = 1)
+    n > 2 && (n - 2).times { |i| m[i + 2] = m[i] + m[i + 1] }
     m
   end
 
   cry_wasm
 end
 
-v = Fibonacci.new.fib(45)
+view = Fibonacci.new.fib(47)
 47.times do |i|
-  puts v[i]
+  puts view[i]
 end
