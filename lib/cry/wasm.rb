@@ -58,44 +58,25 @@ module Cry
 
           new_args = []
 
-          itfc.crystal_arg_types.each_with_index do |t, i|
+          itfc.crystal_arg_types.zip(args).each do |t, arg|
             t = t.to_s
             unless t.include?('*') or t.include?('Array')
-              new_args << args[i]
+              new_args << arg
               next
             end
 
             if t.include?('*') # Pointer
               t2 = t.sub('*', '').downcase
-              l = args[i].length
-            else
-              t.include?('Array')
+              l = arg.length
+            elsif t.include?('Array')
               t2 = t.sub('Array(', '')[0..-2].downcase
-              l = args[i].length
+              l = arg.length
             end
 
             addr = runtime.invoke("__alloc_buffer_#{t2}", l)
             # FIXME: support wasmer-ruby only
-            offset = case t2
-                     when 'int8', 'uint8' then addr / 1
-                     when 'int16', 'uint16' then addr / 2
-                     when 'int32', 'uint32' then addr / 4
-                     # when 'int64', 'uint64' then addr / 8
-                     else raise "unsupported type: #{t2}"
-                     end
-            view = runtime.memory.public_send("#{t2}_view", offset)
-            # FIXME: memory size
-            loop do
-              flag = false
-              begin
-                view[l]
-                flag = true
-              rescue IndexError
-                runtime.memory.grow(1)
-              end
-              break if flag
-            end
-            l.times { |j| view[j] = args[i][j] }
+            runtime.hoge(addr, t2, l, arg)
+
             new_args << addr
             new_args << l if t.to_s.include?('Array')
           end
@@ -104,18 +85,11 @@ module Cry
 
           result = func.call(*new_args)
 
-          # FIXME: support return type as pointer
-
           if r.include?('*')
-            t2 = itfc.crystal_ret_type.sub('Array(', '')[0..-2].downcase
-            offset = case t2
-                     when 'int8', 'uint8' then result / 1
-                     when 'int16', 'uint16' then result / 2
-                     when 'int32', 'uint32' then result / 4
-                     # when 'int64', 'uint64' then addr / 8
-                     else raise "unsupported type: #{t2}"
-                     end
-            view = runtime.memory.public_send("#{t2}_view", offset)
+            t2 = t.sub('*', '').downcase
+            view = runtime.get_view(result, t2)
+          else
+            result
           end
           # FIXME: Release memory
         end

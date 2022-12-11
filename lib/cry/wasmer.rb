@@ -32,5 +32,42 @@ module Cry
     def memory
       @instance.exports.memory
     end
+
+    def hoge(addr, t2, l, arg)
+      view = get_view(addr, t2)
+      memory_grow(view, l)
+      l.times { |j| view[j] = arg[j] }
+    end
+
+    def get_view(addr, type)
+      offset = get_offset(addr, type)
+      view = memory.public_send("#{type}_view", offset)
+    end
+
+    private
+
+    # FIXME
+    def memory_grow(view, l)
+      loop do
+        flag = false
+        begin
+          view[l]
+          flag = true
+        rescue IndexError
+          runtime.memory.grow(1)
+        end
+        break if flag
+      end
+    end
+
+    def get_offset(addr, t)
+      case t
+      when 'int8', 'uint8' then addr / 1
+      when 'int16', 'uint16' then addr / 2
+      when 'int32', 'uint32' then addr / 4
+      # when 'int64', 'uint64' then addr / 8
+      else raise "unsupported type: #{t}"
+      end
+    end
   end
 end
