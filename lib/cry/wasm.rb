@@ -74,11 +74,22 @@ module Cry
           end
 
           r = itfc.crystal_ret_type
+          addr2 = nil
+          if r.is_array?
+            addr2 = runtime.invoke('__alloc_buffer_int32', 1)
+            runtime.hoge(addr2, "int32", 1, [0])
+            new_args << addr2
+          end
+          runtime.memory.grow(24)
 
           result = func.call(*new_args)
 
           if r.is_pointer?
             view = runtime.get_view(result, r.inner.downcase)
+          elsif r.is_array?
+            l2 = runtime.get_view(addr2, 'int32')[0]
+            view = runtime.get_view(result, r.inner.downcase)
+            Array.new(l2) { |i| view[i] }
           else
             result
           end

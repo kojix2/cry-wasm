@@ -22,18 +22,27 @@ module Cry
 
       def function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
         init = []
-        crystal_args = ruby_method.arg_names
-                                  .zip(crystal_arg_types)
-                                  .map do |n, t|
-                                    if t =~ /Array\((.*)\)/
-                                      init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}\n" # better copy ?
-                                      "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
-                                    else
-                                      "#{n} : #{t}"
-                                    end
-                                  end
-                                  .join(', ')
-        "fun #{ruby_method.name}(#{crystal_args}) : #{crystal_ret_type}\n" << init.join
+        crystal_args = \
+          ruby_method.arg_names
+                     .zip(crystal_arg_types)
+                     .map do |n, t|
+            if t =~ /Array\((.*)\)/
+              init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}\n" # better copy ?
+              "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
+            else
+              "#{n} : #{t}"
+            end
+          end
+        if crystal_ret_type.is_array?
+          crystal_args << '__return_len_ : Int32*'
+        end
+
+        ret_type = if crystal_ret_type.is_array?
+                     crystal_ret_type.inner << '*'
+                   else
+                     crystal_ret_type
+                   end
+        "fun #{ruby_method.name}(#{crystal_args.join(', ')}) : #{ret_type}\n" << init.join
       end
 
       def function_definition(ruby_method)

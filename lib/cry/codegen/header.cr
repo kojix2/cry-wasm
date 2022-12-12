@@ -52,3 +52,4 @@ fun __alloc_buffer_void(size : Int32) : Int32
   ptr = Pointer(Void).malloc(size)
   ptr.address.to_i32
 end
+
