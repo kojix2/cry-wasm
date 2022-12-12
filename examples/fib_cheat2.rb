@@ -5,19 +5,20 @@ class Fibonacci
 
   def initialize; end
 
-  cry ['Int32'], 'Array(Int32)'
+  cry ['UInt32'], 'Array(UInt32)'
   def fib(n)
-    __return_len_[0] = n
-    m = Pointer(Int32).malloc(n)
-    n.times { |i| m[i] = i }
+    m = Array(UInt32).new(n + 1)
+    n > 0 && (m[0] = 1)
+    n > 1 && (m[1] = 1)
+    n > 2 && (n - 2).times { |i| m[i + 2] = m[i] + m[i + 1] }
     m
   end
 
   cry_wasm
 end
 
-view = Fibonacci.new.fib(47)
+result = Fibonacci.new.fib(47)
 47.times do |i|
   print i + 1
-  puts view[i].to_s.rjust(12)
+  puts result[i].to_s.rjust(12)
 end
