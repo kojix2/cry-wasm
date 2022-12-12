@@ -9,7 +9,7 @@ class Fibonacci
   def fib(n)
     __return_len_[0] = n
     m = Pointer(Int32).malloc(n)
-    n.times {|i| m[i] = i}
+    n.times { |i| m[i] = i }
     m
   end
 

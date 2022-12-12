@@ -77,7 +77,7 @@ module Cry
           addr2 = nil
           if r.is_array?
             addr2 = runtime.invoke('__alloc_buffer_int32', 1)
-            runtime.hoge(addr2, "int32", 1, [0])
+            runtime.hoge(addr2, 'int32', 1, [0])
             new_args << addr2
           end
           runtime.memory.grow(24)

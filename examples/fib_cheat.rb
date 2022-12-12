@@ -22,4 +22,3 @@ view = Fibonacci.new.fib(47)
   print i + 1
   puts view[i].to_s.rjust(12)
 end
-
