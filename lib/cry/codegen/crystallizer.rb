@@ -22,24 +22,29 @@ module Cry
 
       def function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
         init = []
-        crystal_args = ruby_method.arg_names.zip(crystal_arg_types).map do |n, t|
+        d = CrystalFunction::Declaration.new
+        d.name = ruby_method.name
+        ruby_method.arg_names.zip(crystal_arg_types).each do |n, t|
           if t =~ /Array\((.*)\)/
             init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}" # better copy ?
-            "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
+            d.arg_names << "__#{n}_ptr_"
+            d.arg_types << "#{::Regexp.last_match(1)}*"
+            d.arg_names << "__#{n}_len_"
+            d.arg_types << "Int32"
           else
-            "#{n} : #{t}"
+            d.arg_names << n
+            d.arg_types << t
           end
         end
-        crystal_args << '__return_len_ : Int32*' if crystal_ret_type.is_array?
 
-        ret_type = if crystal_ret_type.is_array?
-                     crystal_ret_type.inner_pointer
-                   else
-                     crystal_ret_type
-                   end
-        declaration = "fun #{ruby_method.name}(#{crystal_args.join(', ')}) : #{ret_type}"
+        if crystal_ret_type.is_array?
+          d.arg_names << '__return_len_'
+          d.arg_types << 'Int32*'
+        end
+
+        d.ret_type = crystal_ret_type.is_array? ? crystal_ret_type.inner_pointer : crystal_ret_type
         initialization = init.join("\n")
-        [declaration, initialization]
+        [d.source, initialization]
       end
 
       def function_definition(ruby_method)
