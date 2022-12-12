@@ -15,34 +15,31 @@ module Cry
       end
 
       def crystallize
-        declaration = function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
+        declaration, initialization = function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
         definition = function_definition(ruby_method)
-        CrystalFunction.new(declaration, definition)
+        [CrystalFunction.new(declaration, initialization, definition)]
       end
 
       def function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
         init = []
-        crystal_args = \
-          ruby_method.arg_names
-                     .zip(crystal_arg_types)
-                     .map do |n, t|
-            if t =~ /Array\((.*)\)/
-              init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}\n" # better copy ?
-              "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
-            else
-              "#{n} : #{t}"
-            end
+        crystal_args = ruby_method.arg_names.zip(crystal_arg_types).map do |n, t|
+          if t =~ /Array\((.*)\)/
+            init << "  #{n} = #{t}.new(__#{n}_len_){|i| __#{n}_ptr_[i]}" # better copy ?
+            "__#{n}_ptr_ : #{::Regexp.last_match(1)}*, __#{n}_len_ : Int32"
+          else
+            "#{n} : #{t}"
           end
-        if crystal_ret_type.is_array?
-          crystal_args << '__return_len_ : Int32*'
         end
+        crystal_args << '__return_len_ : Int32*' if crystal_ret_type.is_array?
 
         ret_type = if crystal_ret_type.is_array?
-                     crystal_ret_type.inner << '*'
+                     crystal_ret_type.inner_pointer
                    else
                      crystal_ret_type
                    end
-        "fun #{ruby_method.name}(#{crystal_args.join(', ')}) : #{ret_type}\n" << init.join
+        declaration = "fun #{ruby_method.name}(#{crystal_args.join(', ')}) : #{ret_type}"
+        initialization = init.join("\n")
+        [declaration, initialization]
       end
 
       def function_definition(ruby_method)
@@ -51,7 +48,7 @@ module Cry
       end
 
       def source
-        crystallize.source
+        crystallize.map(&:source).join("\n\n")
       end
 
       def validate_type_names(type_names)

@@ -3,13 +3,14 @@ module Cry
     class CrystalFunction
       attr_accessor :declaration, :definition
 
-      def initialize(declaration = nil, definition = nil)
+      def initialize(declaration = nil, initialization = nil, definition = nil)
         @declaration = declaration
+        @initialization = initialization
         @definition = definition
       end
 
       def source
-        @declaration + @definition
+        '' << @declaration << @initialization << @definition
       end
     end
   end

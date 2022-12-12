@@ -34,6 +34,7 @@ module Cry
             self
           end
         end
+        s.define_singleton_method(:inner_pointer) { inner + '*' }
         s
       end
     end
