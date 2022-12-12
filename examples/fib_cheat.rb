@@ -19,5 +19,7 @@ end
 
 view = Fibonacci.new.fib(47)
 47.times do |i|
-  puts view[i]
+  print i + 1
+  puts view[i].to_s.rjust(12)
 end
+
