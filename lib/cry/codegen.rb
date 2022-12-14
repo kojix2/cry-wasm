@@ -1,4 +1,5 @@
 require 'sorcerer'
+require_relative 'codegen/interface'
 require_relative 'codegen/ruby_method'
 require_relative 'codegen/crystal_function'
 require_relative 'codegen/crystallizer'
@@ -7,37 +8,6 @@ module Cry
   class Codegen
     attr_accessor :sexp, :crystal_code_blocks, :function_names
     attr_reader :source_path
-
-    class Interface
-      attr_reader :name, :crystal_arg_types, :crystal_ret_type
-
-      def initialize(name, crystal_arg_types, crystal_ret_type)
-        @name = name
-        @crystal_arg_types = crystal_arg_types.map do |t|
-          add_singleton_method_to_string(t.to_s)
-        end
-        @crystal_ret_type = add_singleton_method_to_string(crystal_ret_type.to_s)
-      end
-
-      private
-
-      # FIXME
-      def add_singleton_method_to_string(s)
-        s.define_singleton_method(:is_pointer?) { end_with?('*') }
-        s.define_singleton_method(:is_array?) { start_with?('Array(') && end_with?(')') }
-        s.define_singleton_method(:inner) do
-          if is_pointer?
-            self[0..-2]
-          elsif is_array?
-            self[6..-2]
-          else
-            self
-          end
-        end
-        s.define_singleton_method(:inner_pointer) { inner + '*' }
-        s
-      end
-    end
 
     def initialize
       @sexp = nil
@@ -104,7 +74,7 @@ module Cry
         if item.is_a?(Array)
           if item[0] == :def
             return item if item[1][0] == :@ident && (item[1][1] == name) && (item[1][2][0] > @line_number)
-          elsif r = find_ruby_method2(item, name)
+          elsif (r = find_ruby_method2(item, name))
             return r
           end
         end
