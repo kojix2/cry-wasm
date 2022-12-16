@@ -46,8 +46,8 @@ module Cry
                   when 'uint64' then  arg.pack('Q*')
                   else raise "unsupported type: #{t2}"
                   end.unpack('C*')
-      arg.each_with_index do |_a, i|
-        uint8_view[i] = arg_uint8[i]
+      arg_uint8.each_with_index do |a, i|
+        uint8_view[i] = a
       end
     end
 
