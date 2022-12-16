@@ -62,7 +62,7 @@ module Cry
               l = arg.length
 
               addr = runtime.invoke("__alloc_buffer_#{t2}", l)
-              runtime.hoge(addr, t2, l, arg)
+              runtime.write_memory(addr, t2, arg)
 
               new_args << addr
               new_args << l if t.is_array?
@@ -75,7 +75,7 @@ module Cry
           addr2 = nil
           if r.is_array?
             addr2 = runtime.invoke('__alloc_buffer_int32', 1)
-            runtime.hoge(addr2, 'int32', 1, [0])
+            runtime.write_memory(addr2, 'int32', [0])
             new_args << addr2
           end
 

@@ -33,20 +33,22 @@ module Cry
       @instance.exports.memory
     end
 
-    def hoge(addr, t2, l, arg)
+    def write_memory(addr, t2, arg)
       uint8_view = memory.uint8_view(addr)
       arg_uint8 = case t2
-                  when 'int8'   then  arg.pack('c*').unpack('C*')
-                  when 'uint8'  then  arg.pack('C*').unpack('C*')
-                  when 'int16'  then  arg.pack('s*').unpack('C*')
-                  when 'uint16' then  arg.pack('S*').unpack('C*')
-                  when 'int32'  then  arg.pack('l*').unpack('C*')
-                  when 'uint32' then  arg.pack('L*').unpack('C*')
-                  when 'int64'  then  arg.pack('q*').unpack('C*')
-                  when 'uint64' then  arg.pack('Q*').unpack('C*')
+                  when 'int8'   then  arg.pack('c*')
+                  when 'uint8'  then  arg.pack('C*')
+                  when 'int16'  then  arg.pack('s*')
+                  when 'uint16' then  arg.pack('S*')
+                  when 'int32'  then  arg.pack('l*')
+                  when 'uint32' then  arg.pack('L*')
+                  when 'int64'  then  arg.pack('q*')
+                  when 'uint64' then  arg.pack('Q*')
                   else raise "unsupported type: #{t2}"
-                  end
-      l.times { |j| uint8_view[j] = arg_uint8[j] }
+                  end.unpack('C*')
+      arg.each_with_index do |_a, i|
+        uint8_view[i] = arg_uint8[i]
+      end
     end
 
     def get_view(addr, type)

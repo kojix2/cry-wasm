@@ -32,7 +32,7 @@ module Cry
       @instance.export('memory').to_memory
     end
 
-    def hoge(addr, t2, _l, arg)
+    def write_memory(addr, t2, arg)
       memory.write(
         addr,
         case t2
