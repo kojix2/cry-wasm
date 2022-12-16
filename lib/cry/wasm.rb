@@ -5,9 +5,7 @@ require 'tempfile'
 
 module Cry
   module Wasm
-    require_relative 'wasmer'
-    # require_relative 'wasmtime'
-    Runtime = Wasmer
+    require_relative 'wasmer' unless const_defined?(:Runtime)
 
     def method_added(name)
       return super(name) unless @cry_wasm[:flag]
@@ -80,7 +78,6 @@ module Cry
             runtime.hoge(addr2, 'int32', 1, [0])
             new_args << addr2
           end
-          runtime.memory.grow(24)
 
           result = func.call(*new_args)
 

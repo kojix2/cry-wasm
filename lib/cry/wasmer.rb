@@ -54,7 +54,7 @@ module Cry
           view[l]
           flag = true
         rescue IndexError
-          runtime.memory.grow(1)
+          memory.grow(1)
         end
         break if flag
       end
@@ -71,3 +71,11 @@ module Cry
     end
   end
 end
+
+module Cry
+  module Wasm
+    Runtime = Wasmer
+  end
+end
+
+require_relative 'wasm'
