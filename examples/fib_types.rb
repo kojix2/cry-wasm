@@ -60,6 +60,6 @@ end
 a = Fibonacci.new
 
 48.times do |i|
-  print i + 1
+  print (i + 1).to_s.rjust(2)
   puts a.fib(i).to_s.rjust(12)
 end

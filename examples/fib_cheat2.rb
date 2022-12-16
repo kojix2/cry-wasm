@@ -19,6 +19,6 @@ end
 
 result = Fibonacci.new.fib(47)
 47.times do |i|
-  print i + 1
+  print (i + 1).to_s.rjust(2)
   puts result[i].to_s.rjust(12)
 end
