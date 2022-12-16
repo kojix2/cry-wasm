@@ -44,10 +44,29 @@ module Cry
                   when 'uint32' then  arg.pack('L*')
                   when 'int64'  then  arg.pack('q*')
                   when 'uint64' then  arg.pack('Q*')
+                  when 'float32' then arg.pack('e*')
+                  when 'float64' then arg.pack('E*')
                   else raise "unsupported type: #{t2}"
                   end.unpack('C*')
       arg_uint8.each_with_index do |a, i|
         uint8_view[i] = a
+      end
+    end
+
+    def read_memory(addr, t2, len)
+      uint8_view = memory.uint8_view(addr)
+      case t2
+      when 'int8'    then Array.new(len) { |i| uint8_view[i] }.pack('C*').unpack('c*')
+      when 'uint8'   then Array.new(len) { |i| uint8_view[i] }.pack('C*').unpack('C*')
+      when 'int16'   then Array.new(len * 2) { |i| uint8_view[i] }.pack('C*').unpack('s*')
+      when 'uint16'  then Array.new(len * 2) { |i| uint8_view[i] }.pack('C*').unpack('S*')
+      when 'int32'   then Array.new(len * 4) { |i| uint8_view[i] }.pack('C*').unpack('l*')
+      when 'uint32'  then Array.new(len * 4) { |i| uint8_view[i] }.pack('C*').unpack('L*')
+      when 'int64'   then Array.new(len * 8) { |i| uint8_view[i] }.pack('C*').unpack('q*')
+      when 'uint64'  then Array.new(len * 8) { |i| uint8_view[i] }.pack('C*').unpack('Q*')
+      when 'float32' then Array.new(len * 4) { |i| uint8_view[i] }.pack('C*').unpack('e*')
+      when 'float64' then Array.new(len * 8) { |i| uint8_view[i] }.pack('C*').unpack('E*')
+      else raise "unsupported type: #{t2}"
       end
     end
 

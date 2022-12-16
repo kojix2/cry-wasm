@@ -93,11 +93,8 @@ module Cry
           if r.is_pointer?
             view = runtime.get_view(result, r.inner.downcase)
           elsif r.is_array?
-            l2 = runtime.get_view(addr2, 'int32')[0]
-            view = runtime.get_view(result, r.inner.downcase)
-            Array.new(l2) { |i| view[i] }
-          else
-            result
+            l2 = runtime.read_memory(addr2, 'int32', 1)[0]
+            runtime.read_memory(result, r.inner.downcase, l2)
           end
           # FIXME: Release memory
         end

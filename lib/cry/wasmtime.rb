@@ -44,9 +44,31 @@ module Cry
         when 'uint32' then  arg.pack('L*')
         when 'int64'  then  arg.pack('q*')
         when 'uint64' then  arg.pack('Q*')
+        when 'float32' then arg.pack('e*')
+        when 'float64' then arg.pack('E*')
         else raise "unsupported type: #{t2}"
         end
       )
+    end
+
+    def get_view(_addr, _type)
+      raise 'not implemented'
+    end
+
+    def read_memory(addr, t2, len)
+      case t2
+      when 'int8'   then  memory.read(addr, len).unpack('c*')
+      when 'uint8'  then  memory.read(addr, len).unpack('C*')
+      when 'int16'  then  memory.read(addr, len * 2).unpack('s*')
+      when 'uint16' then  memory.read(addr, len * 2).unpack('S*')
+      when 'int32'  then  memory.read(addr, len * 4).unpack('l*')
+      when 'uint32' then  memory.read(addr, len * 4).unpack('L*')
+      when 'int64'  then  memory.read(addr, len * 8).unpack('q*')
+      when 'uint64' then  memory.read(addr, len * 8).unpack('Q*')
+      when 'float32' then memory.read(addr, len * 4).unpack('e*')
+      when 'float64' then memory.read(addr, len * 8).unpack('E*')
+      else raise "unsupported type: #{t2}"
+      end
     end
   end
 end
