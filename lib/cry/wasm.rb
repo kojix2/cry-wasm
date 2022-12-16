@@ -4,8 +4,17 @@ require_relative 'compiler'
 require 'tempfile'
 
 module Cry
+  autoload :Wasmer, File.expand_path("wasmer", __dir__)
+  autoload :Wasmtime, File.expand_path("wasmtime", __dir__)
+
   module Wasm
-    require_relative 'wasmer' unless const_defined?(:Runtime)
+    def self.runtime=(runtime)
+      @cry_wasm_runtime = runtime
+    end
+
+    def self.runtime
+      @cry_wasm_runtime
+    end
 
     def method_added(name)
       return super(name) unless @cry_wasm[:flag]
@@ -43,7 +52,7 @@ module Cry
         output: wasm_out,
         **options
       )
-      runtime = Runtime.new(wasm_bytes)
+      runtime = @cry_wasm[:runtime].new(wasm_bytes)
       @cry_wasm[:marked_methods].each do |name|
         func = runtime.function(name)
         itfc = @cry_wasm[:codegen].interface(name)
@@ -101,7 +110,9 @@ module Cry
 
       # Only one class instance variable is used here.
       # to avoid bugs caused by overwriting.
+      @cry_wasm_runtime ||= Wasmer
       obj.instance_variable_set(:@cry_wasm, {
+                                  runtime: @cry_wasm_runtime,
                                   flag: false,
                                   marked_methods: [],
                                   fname: '',

@@ -64,10 +64,5 @@ module Cry
   end
 end
 
-module Cry
-  module Wasm
-    Runtime = Wasmer
-  end
-end
-
 require_relative 'wasm'
+Cry::Wasm.runtime = Cry::Wasmer
