@@ -4,8 +4,8 @@ require_relative 'compiler'
 require 'tempfile'
 
 module Cry
-  autoload :Wasmer, File.expand_path("wasmer", __dir__)
-  autoload :Wasmtime, File.expand_path("wasmtime", __dir__)
+  autoload :Wasmer, File.expand_path('wasmer', __dir__)
+  autoload :Wasmtime, File.expand_path('wasmtime', __dir__)
 
   module Wasm
     def self.runtime=(runtime)
