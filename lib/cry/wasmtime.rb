@@ -36,14 +36,14 @@ module Cry
       memory.write(
         addr,
         case t2
-        when 'int8'   then  arg.pack('c*')
-        when 'uint8'  then  arg.pack('C*')
-        when 'int16'  then  arg.pack('s*')
-        when 'uint16' then  arg.pack('S*')
-        when 'int32'  then  arg.pack('l*')
-        when 'uint32' then  arg.pack('L*')
-        when 'int64'  then  arg.pack('q*')
-        when 'uint64' then  arg.pack('Q*')
+        when 'int8'    then arg.pack('c*')
+        when 'uint8'   then arg.pack('C*')
+        when 'int16'   then arg.pack('s*')
+        when 'uint16'  then arg.pack('S*')
+        when 'int32'   then arg.pack('l*')
+        when 'uint32'  then arg.pack('L*')
+        when 'int64'   then arg.pack('q*')
+        when 'uint64'  then arg.pack('Q*')
         when 'float32' then arg.pack('e*')
         when 'float64' then arg.pack('E*')
         else raise "unsupported type: #{t2}"
@@ -57,14 +57,14 @@ module Cry
 
     def read_memory(addr, t2, len)
       case t2
-      when 'int8'   then  memory.read(addr, len).unpack('c*')
-      when 'uint8'  then  memory.read(addr, len).unpack('C*')
-      when 'int16'  then  memory.read(addr, len * 2).unpack('s*')
-      when 'uint16' then  memory.read(addr, len * 2).unpack('S*')
-      when 'int32'  then  memory.read(addr, len * 4).unpack('l*')
-      when 'uint32' then  memory.read(addr, len * 4).unpack('L*')
-      when 'int64'  then  memory.read(addr, len * 8).unpack('q*')
-      when 'uint64' then  memory.read(addr, len * 8).unpack('Q*')
+      when 'int8'    then memory.read(addr, len * 1).unpack('c*')
+      when 'uint8'   then memory.read(addr, len * 1).unpack('C*')
+      when 'int16'   then memory.read(addr, len * 2).unpack('s*')
+      when 'uint16'  then memory.read(addr, len * 2).unpack('S*')
+      when 'int32'   then memory.read(addr, len * 4).unpack('l*')
+      when 'uint32'  then memory.read(addr, len * 4).unpack('L*')
+      when 'int64'   then memory.read(addr, len * 8).unpack('q*')
+      when 'uint64'  then memory.read(addr, len * 8).unpack('Q*')
       when 'float32' then memory.read(addr, len * 4).unpack('e*')
       when 'float64' then memory.read(addr, len * 8).unpack('E*')
       else raise "unsupported type: #{t2}"
