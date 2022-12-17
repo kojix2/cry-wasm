@@ -7,7 +7,7 @@ cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
 By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer) or [Wasmtime](https://github.com/bytecodealliance/wasmtime).
 
-<div align="center"><img src="doc/overview.drawio.png" width=50% height=50%></div>
+<div align="center"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/overview.drawio.png" width=50% height=50%></div>
 
 :space_invader: _highly experimental_
 
