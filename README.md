@@ -4,7 +4,7 @@
 
 cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
-By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer).
+By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer) or [Wasmtime](https://github.com/bytecodealliance/wasmtime).
 
 <div align="center"><img src="doc/overview.drawio.png" width=50% height=50%></div>
 
@@ -46,6 +46,8 @@ fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
 ```
 
 <img src="https://user-images.githubusercontent.com/5798442/205485566-5f7d1bae-4908-43a1-8f9a-801ae8d7d33e.png" width=20% height="20%">
+
+As of December 2022, Wasmer seems to be about 10% faster than Wasmtime. Wasm is fast, but slower than native shared libraries. In my measurement, wasm is about 2 times slower.
 
 ## How does this work?
 
@@ -100,7 +102,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 |---|---|
 |`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|`Integer`|
 |`Float32` `Float64`|`Float`|
-|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer|
+|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer (wasmer only)|
 |`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array(Integer)`|
 |`Array(Float32)` `Array(Float32)`|`Array(Float)`|
 
@@ -111,6 +113,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 1. Install llvm for macOS and lld for Ubuntu. Set PATH so that `wasm-ld` can be called.
     1. For example, if you install llvm on macOS with homebrew, `PATH="/usr/local/opt/llvm/bin:$PATH"` or `PATH="/opt/homebrew/Cellar/llvm/<version>/bin:$PATH"`
 1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `rake vendor:wasi_libs`
+1. Run `bundle install`. Because cry-wasm depends on the latest API, we use the github master of wasmer-ruby and wasmtime.
 
 ```sh
 # Not yet available. Please see development section.
