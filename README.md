@@ -1,6 +1,7 @@
 # cry-wasm
 
-[![test](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml)
+[![CI](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml)
+[![Docs Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://kojix2.github.io/cry-wasm/)
 
 cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
@@ -17,8 +18,6 @@ require 'cry/wasm'
 
 class Fibonacci
   extend Cry::Wasm            # <-- Extend Cry::Wasm module
-
-  def initialize; end
 
   cry [:Int32], :Int32        # <-- Set crystal [argument], return types
   def fib(n)
