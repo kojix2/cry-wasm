@@ -66,7 +66,7 @@ module Cry
           new_args = []
 
           itfc.crystal_arg_types.zip(args).each do |t, arg|
-            if t.is_array? or t.is_pointer?
+            if t.is_array? || t.is_pointer?
               t2 = t.inner.downcase
               l = arg.length
 
@@ -95,6 +95,8 @@ module Cry
           elsif r.is_array?
             l2 = runtime.read_memory(addr2, 'int32', 1)[0]
             runtime.read_memory(result, r.inner.downcase, l2)
+          else
+            result
           end
           # FIXME: Release memory
         end

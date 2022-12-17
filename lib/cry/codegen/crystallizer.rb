@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cry
   class Codegen
     class Crystallizer
@@ -11,8 +13,8 @@ module Cry
 
       def crystallize
         funcs = []
+        declaration, initialization = function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
         if crystal_ret_type.is_array?
-          declaration, initialization = function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
           initialization << "\n__return_array_=("
           definition = function_definition(ruby_method)
           definition = definition.delete_suffix("end\n")
@@ -25,12 +27,10 @@ module Cry
               ptr
             end
           CODE
-          funcs << CrystalFunction.new(declaration, initialization, definition)
         else
-          declaration, initialization = function_declaration(ruby_method, crystal_arg_types, crystal_ret_type)
           definition = function_definition(ruby_method)
-          funcs << CrystalFunction.new(declaration, initialization, definition)
         end
+        funcs << CrystalFunction.new(declaration, initialization, definition)
         funcs
       end
 

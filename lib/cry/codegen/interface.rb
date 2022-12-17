@@ -12,7 +12,7 @@ module Cry
            'Int64',   'Int64*',   'Array(Int64)',
            'UInt64',  'UInt64*',  'Array(UInt64)',
            'Float32', 'Float32*', 'Array(Float32)',
-           'Float64', 'Float64*', 'Array(Float64)']
+           'Float64', 'Float64*', 'Array(Float64)'].freeze
 
         def initialize(type_name)
           type_name = type_name.to_s if type_name.is_a?(Symbol)
@@ -38,7 +38,7 @@ module Cry
         end
 
         def inner_pointer
-          inner + '*'
+          "#{inner}*"
         end
       end
 
