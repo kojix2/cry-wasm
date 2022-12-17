@@ -79,11 +79,13 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 - Cry::Wasm allows you to define functions, not Crystal methods
   - default arguments, keyword arguments, and block arguments are not available.
-- Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
+  - Garbage collection is not supported. It is very likely that it will not be supported in the future.
 
 ## Type conversion
 
-:construction: work in progress :pick:
+:construction: work in progress :pick: 
+
+Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
 
 ### Arguments - Ruby --> Crystal
 
