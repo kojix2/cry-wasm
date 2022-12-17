@@ -92,10 +92,10 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 |---|---|
 |`Integer`|`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|
 |`Float`|`Float32` `Float64`|
-|`Array(Integer)`|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`|
-|`Array(Integer)`|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|
-|`Array(Float)`|`Float32*` `Float64*`|
-|`Array(Float)`|`Array(Float32)` `Array(Float32)`|
+|`Array<Integer>`|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`|
+|`Array<Integer>`|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|
+|`Array<Float>`|`Float32*` `Float64*`|
+|`Array<Float>`|`Array(Float32)` `Array(Float32)`|
 
 ### Return values - Crystal --> Ruby
 
@@ -104,8 +104,8 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 |`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|`Integer`|
 |`Float32` `Float64`|`Float`|
 |`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer (wasmer only)|
-|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array(Integer)`|
-|`Array(Float32)` `Array(Float32)`|`Array(Float)`|
+|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array<Integer>`|
+|`Array(Float32)` `Array(Float32)`|`Array<Float>`|
 
 ## Installation
 
