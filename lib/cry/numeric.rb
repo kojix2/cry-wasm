@@ -1,5 +1,7 @@
 module Cry
   # Add some methods to Numeric using [Refinement](https://docs.ruby-lang.org/en/master/Refinement.html)
+  # This module extends Ruby's Numeric with a specific scope using Refinement.
+  # Avoid errors when calling Crystal's type conversion methods in Ruby.
   # @example
   #  class Foo
   #    using Cry::Numeric

@@ -30,6 +30,7 @@ module Cry
     end
 
     # Return CRYSTAL_LIBRARY_PATH
+    # @return [String] CRYSTAL_LIBRARY_PATH
 
     def get_crystal_library_path
       ENV['CRYSTAL_LIBRARY_PATH']
