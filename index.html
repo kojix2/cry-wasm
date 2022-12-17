@@ -174,7 +174,19 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </tr>
 <tr>
 <td>`Array(Integer)`</td>
-<td>`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)`</td>
+<td>`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`</td>
+</tr>
+<tr>
+<td>`Array(Integer)`</td>
+<td>`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
+</tr>
+<tr>
+<td>`Array(Float)`</td>
+<td>`Float32*` `Float64*`</td>
+</tr>
+<tr>
+<td>`Array(Float)`</td>
+<td>`Array(Float32)` `Array(Float32)`</td>
 </tr>
 </tbody>
 </table>
@@ -200,6 +212,14 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 <tr>
 <td>`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`</td>
 <td>View object of Wasmer</td>
+</tr>
+<tr>
+<td>`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
+<td>`Array(Integer)`</td>
+</tr>
+<tr>
+<td>`Array(Float32)` `Array(Float32)`</td>
+<td>`Array(Float)`</td>
 </tr>
 </tbody>
 </table>
@@ -248,7 +268,7 @@ bundle exec ruby examples/fibonacci.rb
 </div></div>
 
       <div id="footer">
-  Generated on Sat Dec 17 06:21:48 2022 by
+  Generated on Sat Dec 17 06:32:54 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
