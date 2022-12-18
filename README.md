@@ -47,10 +47,11 @@ wasmtime fib(40)   0.462232   0.000000   0.462232 (  0.462247)
 wasmer   fib(40)   0.381384   0.000000   0.381384 (  0.381401)
 ```
 
-<img src="doc/benchmark.svg" width="30%" height="30%">
-<img src="doc/benchmark_plot.png" width=20% height="20%">
+<img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark.svg" width="40%" height="40%"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark_plot.png" width=25% height="25%">
 
-According to my measurements, Wasm is only about twice as slow as native functions, making it highly efficient.
+* In this benchmark, Wasmer is about 10% faster than Wasmtime as of December 2022.
+* Both Wasmer and Wasmtime tend to take a little longer for the first call. (see line graph at n=1)
+* Wasm is only about twice as slow as native functions, making it highly efficient. (according to my measurements)
 
 ## How does this work?
 
