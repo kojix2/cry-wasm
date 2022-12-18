@@ -17,9 +17,9 @@ By applying simple type restrictions to Ruby code, convert it to [Crystal](https
 require 'cry/wasm'
 
 class Fibonacci
-  extend Cry::Wasm            # <-- (1)
+  extend Cry::Wasm            # <-- (1) Extend your class
 
-  cry [:Int32], :Int32        # <-- (2)
+  cry [:Int32], :Int32        # <-- (2) Write signature
   def fib(n)
     if n <= 1
       1
@@ -28,10 +28,10 @@ class Fibonacci
     end
   end
 
-  cry_wasm                    # <-- (3)
+  cry_wasm                    # <-- (3) Compile Wasm
 end
 
-Fibonacci.new.fib(40)         # <-- (4)
+Fibonacci.new.fib(40)         # <-- (4) Call Wasm
 ```
 
 1. Extend Cry::Wasm module to your Ruby class.
@@ -81,10 +81,10 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 ## Limitations
 
-- Cry::Wasm allows you to define functions, not Crystal methods
-  - default arguments, keyword arguments, and block arguments are not available.
+- Cry::Wasm only allows you to define functions, not Crystal methods.
+  - Default arguments, keyword arguments, and block arguments are not available.
   - Instance variables and class variables are not available.
-- Garbage collection is not supported. It is very likely that it will not be supported in the future.
+- Garbage collection is not supported and is unlikely to be supported in the future.
 
 ## Type conversion
 
