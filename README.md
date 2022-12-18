@@ -3,7 +3,7 @@
 [![CI](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml)
 [![Docs Latest](https://img.shields.io/badge/docs-latest-blue.svg)](https://kojix2.github.io/cry-wasm/)
 
-cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
+:zap: cry-wasm speeds up [Ruby](https://github.com/ruby/ruby) code.
 
 By applying simple type restrictions to Ruby code, convert it to [Crystal](https://github.com/crystal-lang/crystal) code, compile it to [WebAssembly](https://webassembly.org/), and call it with [Wasmer](https://github.com/wasmerio/wasmer) or [Wasmtime](https://github.com/bytecodealliance/wasmtime).
 
@@ -19,7 +19,7 @@ require 'cry/wasm'
 class Fibonacci
   extend Cry::Wasm            # <-- (1) Extend your class
 
-  cry [:Int32], :Int32        # <-- (2) Write signature
+  cry [:Int32], :Int32        # <-- (2) Write type signatures
   def fib(n)
     if n <= 1
       1
@@ -31,7 +31,7 @@ class Fibonacci
   cry_wasm                    # <-- (3) Compile Wasm
 end
 
-Fibonacci.new.fib(40)         # <-- (4) Call Wasm
+Fibonacci.new.fib(40)         # <-- (4) Call Wasm Function
 ```
 
 1. Extend Cry::Wasm module to your Ruby class.
