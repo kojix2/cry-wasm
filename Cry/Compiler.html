@@ -125,7 +125,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Compiler/Options.html" title="Cry::Compiler::Options (class)">Options</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Compiler/CompilerError.html" title="Cry::Compiler::CompilerError (class)">CompilerError</a></span>, <span class='object_link'><a href="Compiler/Options.html" title="Cry::Compiler::Options (class)">Options</a></span>
     
   
 </p>
@@ -356,12 +356,12 @@
       <pre class="lines">
 
 
-11
-12
-13</pre>
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='ivar'>@options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Compiler/Options.html" title="Cry::Compiler::Options (class)">Options</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -422,12 +422,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_options'>options</span>
   <span class='ivar'>@options</span>
@@ -510,13 +510,13 @@
       <pre class="lines">
 
 
-110
-111
-112
-113</pre>
+113
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_command'>build_command</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='ivar'>@options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_link_flags'>link_flags</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_link_flags'>link_flags</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_export'>export</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--export </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_n'>n</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&quot;</span><span class='tstring_end'>&#39;</span></span>
@@ -683,10 +683,6 @@
       <pre class="lines">
 
 
-49
-50
-51
-52
 53
 54
 55
@@ -701,23 +697,25 @@
 64
 65
 66
-67</pre>
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_wasm'>build_wasm</span><span class='lparen'>(</span><span class='id identifier rubyid_crystal_code'>crystal_code</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_set_options'>set_options</span><span class='lparen'>(</span><span class='id identifier rubyid_crystal_code'>crystal_code</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_build_command'>build_command</span>
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_system'>system</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid__o'>_o</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='const'>Open3</span><span class='period'>.</span><span class='id identifier rubyid_capture3'>capture3</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
   <span class='ivar'>@input_tempfile</span><span class='op'>&amp;.</span><span class='id identifier rubyid_close'>close</span>
 
-  <span class='kw'>unless</span> <span class='id identifier rubyid_result'>result</span>
-    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[cry-wasm] Failed to compile Crystal code to WASM</span><span class='tstring_end'>&#39;</span></span>
-    <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[cry-wasm] </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_command'>command</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_warn'>warn</span> <span class='id identifier rubyid_crystal_code'>crystal_code</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>crystal build failed</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_result'>result</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+    <span class='id identifier rubyid_warn'>warn</span> <span class='id identifier rubyid_build_error_message'>build_error_message</span><span class='lparen'>(</span><span class='id identifier rubyid_crystal_code'>crystal_code</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Compiler/CompilerError.html" title="Cry::Compiler::CompilerError (class)">CompilerError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Failed to compile Crystal code to WASM</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_output'>output</span><span class='comma'>,</span> <span class='label'>mode:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rb</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -774,12 +772,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_crystal_library_path'>get_crystal_library_path</span>
   <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CRYSTAL_LIBRARY_PATH</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -855,16 +853,16 @@
       <pre class="lines">
 
 
-24
-25
-26
-27
 28
 29
-30</pre>
+30
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_crystal_library_path'>set_crystal_library_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span>
@@ -1034,9 +1032,6 @@
       <pre class="lines">
 
 
-79
-80
-81
 82
 83
 84
@@ -1059,10 +1054,13 @@
 101
 102
 103
-104</pre>
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/compiler.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_options'>set_options</span><span class='lparen'>(</span><span class='id identifier rubyid_crystal_code'>crystal_code</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:output</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>nil</span>
@@ -1100,7 +1098,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Dec 18 01:29:59 2022 by
+  Generated on Sun Dec 18 04:09:25 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
