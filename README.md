@@ -17,21 +17,18 @@ By applying simple type restrictions to Ruby code, convert it to [Crystal](https
 require 'cry/wasm'
 
 class Fibonacci
-  extend Cry::Wasm            # <-- (1) Extend your class
+  extend Cry::Wasm            # (1) Extend your class
 
-  cry [:Int32], :Int32        # <-- (2) Write type signatures
+  cry [:Int32], :Int32        # (2) Write type signatures
   def fib(n)
-    if n <= 1
-      1
-    else
-      fib(n - 1) + fib(n - 2)
-    end
+  　return 1 if n <= 2
+    fib(n - 1) + fib(n - 2)
   end
 
-  cry_wasm                    # <-- (3) Compile Wasm
+  cry_wasm                    # (3) Compile Wasm
 end
 
-Fibonacci.new.fib(40)         # <-- (4) Call Wasm Function
+Fibonacci.new.fib(40)         # (4) Call Wasm Function
 ```
 
 1. Extend Cry::Wasm module to your Ruby class.
