@@ -13,8 +13,7 @@ module Cry
            'UInt64',  'UInt64*',  'Array(UInt64)',
            'Float32', 'Float32*', 'Array(Float32)',
            'Float64', 'Float64*', 'Array(Float64)',
-           'Void',
-          ].freeze
+           'Void'].freeze
 
         def initialize(type_name)
           type_name = type_name.to_s if type_name.is_a?(Symbol)
