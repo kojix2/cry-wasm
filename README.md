@@ -17,9 +17,9 @@ By applying simple type restrictions to Ruby code, convert it to [Crystal](https
 require 'cry/wasm'
 
 class Fibonacci
-  extend Cry::Wasm            # <-- Extend Cry::Wasm module
+  extend Cry::Wasm            # <-- (1)
 
-  cry [:Int32], :Int32        # <-- Set crystal [argument], return types
+  cry [:Int32], :Int32        # <-- (2)
   def fib(n)
     if n <= 1
       1
@@ -28,11 +28,16 @@ class Fibonacci
     end
   end
 
-  cry_wasm                    # <-- Crystal compiles the fib method into Wasm.
+  cry_wasm                    # <-- (3)
 end
 
-Fibonacci.new.fib(40)         # <-- The wasm function is called here!
+Fibonacci.new.fib(40)         # <-- (4)
 ```
+
+1. Extend Cry::Wasm module to your Ruby class.
+2. Write Crystal type signatures for Ruby methods. The syntax is `[arg_t1, arg_t2], ret_t`
+3. Crystal compiler compile the Ruby methods into WebAssembly as Crystal functions.
+4. Finally, call the wasm function!
 
 ## Benchmark
 
@@ -79,7 +84,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 - Cry::Wasm allows you to define functions, not Crystal methods
   - default arguments, keyword arguments, and block arguments are not available.
   - Instance variables and class variables are not available.
-  - Garbage collection is not supported. It is very likely that it will not be supported in the future.
+- Garbage collection is not supported. It is very likely that it will not be supported in the future.
 
 ## Type conversion
 
@@ -107,7 +112,7 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 |`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer (wasmer only)|
 |`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array<Integer>`|
 |`Array(Float32)` `Array(Float32)`|`Array<Float>`|
-|`Void`|`Nil` (no practical use)|
+|`Void`|`Nil`|
 
 ## Installation
 
