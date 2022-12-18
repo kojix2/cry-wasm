@@ -41,14 +41,16 @@ Fibonacci.new.fib(40)         # (4) Call Wasm Function
 [fib_bench.rb](https://github.com/kojix2/cry-wasm/blob/main/examples/fib_bench.rb) - 10 x faster on the [Fibonacci benchmark](https://crystal-lang.org/2016/07/15/fibonacci-benchmark/).
 
 ```
-                 user     system      total        real
-fib_ruby(40)  7.461878   0.004760   7.466638 (  7.466798)
-fib_wasm(40)  0.628013   0.000025   0.628038 (  0.628096)
+                       user     system      total        real
+ruby     fib(40)   5.305503   0.000000   5.305503 (  5.305696)
+wasmtime fib(40)   0.462232   0.000000   0.462232 (  0.462247)
+wasmer   fib(40)   0.381384   0.000000   0.381384 (  0.381401)
 ```
 
-<img src="https://user-images.githubusercontent.com/5798442/205485566-5f7d1bae-4908-43a1-8f9a-801ae8d7d33e.png" width=20% height="20%">
+<img src="doc/benchmark.svg" width="30%" height="30%">
+<img src="doc/benchmark_plot.png" width=20% height="20%">
 
-As of December 2022, Wasmer seems to be about 10% faster than Wasmtime. Wasm is fast, but slower than native shared libraries. In my measurement, wasm is about 2 times slower.
+According to my measurements, Wasm is only about twice as slow as native functions, making it highly efficient.
 
 ## How does this work?
 

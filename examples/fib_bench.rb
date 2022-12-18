@@ -19,11 +19,11 @@ class FibonacciWasmtime
   extend Cry::Wasm
 
   cry [:Int32], :Int32
-  def fib32(n)
+  def fib(n)
     if n <= 2
       1
     else
-      fib32(n - 1) + fib32(n - 2)
+      fib(n - 1) + fib(n - 2)
     end
   end
 
@@ -36,11 +36,11 @@ class FibonacciWasmer
   extend Cry::Wasm
 
   cry [:Int32], :Int32
-  def fib32(n)
+  def fib(n)
     if n <= 2
       1
     else
-      fib32(n - 1) + fib32(n - 2)
+      fib(n - 1) + fib(n - 2)
     end
   end
 
@@ -50,17 +50,21 @@ end
 ruby = FibonacciRuby.new
 wmtm = FibonacciWasmtime.new
 wmer = FibonacciWasmer.new
+n = (1..20).to_a
 
-n = (1...20).to_a
-
-Benchmark.plot(n) do |x|
-  x.report('ruby') { |i| ruby.fib(i) }
-  x.report('wasmtime') { |i| wmtm.fib32(i) }
-  x.report('wasmer') { |i| wmer.fib32(i) }
+Benchmark.bmbm(16) do |r|
+  r.report('ruby     fib(40)') { ruby.fib(40) }
+  r.report('wasmtime fib(40)') { wmtm.fib(40) }
+  r.report('wasmer   fib(40)') { wmer.fib(40) }
 end
 
-Benchmark.bm(10) do |r|
-  r.report('ruby') { ruby.fib(40) }
-  r.report('wasmtime') { wmtm.fib32(40) }
-  r.report('wasmer') { wmer.fib32(40) }
+Benchmark.plot(n) do |x|
+  # wasmer and wasmtime are slower on the first one or two calls
+  # If you want to reduce the impact of the first call, uncomment the following lines
+  # ruby.fib(0)
+  # wmtm.fib(0)
+  # wmer.fib(0)
+  x.report('ruby') { |i| ruby.fib(i) }
+  x.report('wasmtime') { |i| wmtm.fib(i) }
+  x.report('wasmer') { |i| wmer.fib(i) }
 end
