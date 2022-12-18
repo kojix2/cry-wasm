@@ -147,6 +147,8 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </li><li>
 <p>default arguments, keyword arguments, and block arguments are not available.</p>
 </li><li>
+<p>Instance variables and class variables are not available.</p>
+</li><li>
 <p>Garbage collection is not supported. It is very likely that it will not be supported in the future.</p>
 </li></ul>
 
@@ -223,6 +225,10 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 <td>`Array(Float32)` `Array(Float32)`</td>
 <td>`Array&lt;Float&gt;`</td>
 </tr>
+<tr>
+<td>`Void`</td>
+<td>`Nil` (no practical use)</td>
+</tr>
 </tbody>
 </table>
 
@@ -272,7 +278,7 @@ bundle exec ruby examples/fibonacci.rb
 </div></div>
 
       <div id="footer">
-  Generated on Sat Dec 17 12:17:03 2022 by
+  Generated on Sun Dec 18 01:29:59 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
