@@ -3,8 +3,6 @@ require 'cry/wasm'
 class Fibonacci
   extend Cry::Wasm
 
-  def initialize; end
-
   cry ['UInt32'], 'Array(UInt64)'
   def fib(n)
     m = Array(UInt64).new(n + 1, 0)

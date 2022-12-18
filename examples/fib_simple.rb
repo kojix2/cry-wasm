@@ -3,8 +3,6 @@ require 'cry/wasm'
 class Fibonacci
   extend Cry::Wasm
 
-  def initialize; end
-
   cry [:Int32], :Int32
   def fib(n)
     if n <= 1

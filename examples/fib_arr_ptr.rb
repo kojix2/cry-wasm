@@ -3,8 +3,6 @@ require 'cry/wasm'
 class Sum
   extend Cry::Wasm
 
-  def initialize; end
-
   cry ['Int32*', 'Int32'], 'Int32'
   def run(arr, l)
     s = 0

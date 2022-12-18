@@ -3,8 +3,6 @@ require 'cry/wasm'
 class Fibonacci
   extend Cry::Wasm
 
-  def initialize; end
-
   cry ['UInt32'], 'UInt32*'
   def fib(n)
     m = Pointer(UInt32).malloc(n + 2)

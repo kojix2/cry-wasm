@@ -3,8 +3,6 @@ require 'cry/wasm'
 class Sum
   extend Cry::Wasm
 
-  def initialize; end
-
   cry ['Array(Int32)', 'Array(Int8)'], 'Int32'
   def run(arr1, arr2)
     arr1.sum + arr2.sum
