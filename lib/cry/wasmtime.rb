@@ -28,6 +28,10 @@ module Cry
       @instance.invoke(name.to_s, *args)
     end
 
+    def start
+      invoke('_start')
+    end
+
     def memory
       @instance.export('memory').to_memory
     end
