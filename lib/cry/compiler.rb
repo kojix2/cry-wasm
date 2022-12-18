@@ -123,7 +123,7 @@ module Cry
         [cry-wasm] Build command: \e[32m#{command}\e[0m
         [cry-wasm] CRYSTAL_LIBRARY_PATH: #{get_crystal_library_path}"
         [cry-wasm] #{error}
-        [cry-wasm] Library not found. 
+        [cry-wasm] Library not found.#{' '}
         [cry-wasm] Please set CRYSTAL_LIBRARY_PATH to the path of the Crystal library for WASM.
         [cry-wasm] Or `bundle exec rake vendor:wasi_libs` to download the library.
       ERROR
