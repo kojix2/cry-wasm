@@ -78,6 +78,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 - Cry::Wasm allows you to define functions, not Crystal methods
   - default arguments, keyword arguments, and block arguments are not available.
+  - Instance variables and class variables are not available.
   - Garbage collection is not supported. It is very likely that it will not be supported in the future.
 
 ## Type conversion
@@ -106,6 +107,7 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 |`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer (wasmer only)|
 |`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array<Integer>`|
 |`Array(Float32)` `Array(Float32)`|`Array<Float>`|
+|`Void`|`Nil` (no practical use)|
 
 ## Installation
 
