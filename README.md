@@ -116,12 +116,19 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 
 ## Installation
 
-1. Install [Crystal](https://github.com/crystal-lang/crystal). Installation instructions for each platform are [here](https://crystal-lang.org/install/).
-1. Install [Rust](https://www.rust-lang.org/). Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
-1. Install llvm for macOS and lld for Ubuntu. Set PATH so that `wasm-ld` can be called.
-    1. For example, if you install llvm on macOS with homebrew, `PATH="/usr/local/opt/llvm/bin:$PATH"` or `PATH="/opt/homebrew/Cellar/llvm/<version>/bin:$PATH"`
-1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `rake vendor:wasi_libs`
-1. Run `bundle install`. Because cry-wasm depends on the latest API, we use the github master of wasmer-ruby and wasmtime.
+Requirements
+
+1. [Crystal](https://github.com/crystal-lang/crystal) - Installation instructions for each platform are [here](https://crystal-lang.org/install/).
+1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
+1. [LLVM](https://llvm.org/) for macOS `brew install llvm` or [LLD](https://lld.llvm.org/) for Ubuntu `sudo apt install lld`.
+    1. Set PATH so that `wasm-ld` can be called.
+    1. You can find the path to the `wasm-ld` with `brew ls llvm | grep wasm-ld` or `dpkg -L lld | grep wasm-ld`
+    1. Create a symbolic link `wasm-ld` for `wasm-ld-10`, `wasm-ld-9` if you need to.
+1. [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs)
+    1. Use rake task to download them in the vendor directory. `rake vendor:wasi_libs`
+    1. Set `CRYSTAL_LIBRARY_PATH` if installed outside the given directory (optional)
+
+Run `bundle install`. Because cry-wasm depends on the latest API, we use the github master of wasmer-ruby and wasmtime.
 
 ```sh
 # Not yet available. Please see development section.
