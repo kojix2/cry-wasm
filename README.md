@@ -116,19 +116,32 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 
 ## Installation
 
-1. Install [Crystal](https://github.com/crystal-lang/crystal). Installation instructions for each platform are [here](https://crystal-lang.org/install/).
-1. Install [Rust](https://www.rust-lang.org/). Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
-1. Install llvm for macOS and lld for Ubuntu. Set PATH so that `wasm-ld` can be called.
-    1. For example, if you install llvm on macOS with homebrew, `PATH="/usr/local/opt/llvm/bin:$PATH"` or `PATH="/opt/homebrew/Cellar/llvm/<version>/bin:$PATH"`
-1. Download [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs) with `rake vendor:wasi_libs`
-1. Run `bundle install`. Because cry-wasm depends on the latest API, we use the github master of wasmer-ruby and wasmtime.
+Requirements
 
-```sh
-# Not yet available. Please see development section.
-gem install cry/wasm
+1. [Crystal](https://github.com/crystal-lang/crystal) - Follow the installation instructions [here](https://crystal-lang.org/install/) for your platform.
+1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
+1. [LLVM](https://llvm.org/) for macOS:
+    1. Install LLVM by running `brew install llvm`
+    1. Find the path to wasm-ld by running `brew ls llvm | grep wasm-ld`.
+    1. Set the PATH environment variable so that `wasm-ld` can be called.
+1. [LLD](https://lld.llvm.org/) for Ubuntu:
+    1. Install LLD by running `sudo apt install lld`.
+    1. Find the path to wasm-ld by running `dpkg -L lld | grep wasm-ld`.
+    1. If necessary, create a symbolic link for `wasm-ld-9` or `wasm-ld-10`.
+1. [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs)
+    1. Use the `rake vendor:wasi_libs` task to download the libs to the vendor directory.
+    1. If you install the libs outside the given directory, set the `CRYSTAL_LIBRARY_PATH` environment variable.
+
+Installation
+
 ```
+bundle install
+bundle exec rake install
+```
+Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.
 
 Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml).
+
 
 ## Development
 
