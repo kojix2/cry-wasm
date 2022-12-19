@@ -9,7 +9,7 @@ By applying simple type restrictions to Ruby code, convert it to [Crystal](https
 
 <div align="center"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/overview.drawio.png" width=50% height=50%></div>
 
-:space_invader: _highly experimental_
+:space_invader: experimental
 
 ## Quick Start
 
