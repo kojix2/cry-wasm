@@ -161,7 +161,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(wasm_bytes)  &#x21d2; Wasmer </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(wasm_bytes = nil)  &#x21d2; Wasmer </a>
     
 
     
@@ -188,6 +188,28 @@
   <span class="summary_signature">
     
       <a href="#invoke-instance_method" title="#invoke (instance method)">#<strong>invoke</strong>(name, *args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_wasm-instance_method" title="#load_wasm (instance method)">#<strong>load_wasm</strong>(wasm_bytes)  &#x21d2; Object </a>
     
 
     
@@ -303,7 +325,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(wasm_bytes)  &#x21d2; <tt><span class='object_link'><a href="" title="Cry::Wasmer (class)">Wasmer</a></span></tt> 
+    #<strong>initialize</strong>(wasm_bytes = nil)  &#x21d2; <tt><span class='object_link'><a href="" title="Cry::Wasmer (class)">Wasmer</a></span></tt> 
   
 
   
@@ -328,43 +350,13 @@
 
 5
 6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre>
+7</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 5</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Store</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-  <span class='id identifier rubyid_modul'>modul</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_store'>store</span><span class='comma'>,</span> <span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span>
-
-  <span class='id identifier rubyid_wasi_version'>wasi_version</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Wasi</span><span class='period'>.</span><span class='id identifier rubyid_get_version'>get_version</span> <span class='id identifier rubyid_modul'>modul</span><span class='comma'>,</span> <span class='kw'>true</span>
-
-  <span class='id identifier rubyid_wasi_env'>wasi_env</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Wasi</span><span class='op'>::</span><span class='const'>StateBuilder</span>
-             <span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wasi_test_program</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-             <span class='period'>.</span><span class='id identifier rubyid_argument'>argument</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--test</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-             <span class='period'>.</span><span class='id identifier rubyid_environment'>environment</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>COLOR</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-             <span class='period'>.</span><span class='id identifier rubyid_environment'>environment</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>APP_SHOULD_LOG</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>false</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-             <span class='period'>.</span><span class='id identifier rubyid_map_directory'>map_directory</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the_host_current_dir</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-             <span class='period'>.</span><span class='id identifier rubyid_finalize'>finalize</span>
-
-  <span class='id identifier rubyid_import_object'>import_object</span> <span class='op'>=</span> <span class='id identifier rubyid_wasi_env'>wasi_env</span><span class='period'>.</span><span class='id identifier rubyid_generate_import_object'>generate_import_object</span> <span class='id identifier rubyid_store'>store</span><span class='comma'>,</span> <span class='id identifier rubyid_wasi_version'>wasi_version</span>
-
-  <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Instance</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_modul'>modul</span><span class='comma'>,</span> <span class='id identifier rubyid_import_object'>import_object</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_load_wasm'>load_wasm</span><span class='lparen'>(</span><span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -393,12 +385,12 @@
       <pre class="lines">
 
 
-24
-25
-26</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_function'>function</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span><span class='period'>.</span><span class='id identifier rubyid_exports'>exports</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -423,19 +415,19 @@
       <pre class="lines">
 
 
-77
-78
-79
-80
-81
 82
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_view'>get_view</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span>
@@ -467,15 +459,77 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_invoke'>invoke</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='ivar'>@instance</span><span class='period'>.</span><span class='id identifier rubyid_exports'>exports</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="load_wasm-instance_method">
+  
+    #<strong>load_wasm</strong>(wasm_bytes)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_load_wasm'>load_wasm</span><span class='lparen'>(</span><span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_store'>store</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Store</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='id identifier rubyid_modul'>modul</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Module</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_store'>store</span><span class='comma'>,</span> <span class='id identifier rubyid_wasm_bytes'>wasm_bytes</span>
+
+  <span class='id identifier rubyid_wasi_version'>wasi_version</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Wasi</span><span class='period'>.</span><span class='id identifier rubyid_get_version'>get_version</span> <span class='id identifier rubyid_modul'>modul</span><span class='comma'>,</span> <span class='kw'>true</span>
+
+  <span class='id identifier rubyid_wasi_env'>wasi_env</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Wasi</span><span class='op'>::</span><span class='const'>StateBuilder</span>
+             <span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wasi_test_program</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+             <span class='period'>.</span><span class='id identifier rubyid_argument'>argument</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>--test</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+             <span class='period'>.</span><span class='id identifier rubyid_environment'>environment</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>COLOR</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+             <span class='period'>.</span><span class='id identifier rubyid_environment'>environment</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>APP_SHOULD_LOG</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>false</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+             <span class='period'>.</span><span class='id identifier rubyid_map_directory'>map_directory</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the_host_current_dir</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+             <span class='period'>.</span><span class='id identifier rubyid_finalize'>finalize</span>
+
+  <span class='id identifier rubyid_import_object'>import_object</span> <span class='op'>=</span> <span class='id identifier rubyid_wasi_env'>wasi_env</span><span class='period'>.</span><span class='id identifier rubyid_generate_import_object'>generate_import_object</span> <span class='id identifier rubyid_store'>store</span><span class='comma'>,</span> <span class='id identifier rubyid_wasi_version'>wasi_version</span>
+
+  <span class='ivar'>@instance</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Wasmer</span><span class='op'>::</span><span class='const'>Instance</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_modul'>modul</span><span class='comma'>,</span> <span class='id identifier rubyid_import_object'>import_object</span>
+  <span class='kw'>self</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -497,12 +551,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_memory'>memory</span>
   <span class='ivar'>@instance</span><span class='period'>.</span><span class='id identifier rubyid_exports'>exports</span><span class='period'>.</span><span class='id identifier rubyid_memory'>memory</span>
@@ -527,11 +581,6 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
 65
 66
 67
@@ -542,10 +591,15 @@
 72
 73
 74
-75</pre>
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_read_memory'>read_memory</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='comma'>,</span> <span class='id identifier rubyid_t2'>t2</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_uint8_view'>uint8_view</span> <span class='op'>=</span> <span class='id identifier rubyid_memory'>memory</span><span class='period'>.</span><span class='id identifier rubyid_uint8_view'>uint8_view</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
@@ -583,12 +637,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_start'>start</span>
   <span class='id identifier rubyid_invoke'>invoke</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_start</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -613,11 +667,6 @@
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
 45
 46
 47
@@ -631,10 +680,15 @@
 55
 56
 57
-58</pre>
+58
+59
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasmer.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write_memory'>write_memory</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='comma'>,</span> <span class='id identifier rubyid_t2'>t2</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_uint8_view'>uint8_view</span> <span class='op'>=</span> <span class='id identifier rubyid_memory'>memory</span><span class='period'>.</span><span class='id identifier rubyid_uint8_view'>uint8_view</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
@@ -665,7 +719,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec 19 06:24:32 2022 by
+  Generated on Mon Dec 19 12:34:50 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
