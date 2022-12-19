@@ -2,7 +2,11 @@ require 'wasmer'
 
 module Cry
   class Wasmer
-    def initialize(wasm_bytes)
+    def initialize(wasm_bytes = nil)
+      load_wasm(wasm_bytes) if wasm_bytes
+    end
+
+    def load_wasm(wasm_bytes)
       store = ::Wasmer::Store.new
       modul = ::Wasmer::Module.new store, wasm_bytes
 
@@ -19,6 +23,7 @@ module Cry
       import_object = wasi_env.generate_import_object store, wasi_version
 
       @instance = ::Wasmer::Instance.new modul, import_object
+      self
     end
 
     def function(name)

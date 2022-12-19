@@ -81,7 +81,7 @@ module Cry
         output: wasm_out,
         **options
       )
-      runtime = @cry_wasm[:runtime].new(wasm_bytes)
+      runtime = @cry_wasm[:runtime].load_wasm(wasm_bytes)
       @cry_wasm[:marked_methods].each do |name|
         func = runtime.function(name)
         itfc = @cry_wasm[:codegen].interface(name)
@@ -132,6 +132,12 @@ module Cry
       end
     end
 
+    def new(...)
+      super(...).tap do
+        @cry_wasm[:runtime].start
+      end
+    end
+
     def self.extended(obj)
       # Initialize class instance variables
       raise "class instance variable '@cry_wasm' is already defined" if obj.instance_variable_defined?(:@cry_wasm)
@@ -140,7 +146,7 @@ module Cry
       # to avoid bugs caused by overwriting.
       @cry_wasm_runtime ||= Wasmer
       obj.instance_variable_set(:@cry_wasm, {
-                                  runtime: @cry_wasm_runtime,
+                                  runtime: @cry_wasm_runtime.new,
                                   flag: false,
                                   marked_methods: [],
                                   fname: '',

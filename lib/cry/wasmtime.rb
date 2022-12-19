@@ -2,7 +2,11 @@ require 'wasmtime'
 
 module Cry
   class Wasmtime
-    def initialize(wasm_bytes)
+    def initialize(wasm_bytes = nil)
+      load_wasm(wasm_bytes) if wasm_bytes
+    end
+
+    def load_wasm(wasm_bytes)
       engine = ::Wasmtime::Engine.new
       mod = ::Wasmtime::Module.new(engine, wasm_bytes)
 
@@ -18,6 +22,7 @@ module Cry
       store = ::Wasmtime::Store.new(engine, wasi_ctx: wasi_ctx)
 
       @instance = linker.instantiate(store, mod)
+      self
     end
 
     def function(name)
