@@ -55,7 +55,7 @@ module Cry
 
       command = build_command
 
-      _o, error, status = Open3.capture3(command)
+      stdout, error, status = Open3.capture3(command)
       @input_tempfile&.close
 
       unless status.success?
@@ -63,10 +63,11 @@ module Cry
         raise CompilerError, 'Failed to compile Crystal code to WASM'
       end
 
-      wasm_bytes = IO.read(options.output, mode: 'rb')
-      @output_tempfile&.close
-
-      wasm_bytes
+      if options.output = "/dev/stdout"
+        stdout
+      else
+        IO.read(options.output, mode: 'rb')
+      end
     end
 
     # Set compiler options
@@ -91,8 +92,7 @@ module Cry
 
       # Set output (wasm bytecode) path
       unless options.output
-        @output_tempfile = Tempfile.create('wasm')
-        options.output = @output_tempfile.path
+        options.output = "/dev/stdout"
       end
 
       # Set input (crystal source) path
