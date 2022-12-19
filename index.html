@@ -245,24 +245,46 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </table>
 
 <h2 id="label-Installation">Installation</h2>
+
+<p>Requirements</p>
 <ol><li>
-<p>Install <a href="https://github.com/crystal-lang/crystal">Crystal</a>. Installation instructions for each platform are <a href="https://crystal-lang.org/install/">here</a>.</p>
+<p><a href="https://github.com/crystal-lang/crystal">Crystal</a> - Follow the installation instructions <a href="https://crystal-lang.org/install/">here</a> for your platform.</p>
 </li><li>
-<p>Install <a href="https://www.rust-lang.org/">Rust</a>. Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer gem</a>.</p>
+<p><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer gem</a>.</p>
 </li><li>
-<p>Install llvm for macOS and lld for Ubuntu. Set PATH so that <code>wasm-ld</code> can be called.</p>
+<p><a href="https://llvm.org/">LLVM</a> for macOS:</p>
 <ol><li>
-<p>For example, if you install llvm on macOS with homebrew, <code>PATH=&quot;/usr/local/opt/llvm/bin:$PATH&quot;</code> or <code>PATH=&quot;/opt/homebrew/Cellar/llvm/&lt;version&gt;/bin:$PATH&quot;</code></p>
+<p>Install LLVM by running <code>brew install llvm</code></p>
+</li><li>
+<p>Find the path to wasm-ld by running <code>brew ls llvm | grep wasm-ld</code>.</p>
+</li><li>
+<p>Set the PATH environment variable so that <code>wasm-ld</code> can be called.</p>
 </li></ol>
 </li><li>
-<p>Download <a href="https://github.com/lbguilherme/wasm-libs">WebAssembly Libs for WASI</a> with <code>rake vendor:wasi_libs</code></p>
+<p><a href="https://lld.llvm.org/">LLD</a> for Ubuntu:</p>
+<ol><li>
+<p>Install LLD by running <code>sudo apt install lld</code>.</p>
 </li><li>
-<p>Run <code>bundle install</code>. Because cry-wasm depends on the latest API, we use the github master of wasmer-ruby and wasmtime.</p>
+<p>Find the path to wasm-ld by running <code>dpkg -L lld | grep wasm-ld</code>.</p>
+</li><li>
+<p>If necessary, create a symbolic link for <code>wasm-ld-9</code> or <code>wasm-ld-10</code>.</p>
+</li></ol>
+</li><li>
+<p><a href="https://github.com/lbguilherme/wasm-libs">WebAssembly Libs for WASI</a></p>
+<ol><li>
+<p>Use the <code>rake vendor:wasi_libs</code> task to download the libs to the vendor directory.</p>
+</li><li>
+<p>If you install the libs outside the given directory, set the <code>CRYSTAL_LIBRARY_PATH</code> environment variable.</p>
+</li></ol>
 </li></ol>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># Not yet available. Please see development section.
-</span><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_cry'>cry</span><span class='op'>/</span><span class='id identifier rubyid_wasm'>wasm</span>
+<p>Installation</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_install'>install</span>
 </code></pre>
+
+<p>Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.</p>
 
 <p>Tested on macOS and Ubuntu using <a href="https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml">Github Actions</a>.</p>
 
@@ -290,7 +312,7 @@ bundle exec ruby examples/fibonacci.rb
 </div></div>
 
       <div id="footer">
-  Generated on Mon Dec 19 12:34:50 2022 by
+  Generated on Mon Dec 19 13:34:36 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
