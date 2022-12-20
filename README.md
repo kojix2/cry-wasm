@@ -113,8 +113,10 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 | `String`                                                                                                                  | `String`                            |
 | `Void`                                                                                                                    | `Nil`                               |
 
-Note: Why is `Symbol` not supported?
+Why is `Symbol` not supported?
 In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use `String` instead of `Symbol`.
+
+`Cry::Numeric` can use Refinements to add methods such as `to_i8`, `to_u8`, and `to_f32` to Ruby's numeric classes. These are useful if you want to prevent errors and get the same result as Crystal when you run Ruby.
 
 ## Installation
 
