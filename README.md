@@ -79,16 +79,17 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 1. The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.
 1. The target methods are dynamically redefined to call Wasmer/Wasmtime functions.
 
-## Limitations
+## Usage
 
-- Cry::Wasm only allows you to define functions, not Crystal methods.
-  - Default arguments, keyword arguments, and block arguments are not available.
-  - Instance variables and class variables are not available.
-- Garbage collection is not supported and is unlikely to be supported in the future.
+### It define crystal functions, not Crystal methods
 
-## Type conversion
+- Default arguments, keyword arguments, and block arguments are not available.
+- Instance variables and class variables are not available on the top level function.
+- To use your own Crystal class, use `cry_load(path)` to pre-load your crystal source code.
 
-### Arguments - Ruby --> Crystal
+### Type conversion
+
+#### Arguments ( Ruby --> Crystal )
 
 | Ruby class       | Crystal class                                                                                                             |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -100,7 +101,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 | `Array<Float>`   | `Array(Float32)` `Array(Float32)`                                                                                         |
 | `String`         | `String`                                                                                                                  |
 
-### Return values - Crystal --> Ruby
+#### Return values ( Crystal --> Ruby )
 
 | Crystal class                                                                                                             | Ruby class                          |
 | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
@@ -142,7 +143,7 @@ bundle exec rake install
 
 Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.
 
-Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml).
+Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml). Windows is not yet supported.
 
 ## Development
 
