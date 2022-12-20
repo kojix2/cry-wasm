@@ -76,8 +76,8 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
    1. Cry::Wasm stores the Crystal code block.
 1. The Crystal compiler and wasm-ld compile the Crystal code into WebAssembly.
    1. Call the `cry_wasm` method to build the crystal code blocks.
-1. The compiled byte_code is read, and an instance of Wasmer is created.
-1. The target methods are dynamically redefined to call Wasmer functions.
+1. The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.
+1. The target methods are dynamically redefined to call Wasmer/Wasmtime functions.
 
 ## Limitations
 
@@ -120,7 +120,7 @@ In the Crystal language, Symbol is converted to an integer at compile time, so t
 Requirements
 
 1. [Crystal](https://github.com/crystal-lang/crystal) - Follow the installation instructions [here](https://crystal-lang.org/install/) for your platform.
-1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby).
+1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer-ruby](https://github.com/wasmerio/wasmer-ruby) or [wasmtime-rb](https://github.com/bytecodealliance/wasmtime-rb).
 1. [LLVM](https://llvm.org/) for macOS:
    1. Install LLVM by running `brew install llvm`
    1. Find the path to wasm-ld by running `brew ls llvm | grep wasm-ld`.
