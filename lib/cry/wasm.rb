@@ -104,6 +104,16 @@ module Cry
 
               new_args << addr
               new_args << l if t.is_array?
+            elsif t == 'String'
+              raise ArgumentError, "expected String, got #{arg.class}" unless arg.is_a?(String)
+
+              arg = arg.encode('UTF-8').bytes
+              l = arg.size
+              addr = runtime.invoke('__alloc_buffer_uint8', l)
+              runtime.write_memory(addr, 'uint8', arg)
+
+              new_args << addr
+              new_args << l
             else
               new_args << arg
             end
@@ -111,7 +121,7 @@ module Cry
 
           r = itfc.crystal_ret_type
           addr2 = nil
-          if r.is_array?
+          if r.is_array? or r == 'String'
             addr2 = runtime.invoke('__alloc_buffer_int32', 1)
             runtime.write_memory(addr2, 'int32', [0])
             new_args << addr2
@@ -124,6 +134,9 @@ module Cry
           elsif r.is_array?
             l2 = runtime.read_memory(addr2, 'int32', 1)[0]
             runtime.read_memory(result, r.inner.downcase, l2)
+          elsif r == 'String'
+            l2 = runtime.read_memory(addr2, 'int32', 1)[0]
+            runtime.read_memory(result, 'uint8', l2).pack('C*').force_encoding('UTF-8')
           else
             result
           end

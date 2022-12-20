@@ -74,4 +74,8 @@ RSpec.describe 'Examples' do
   it 'fib_cheat' do
     expect { example('fib_cheat') }.to output(FIBONACCI47).to_stdout
   end
+
+  it 'string' do
+    expect { example('string') }.to output("hola, クリスタル World!\n").to_stdout
+  end
 end

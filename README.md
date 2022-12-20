@@ -90,8 +90,6 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 :construction: work in progress :pick:
 
-Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
-
 ### Arguments - Ruby --> Crystal
 
 | Ruby class       | Crystal class                                                                                                             |
@@ -102,6 +100,7 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 | `Array<Integer>` | `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)` |
 | `Array<Float>`   | `Float32*` `Float64*`                                                                                                     |
 | `Array<Float>`   | `Array(Float32)` `Array(Float32)`                                                                                         |
+| `String`         | `String`                                                                                                                  |
 
 ### Return values - Crystal --> Ruby
 
@@ -112,7 +111,10 @@ Currently, only numbers are accepted as arguments. In the future, strings may al
 | `UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`                                                                    | View object of Wasmer (wasmer only) |
 | `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)` | `Array<Integer>`                    |
 | `Array(Float32)` `Array(Float32)`                                                                                         | `Array<Float>`                      |
+| `String`                                                                                                                  | `String`                            |
 | `Void`                                                                                                                    | `Nil`                               |
+
+Note: In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use `String` instead of `Symbol`.
 
 ## Installation
 

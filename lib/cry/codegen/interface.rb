@@ -2,6 +2,12 @@ module Cry
   class Codegen
     class Interface
       class Type < String
+        # Why Symbol is not included in VALID_CRYSTAL_TYPES?
+        # Because there is no way to convert String to Symbol.
+        # Symbols are translated to numbers in compile time.
+        # Use String instead of Symbol. See:
+        # - https://github.com/crystal-lang/crystal/issues/943#issuecomment-118842665
+        # - https://forum.crystal-lang.org/t/string-to-symbol
         VALID_CRYSTAL_TYPES = \
           ['Int8', 'Int8*', 'Array(Int8)',
            'UInt8',   'UInt8*',   'Array(UInt8)',
@@ -13,6 +19,7 @@ module Cry
            'UInt64',  'UInt64*',  'Array(UInt64)',
            'Float32', 'Float32*', 'Array(Float32)',
            'Float64', 'Float64*', 'Array(Float64)',
+           'String',
            'Void'].freeze
 
         def initialize(type_name)
