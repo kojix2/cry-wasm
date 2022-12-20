@@ -172,77 +172,11 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 <h3 id="label-Arguments+-+Ruby+---3E+Crystal">Arguments - Ruby –&gt; Crystal</h3>
 
-<table role="table">
-<thead>
-<tr>
-<th>Ruby class</th>
-<th>Crystal class</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>`Integer`</td>
-<td>`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
-</tr>
-<tr>
-<td>`Float`</td>
-<td>`Float32` `Float64`</td>
-</tr>
-<tr>
-<td>`Array&lt;Integer&gt;`</td>
-<td>`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`</td>
-</tr>
-<tr>
-<td>`Array&lt;Integer&gt;`</td>
-<td>`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
-</tr>
-<tr>
-<td>`Array&lt;Float&gt;`</td>
-<td>`Float32*` `Float64*`</td>
-</tr>
-<tr>
-<td>`Array&lt;Float&gt;`</td>
-<td>`Array(Float32)` `Array(Float32)`</td>
-</tr>
-</tbody>
-</table>
+<p>| Ruby class | Crystal class | | —————- | ————————————————————————————————————————- | | <code>Integer</code> | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | | <code>Float</code> | <code>Float32</code> <code>Float64</code> | | <code>Array&lt;Integer&gt;</code> | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> <code>UInt64*</code> <code>Int64*</code> | | <code>Array&lt;Integer&gt;</code> | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | | <code>Array&lt;Float&gt;</code> | <code>Float32*</code> <code>Float64*</code> | | <code>Array&lt;Float&gt;</code> | <code>Array(Float32)</code> <code>Array(Float32)</code> |</p>
 
 <h3 id="label-Return+values+-+Crystal+---3E+Ruby">Return values - Crystal –&gt; Ruby</h3>
 
-<table role="table">
-<thead>
-<tr>
-<th>Crystal class</th>
-<th>Ruby class</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
-<td>`Integer`</td>
-</tr>
-<tr>
-<td>`Float32` `Float64`</td>
-<td>`Float`</td>
-</tr>
-<tr>
-<td>`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`</td>
-<td>View object of Wasmer (wasmer only)</td>
-</tr>
-<tr>
-<td>`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
-<td>`Array&lt;Integer&gt;`</td>
-</tr>
-<tr>
-<td>`Array(Float32)` `Array(Float32)`</td>
-<td>`Array&lt;Float&gt;`</td>
-</tr>
-<tr>
-<td>`Void`</td>
-<td>`Nil`</td>
-</tr>
-</tbody>
-</table>
+<p>| Crystal class | Ruby class | | ————————————————————————————————————————- | ———————————– | | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | <code>Integer</code> | | <code>Float32</code> <code>Float64</code> | <code>Float</code> | | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> | View object of Wasmer (wasmer only) | | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | <code>Array&lt;Integer&gt;</code> | | <code>Array(Float32)</code> <code>Array(Float32)</code> | <code>Array&lt;Float&gt;</code> | | <code>Void</code> | <code>Nil</code> |</p>
 
 <h2 id="label-Installation">Installation</h2>
 
@@ -253,29 +187,26 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 <p><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer gem</a>.</p>
 </li><li>
 <p><a href="https://llvm.org/">LLVM</a> for macOS:</p>
-<ol><li>
+</li><li>
 <p>Install LLVM by running <code>brew install llvm</code></p>
 </li><li>
 <p>Find the path to wasm-ld by running <code>brew ls llvm | grep wasm-ld</code>.</p>
 </li><li>
 <p>Set the PATH environment variable so that <code>wasm-ld</code> can be called.</p>
-</li></ol>
 </li><li>
 <p><a href="https://lld.llvm.org/">LLD</a> for Ubuntu:</p>
-<ol><li>
+</li><li>
 <p>Install LLD by running <code>sudo apt install lld</code>.</p>
 </li><li>
 <p>Find the path to wasm-ld by running <code>dpkg -L lld | grep wasm-ld</code>.</p>
 </li><li>
 <p>If necessary, create a symbolic link for <code>wasm-ld-9</code> or <code>wasm-ld-10</code>.</p>
-</li></ol>
 </li><li>
 <p><a href="https://github.com/lbguilherme/wasm-libs">WebAssembly Libs for WASI</a></p>
-<ol><li>
+</li><li>
 <p>Use the <code>rake vendor:wasi_libs</code> task to download the libs to the vendor directory.</p>
 </li><li>
 <p>If you install the libs outside the given directory, set the <code>CRYSTAL_LIBRARY_PATH</code> environment variable.</p>
-</li></ol>
 </li></ol>
 
 <p>Installation</p>
@@ -312,7 +243,7 @@ bundle exec ruby examples/fibonacci.rb
 </div></div>
 
       <div id="footer">
-  Generated on Tue Dec 20 09:44:28 2022 by
+  Generated on Tue Dec 20 10:45:36 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
