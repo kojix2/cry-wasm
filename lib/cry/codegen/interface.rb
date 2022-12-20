@@ -16,8 +16,14 @@ module Cry
            'Void'].freeze
 
         def initialize(type_name)
-          type_name = type_name.to_s if type_name.is_a?(Symbol)
-          raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
+          case type_name.class
+          when String
+            raise "Invalid type name: #{type_name}" unless VALID_CRYSTAL_TYPES.include?(type_name)
+          when Symbol
+            type_name = type_name.to_s
+          else
+            raise "Type name must be a String or Symbol (got #{type_name.class})"
+          end
 
           super(type_name)
         end
