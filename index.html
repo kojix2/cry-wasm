@@ -153,24 +153,24 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 <p>The target methods are dynamically redefined to call Wasmer/Wasmtime functions.</p>
 </li></ol>
 
-<h2 id="label-Limitations">Limitations</h2>
+<h2 id="label-Usage">Usage</h2>
+
+<h3 id="label-It+define+crystal+functions-2C+not+Crystal+methods">It define crystal functions, not Crystal methods</h3>
 <ul><li>
-<p>Cry::Wasm only allows you to define functions, not Crystal methods.</p>
-</li><li>
 <p>Default arguments, keyword arguments, and block arguments are not available.</p>
 </li><li>
-<p>Instance variables and class variables are not available.</p>
+<p>Instance variables and class variables are not available on the top level function.</p>
 </li><li>
-<p>Garbage collection is not supported and is unlikely to be supported in the future.</p>
+<p>To use your own Crystal class, use <code>cry_load(path)</code> to pre-load your crystal source code.</p>
 </li></ul>
 
-<h2 id="label-Type+conversion">Type conversion</h2>
+<h3 id="label-Type+conversion">Type conversion</h3>
 
-<h3 id="label-Arguments+-+Ruby+---3E+Crystal">Arguments - Ruby –&gt; Crystal</h3>
+<h4 id="label-Arguments+-28+Ruby+---3E+Crystal+-29">Arguments ( Ruby –&gt; Crystal )</h4>
 
 <p>| Ruby class | Crystal class | | —————- | ————————————————————————————————————————- | | <code>Integer</code> | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | | <code>Float</code> | <code>Float32</code> <code>Float64</code> | | <code>Array&lt;Integer&gt;</code> | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> <code>UInt64*</code> <code>Int64*</code> | | <code>Array&lt;Integer&gt;</code> | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | | <code>Array&lt;Float&gt;</code> | <code>Float32*</code> <code>Float64*</code> | | <code>Array&lt;Float&gt;</code> | <code>Array(Float32)</code> <code>Array(Float32)</code> | | <code>String</code> | <code>String</code> |</p>
 
-<h3 id="label-Return+values+-+Crystal+---3E+Ruby">Return values - Crystal –&gt; Ruby</h3>
+<h4 id="label-Return+values+-28+Crystal+---3E+Ruby+-29">Return values ( Crystal –&gt; Ruby )</h4>
 
 <p>| Crystal class | Ruby class | | ————————————————————————————————————————- | ———————————– | | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | <code>Integer</code> | | <code>Float32</code> <code>Float64</code> | <code>Float</code> | | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> | View object of Wasmer (wasmer only) | | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | <code>Array&lt;Integer&gt;</code> | | <code>Array(Float32)</code> <code>Array(Float32)</code> | <code>Array&lt;Float&gt;</code> | | <code>String</code> | <code>String</code> | | <code>Void</code> | <code>Nil</code> |</p>
 
@@ -215,7 +215,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 <p>Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.</p>
 
-<p>Tested on macOS and Ubuntu using <a href="https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml">Github Actions</a>.</p>
+<p>Tested on macOS and Ubuntu using <a href="https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml">Github Actions</a>. Windows is not yet supported.</p>
 
 <h2 id="label-Development">Development</h2>
 
@@ -239,7 +239,7 @@ bundle exec rake spec
 </div></div>
 
       <div id="footer">
-  Generated on Tue Dec 20 16:17:08 2022 by
+  Generated on Tue Dec 20 16:46:39 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
