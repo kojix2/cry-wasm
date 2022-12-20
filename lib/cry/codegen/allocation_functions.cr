@@ -1,3 +1,5 @@
+# Allocation Functions
+
 fun __alloc_buffer_int8(size : Int32) : Int32
   ptr = Pointer(Int8).malloc(size)
   ptr.address.to_i32

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 def example(name)
-  load File.expand_path("../examples/#{name}.rb", __dir__), Module.new
+  load File.expand_path("../examples/#{name}.rb", __dir__), true
 end
 
 FIBONACCI47 = <<~FIBONACCI

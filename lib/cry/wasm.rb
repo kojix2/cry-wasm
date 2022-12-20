@@ -48,6 +48,18 @@ module Cry
       super(name)
     end
 
+    # Loads the crystal code before compiling to WASM.
+    # @param file [String] crystal file path
+    # @param basedir [String] base directory
+    # @return [Boolean] true
+
+    def cry_load(file, basedir = __dir__)
+      require 'pathname'
+      file = Pathname.new(file).expand_path(basedir).to_s
+      @cry_wasm[:codegen].load(file)
+      true
+    end
+
     # Defines the method signature.
     # This method must be called before the target method is defined.
     # @param arg_types [Array<String, Symbol>] crystal argument types

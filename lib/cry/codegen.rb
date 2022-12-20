@@ -15,10 +15,10 @@ module Cry
       @function_names = [] # Function names to be exported
       @interface = {} # Type information for each function
       @crystal_code_blocks = []
-      prelude(File.expand_path('codegen/header.cr', __dir__))
+      self.load(File.expand_path('codegen/allocation_functions.cr', __dir__))
     end
 
-    def prelude(fpath)
+    def load(fpath)
       @crystal_code_blocks << IO.read(fpath)
       # FIXME
       File.readlines(fpath).grep(/fun /).map do |l|
