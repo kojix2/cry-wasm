@@ -306,7 +306,7 @@
       <pre class="code"><span class="info file"># File 'lib/cry/codegen/interface.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_type_name'>type_name</span><span class='rparen'>)</span>
-  <span class='kw'>case</span> <span class='id identifier rubyid_type_name'>type_name</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_type_name'>type_name</span>
   <span class='kw'>when</span> <span class='const'>String</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid type name: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type_name'>type_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#VALID_CRYSTAL_TYPES-constant" title="Cry::Codegen::Interface::Type::VALID_CRYSTAL_TYPES (constant)">VALID_CRYSTAL_TYPES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type_name'>type_name</span><span class='rparen'>)</span>
   <span class='kw'>when</span> <span class='const'>Symbol</span>
@@ -506,7 +506,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 20 09:42:47 2022 by
+  Generated on Tue Dec 20 09:44:28 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
