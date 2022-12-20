@@ -49,9 +49,9 @@ wasmer   fib(40)   0.381384   0.000000   0.381384 (  0.381401)
 
 <img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark.svg" width="40%" height="40%"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark_plot.png" width=25% height="25%">
 
-* In this benchmark, Wasmer is about 10% faster than Wasmtime as of December 2022.
-* Both Wasmer and Wasmtime tend to take a little longer for the first call. (see line graph at n=1)
-* Wasm is only about twice as slow as native functions, making it highly efficient. (according to my measurements)
+- In this benchmark, Wasmer is about 10% faster than Wasmtime as of December 2022.
+- Both Wasmer and Wasmtime tend to take a little longer for the first call. (see line graph at n=1)
+- Wasm is only about twice as slow as native functions, making it highly efficient. (according to my measurements)
 
 ## How does this work?
 
@@ -88,49 +88,49 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 ## Type conversion
 
-:construction: work in progress :pick: 
+:construction: work in progress :pick:
 
 Currently, only numbers are accepted as arguments. In the future, strings may also be acceptable.
 
 ### Arguments - Ruby --> Crystal
 
-|Ruby class|Crystal class|
-|---|---|
-|`Integer`|`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|
-|`Float`|`Float32` `Float64`|
-|`Array<Integer>`|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`|
-|`Array<Integer>`|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|
-|`Array<Float>`|`Float32*` `Float64*`|
-|`Array<Float>`|`Array(Float32)` `Array(Float32)`|
+| Ruby class       | Crystal class                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `Integer`        | `UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`                                                         |
+| `Float`          | `Float32` `Float64`                                                                                                       |
+| `Array<Integer>` | `UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`                                                 |
+| `Array<Integer>` | `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)` |
+| `Array<Float>`   | `Float32*` `Float64*`                                                                                                     |
+| `Array<Float>`   | `Array(Float32)` `Array(Float32)`                                                                                         |
 
 ### Return values - Crystal --> Ruby
 
-|Crystal class|Ruby class|
-|---|---|
-|`UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`|`Integer`|
-|`Float32` `Float64`|`Float`|
-|`UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`|View object of Wasmer (wasmer only)|
-|`Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`|`Array<Integer>`|
-|`Array(Float32)` `Array(Float32)`|`Array<Float>`|
-|`Void`|`Nil`|
+| Crystal class                                                                                                             | Ruby class                          |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`                                                         | `Integer`                           |
+| `Float32` `Float64`                                                                                                       | `Float`                             |
+| `UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`                                                                    | View object of Wasmer (wasmer only) |
+| `Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)` | `Array<Integer>`                    |
+| `Array(Float32)` `Array(Float32)`                                                                                         | `Array<Float>`                      |
+| `Void`                                                                                                                    | `Nil`                               |
 
 ## Installation
 
 Requirements
 
 1. [Crystal](https://github.com/crystal-lang/crystal) - Follow the installation instructions [here](https://crystal-lang.org/install/) for your platform.
-1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby). 
+1. [Rust](https://www.rust-lang.org/) - Rust is required to compile the [wasmer gem](https://github.com/wasmerio/wasmer-ruby).
 1. [LLVM](https://llvm.org/) for macOS:
-    1. Install LLVM by running `brew install llvm`
-    1. Find the path to wasm-ld by running `brew ls llvm | grep wasm-ld`.
-    1. Set the PATH environment variable so that `wasm-ld` can be called.
+   1. Install LLVM by running `brew install llvm`
+   1. Find the path to wasm-ld by running `brew ls llvm | grep wasm-ld`.
+   1. Set the PATH environment variable so that `wasm-ld` can be called.
 1. [LLD](https://lld.llvm.org/) for Ubuntu:
-    1. Install LLD by running `sudo apt install lld`.
-    1. Find the path to wasm-ld by running `dpkg -L lld | grep wasm-ld`.
-    1. If necessary, create a symbolic link for `wasm-ld-9` or `wasm-ld-10`.
+   1. Install LLD by running `sudo apt install lld`.
+   1. Find the path to wasm-ld by running `dpkg -L lld | grep wasm-ld`.
+   1. If necessary, create a symbolic link for `wasm-ld-9` or `wasm-ld-10`.
 1. [WebAssembly Libs for WASI](https://github.com/lbguilherme/wasm-libs)
-    1. Use the `rake vendor:wasi_libs` task to download the libs to the vendor directory.
-    1. If you install the libs outside the given directory, set the `CRYSTAL_LIBRARY_PATH` environment variable.
+   1. Use the `rake vendor:wasi_libs` task to download the libs to the vendor directory.
+   1. If you install the libs outside the given directory, set the `CRYSTAL_LIBRARY_PATH` environment variable.
 
 Installation
 
@@ -138,10 +138,10 @@ Installation
 bundle install
 bundle exec rake install
 ```
+
 Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.
 
 Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml).
-
 
 ## Development
 
