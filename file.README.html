@@ -148,9 +148,9 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </li><li>
 <p>Call the <code>cry_wasm</code> method to build the crystal code blocks.</p>
 </li><li>
-<p>The compiled byte_code is read, and an instance of Wasmer is created.</p>
+<p>The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.</p>
 </li><li>
-<p>The target methods are dynamically redefined to call Wasmer functions.</p>
+<p>The target methods are dynamically redefined to call Wasmer/Wasmtime functions.</p>
 </li></ol>
 
 <h2 id="label-Limitations">Limitations</h2>
@@ -182,7 +182,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 <ol><li>
 <p><a href="https://github.com/crystal-lang/crystal">Crystal</a> - Follow the installation instructions <a href="https://crystal-lang.org/install/">here</a> for your platform.</p>
 </li><li>
-<p><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer gem</a>.</p>
+<p><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer-ruby</a> or <a href="https://github.com/bytecodealliance/wasmtime-rb">wasmtime-rb</a>.</p>
 </li><li>
 <p><a href="https://llvm.org/">LLVM</a> for macOS:</p>
 </li><li>
@@ -239,7 +239,7 @@ bundle exec rake spec
 </div></div>
 
       <div id="footer">
-  Generated on Tue Dec 20 11:20:08 2022 by
+  Generated on Tue Dec 20 16:17:09 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>

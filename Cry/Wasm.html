@@ -245,6 +245,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#cry_load-instance_method" title="#cry_load (instance method)">#<strong>cry_load</strong>(file, basedir = __dir__)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Loads the crystal code before compiling to WASM.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#cry_wasm-instance_method" title="#cry_wasm (instance method)">#<strong>cry_wasm</strong>(wasm_out = nil, **options)  &#x21d2; Array&lt;Symbol&gt; </a>
     
 
@@ -334,26 +358,26 @@
       <pre class="lines">
 
 
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
 166
 167
 168
 169
-170</pre>
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extended'>extended</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='comment'># Initialize class instance variables
@@ -518,21 +542,21 @@
       <pre class="lines">
 
 
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cry'>cry</span><span class='lparen'>(</span><span class='id identifier rubyid_arg_types'>arg_types</span><span class='comma'>,</span> <span class='id identifier rubyid_ret_type'>ret_type</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fname'>fname</span><span class='comma'>,</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>=</span> <span class='id identifier rubyid_caller'>caller</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -545,6 +569,109 @@
   <span class='ivar'>@crystal_ret_type</span> <span class='op'>=</span> <span class='id identifier rubyid_ret_type'>ret_type</span>
 
   <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cry_load-instance_method">
+  
+    #<strong>cry_load</strong>(file, basedir = __dir__)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Loads the crystal code before compiling to WASM.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>crystal file path</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>basedir</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>__dir__</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>base directory</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cry_load'>cry_load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_basedir'>basedir</span> <span class='op'>=</span> <span class='id identifier rubyid___dir__'>__dir__</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pathname</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_expand_path'>expand_path</span><span class='lparen'>(</span><span class='id identifier rubyid_basedir'>basedir</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='ivar'>@cry_wasm</span><span class='lbracket'>[</span><span class='symbol'>:codegen</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -633,18 +760,6 @@
       <pre class="lines">
 
 
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
 88
 89
 90
@@ -703,10 +818,22 @@
 143
 144
 145
-146</pre>
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cry_wasm'>cry_wasm</span><span class='lparen'>(</span><span class='id identifier rubyid_wasm_out'>wasm_out</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_crystal_code'>crystal_code</span> <span class='op'>=</span> <span class='ivar'>@cry_wasm</span><span class='lbracket'>[</span><span class='symbol'>:codegen</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_crystal_code'>crystal_code</span>
@@ -855,14 +982,14 @@
       <pre class="lines">
 
 
-148
-149
-150
-151
-152</pre>
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/cry/wasm.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='kw'>do</span>
@@ -879,7 +1006,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 20 11:20:09 2022 by
+  Generated on Tue Dec 20 16:17:09 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
