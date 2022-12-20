@@ -88,8 +88,6 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 ## Type conversion
 
-:construction: work in progress :pick:
-
 ### Arguments - Ruby --> Crystal
 
 | Ruby class       | Crystal class                                                                                                             |
@@ -114,7 +112,8 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 | `String`                                                                                                                  | `String`                            |
 | `Void`                                                                                                                    | `Nil`                               |
 
-Note: In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use `String` instead of `Symbol`.
+Note: Why is `Symbol` not supported?
+In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use `String` instead of `Symbol`.
 
 ## Installation
 
@@ -147,19 +146,18 @@ Tested on macOS and Ubuntu using [Github Actions](https://github.com/kojix2/cry-
 
 ## Development
 
-- [Trying out WASM Support](https://forum.crystal-lang.org/t/trying-out-wasm-support/4508) - A thread in the Crystal Forum on how to compile a wasm from crystal.
-- [wasm-libs](https://github.com/lbguilherme/wasm-libs) - WebAssembly Libs for WASI. You need to download the compiled wasm library.
-
 ```
 git clone https://github.com/kojix2/cry-wasm
 cd cry-wasm
 bundle install
 bundle exec rake vendor:wasi_libs
-bundle exec ruby examples/fibonacci.rb
-# rake install
+bundle exec rake spec
 ```
 
-- [Crystal で WebAssembly に出力した関数を Ruby から呼び出す](https://qiita.com/kojix2/items/b233f1419b26f7fc0e1b)
+- [Trying out WASM Support](https://forum.crystal-lang.org/t/trying-out-wasm-support/4508) - A thread in the Crystal Forum on how to compile a wasm from crystal.
+- [wasm-libs](https://github.com/lbguilherme/wasm-libs) - WebAssembly Libs for WASI. You need to download the compiled wasm library.
+
+Even small improvements like fixing typos are welcome! Please feel free to send us your PR.
 
 ## license
 
