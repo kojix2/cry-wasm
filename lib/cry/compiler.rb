@@ -63,7 +63,7 @@ module Cry
         raise CompilerError, 'Failed to compile Crystal code to WASM'
       end
 
-      if options.output = "/dev/stdout"
+      if (options.output = '/dev/stdout')
         stdout
       else
         IO.read(options.output, mode: 'rb')
@@ -91,9 +91,7 @@ module Cry
       set_crystal_library_path
 
       # Set output (wasm bytecode) path
-      unless options.output
-        options.output = "/dev/stdout"
-      end
+      options.output = '/dev/stdout' unless options.output
 
       # Set input (crystal source) path
       input_tempfile = nil
