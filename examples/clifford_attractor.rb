@@ -30,7 +30,7 @@ class CliffordAttractor
     x.concat(y)
   end
 
-  cry_wasm
+  cry_build
 end
 
 xy = CliffordAttractor.new.calc

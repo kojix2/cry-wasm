@@ -2,6 +2,8 @@ require 'wasmer'
 
 module Cry
   class Wasmer
+    attr_reader :instance
+
     def initialize(wasm_bytes = nil)
       load_wasm(wasm_bytes) if wasm_bytes
     end
@@ -27,11 +29,11 @@ module Cry
     end
 
     def function(name)
-      @instance.exports.public_send(name)
+      instance.exports.public_send(name)
     end
 
     def invoke(name, *args)
-      @instance.exports.public_send(name).call(*args)
+      instance.exports.public_send(name).call(*args)
     end
 
     def start
@@ -39,7 +41,7 @@ module Cry
     end
 
     def memory
-      @instance.exports.memory
+      instance.exports.memory
     end
 
     def write_memory(addr, t2, arg)

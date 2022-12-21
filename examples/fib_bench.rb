@@ -27,7 +27,7 @@ class FibonacciWasmtime
     end
   end
 
-  cry_wasm
+  cry_build
 end
 
 Cry::Wasm.runtime = Cry::Wasmer
@@ -44,7 +44,7 @@ class FibonacciWasmer
     end
   end
 
-  cry_wasm
+  cry_build
 end
 
 ruby = FibonacciRuby.new

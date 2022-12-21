@@ -9,7 +9,7 @@ module Cry
 
   # The Cry::Wasm module is for defining Ruby methods that will be compiled into WASM.
   # use `cry` to define the method signature.
-  # use `cry_wasm` to compile the method to WASM.
+  # use `cry_build` to compile the method to WASM.
   #
   # @example
   #  class Foo
@@ -18,7 +18,7 @@ module Cry
   #    def add(a, b)
   #      a + b
   #    end
-  #    cry_wasm
+  #    cry_build
   #  end
   #  Foo.new.add(1, 2) #=> 3
 
@@ -105,7 +105,7 @@ module Cry
     # @param options [Hash] options for Cry::Compiler#build_wasm
     # @return [Array<Symbol>] method names that were compiled to WASM
 
-    def cry_wasm(wasm_out = nil, **options)
+    def cry_build(wasm_out = nil, **options)
       crystal_code = @cry_wasm[:codegen].crystal_code
       wasm_bytes = @cry_wasm[:compiler].build_wasm(
         crystal_code,
@@ -179,7 +179,7 @@ module Cry
 
     def new(...)
       super(...).tap do
-        @cry_wasm[:runtime].start
+        @cry_wasm[:runtime].start if @cry_wasm[:runtime].instance
       end
     end
 

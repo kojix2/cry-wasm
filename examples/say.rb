@@ -8,7 +8,7 @@ class Say
     puts 'Hello, Crystal World!'
   end
 
-  cry_wasm
+  cry_build
 end
 
 Say.new.hello

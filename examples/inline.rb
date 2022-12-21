@@ -19,7 +19,7 @@ class Hello
     CRYSTAL.new.world
   end
 
-  cry_wasm
+  cry_build
 end
 
 Hello.new.world

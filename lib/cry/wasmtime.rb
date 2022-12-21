@@ -2,6 +2,8 @@ require 'wasmtime'
 
 module Cry
   class Wasmtime
+    attr_reader :instance
+
     def initialize(wasm_bytes = nil)
       load_wasm(wasm_bytes) if wasm_bytes
     end
@@ -26,11 +28,11 @@ module Cry
     end
 
     def function(name)
-      @instance.export(name.to_s).to_func
+      instance.export(name.to_s).to_func
     end
 
     def invoke(name, *args)
-      @instance.invoke(name.to_s, *args)
+      instance.invoke(name.to_s, *args)
     end
 
     def start
@@ -38,7 +40,7 @@ module Cry
     end
 
     def memory
-      @instance.export('memory').to_memory
+      instance.export('memory').to_memory
     end
 
     def write_memory(addr, t2, arg)

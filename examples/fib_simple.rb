@@ -20,7 +20,7 @@ class Fibonacci
     end
   end
 
-  cry_wasm
+  cry_build
 end
 
 print 'ruby start : '

@@ -8,7 +8,7 @@ class Sum
     arr1.sum + arr2.sum
   end
 
-  cry_wasm
+  cry_build
 end
 
 p Sum.new.run((1..100).to_a, (1..10).to_a)

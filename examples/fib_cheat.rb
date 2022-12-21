@@ -12,7 +12,7 @@ class Fibonacci
     m
   end
 
-  cry_wasm
+  cry_build
 end
 
 view = Fibonacci.new.fib(47)

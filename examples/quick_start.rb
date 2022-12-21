@@ -10,7 +10,7 @@ class Fibonacci
     fib(n - 1) + fib(n - 2)
   end
 
-  cry_wasm                    # (3) Compile Wasm
+  cry_build                    # (3) Compile Wasm
 end
 
 p Fibonacci.new.fib(40)       # (4) Call Wasm Function

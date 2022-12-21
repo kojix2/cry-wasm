@@ -25,7 +25,7 @@ class Fibonacci
     fib(n - 1) + fib(n - 2)
   end
 
-  cry_wasm                    # (3) Compile Wasm
+  cry_build                    # (3) Compile Wasm
 end
 
 Fibonacci.new.fib(40)         # (4) Call Wasm Function
@@ -75,7 +75,7 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
    1. Add Crystal type restrictions to the Ruby source code to generate a Crystal code block.
    1. Cry::Wasm stores the Crystal code block.
 1. The Crystal compiler and wasm-ld compile the Crystal code into WebAssembly.
-   1. Call the `cry_wasm` method to build the crystal code blocks.
+   1. Call the `cry_build` method to build the crystal code blocks.
 1. The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.
 1. The target methods are dynamically redefined to call Wasmer/Wasmtime functions.
 

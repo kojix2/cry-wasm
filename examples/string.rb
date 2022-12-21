@@ -8,7 +8,7 @@ class Say
     "#{hello}, #{lang} #{world}!"
   end
 
-  cry_wasm
+  cry_build
 end
 
 puts Say.new.hello('hola', 'クリスタル', 'World') # UTF-8

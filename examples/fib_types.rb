@@ -54,7 +54,7 @@ class Fibonacci
     end.not_nil!.to_i64
   end
 
-  cry_wasm
+  cry_build
 end
 
 a = Fibonacci.new

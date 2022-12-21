@@ -12,7 +12,7 @@ class Sum
     s
   end
 
-  cry_wasm
+  cry_build
 end
 
 p Sum.new.run((1..100).to_a, 100)
