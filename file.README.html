@@ -174,7 +174,9 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 <p>| Crystal class | Ruby class | | ————————————————————————————————————————- | ———————————– | | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | <code>Integer</code> | | <code>Float32</code> <code>Float64</code> | <code>Float</code> | | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> | View object of Wasmer (wasmer only) | | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | <code>Array&lt;Integer&gt;</code> | | <code>Array(Float32)</code> <code>Array(Float32)</code> | <code>Array&lt;Float&gt;</code> | | <code>String</code> | <code>String</code> | | <code>Void</code> | <code>Nil</code> |</p>
 
-<p>Note: Why is <code>Symbol</code> not supported? In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
+<p>Why is <code>Symbol</code> not supported? In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
+
+<p><code>Cry::Numeric</code> can use Refinements to add methods such as <code>to_i8</code>, <code>to_u8</code>, and <code>to_f32</code> to Ruby’s numeric classes. These are useful if you want to prevent errors and get the same result as Crystal when you run Ruby.</p>
 
 <h2 id="label-Installation">Installation</h2>
 
@@ -239,7 +241,7 @@ bundle exec rake spec
 </div></div>
 
       <div id="footer">
-  Generated on Tue Dec 20 16:46:40 2022 by
+  Generated on Wed Dec 21 00:35:59 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.3).
 </div>
