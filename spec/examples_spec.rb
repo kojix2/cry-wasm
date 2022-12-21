@@ -78,4 +78,8 @@ RSpec.describe 'Examples' do
   it 'string' do
     expect { example('string') }.to output("hola, クリスタル World!\n").to_stdout
   end
+
+  it 'inline' do
+    expect { example('inline') }.to output("Hello, WASM World!\n").to_stdout
+  end
 end

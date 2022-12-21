@@ -60,6 +60,26 @@ module Cry
       true
     end
 
+    # Add crystal code before compiling to WASM.
+    # You can pass the crystal code as a string.
+    # Use load to load the crystal code from a file.
+    # @param code [String] crystal code
+    # @param export [String, Array<String>] function names to be exported
+    # @note naming. `cry_code` or `cry_soruce` is better?
+
+    def cry_eval(code, export: nil)
+      raise ArgumentError, 'code must be a String' unless code.is_a?(String)
+
+      @cry_wasm[:codegen].crystal_code_blocks << code
+      export = [export] if export.is_a?(String)
+      return if export.nil?
+
+      export.each do |e|
+        e = e.to_s if e.is_a?(Symbol)
+        @cry_wasm[:codegen].function_names << e
+      end
+    end
+
     # Defines the method signature.
     # This method must be called before the target method is defined.
     # @param arg_types [Array<String, Symbol>] crystal argument types
