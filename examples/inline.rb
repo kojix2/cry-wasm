@@ -4,7 +4,7 @@ class Hello
   extend Cry::Wasm
 
   cry_eval(<<~CODE)
-    class CRYSTAL#{' '}
+    class CRYSTAL
       def initialize
         @msg = "Hello, WASM World!"
       end
