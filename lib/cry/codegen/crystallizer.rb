@@ -22,9 +22,7 @@ module Cry
               )
               l = __return_array_.size.to_i32
               __return_len_[0] = l
-              ptr = Pointer(#{crystal_ret_type.inner}).malloc(l)
-              l.times {|i| ptr[i] = #{crystal_ret_type.inner}.new(__return_array_[i])}
-              ptr
+              __return_array_.to_unsafe
             end
           CODE
         elsif crystal_ret_type == 'String'
@@ -35,9 +33,7 @@ module Cry
               )
               l = __return_str_.bytesize
               __return_len_[0] = l
-              ptr = Pointer(UInt8).malloc(l)
-              l.times {|i| ptr[i] = __return_str_.bytes[i]}
-              ptr
+              __return_str_.bytes.to_unsafe
             end
           CODE
         else
