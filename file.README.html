@@ -81,7 +81,7 @@
     <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span> <span class='op'>-</span> <span class='int'>2</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_cry_build'>cry_build</span>                    <span class='comment'># (3) Compile Wasm
+  <span class='id identifier rubyid_cry_build'>cry_build</span>                   <span class='comment'># (3) Compile Wasm
 </span><span class='kw'>end</span>
 
 <span class='const'>Fibonacci</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='int'>40</span><span class='rparen'>)</span>         <span class='comment'># (4) Call Wasm Function
@@ -168,11 +168,85 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 
 <h4 id="label-Arguments+-28+Ruby+---3E+Crystal+-29">Arguments ( Ruby –&gt; Crystal )</h4>
 
-<p>| Ruby class | Crystal class | | —————- | ————————————————————————————————————————- | | <code>Integer</code> | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | | <code>Float</code> | <code>Float32</code> <code>Float64</code> | | <code>Array&lt;Integer&gt;</code> | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> <code>UInt64*</code> <code>Int64*</code> | | <code>Array&lt;Integer&gt;</code> | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | | <code>Array&lt;Float&gt;</code> | <code>Float32*</code> <code>Float64*</code> | | <code>Array&lt;Float&gt;</code> | <code>Array(Float32)</code> <code>Array(Float32)</code> | | <code>String</code> | <code>String</code> |</p>
+<table role="table">
+<thead>
+<tr>
+<th>Ruby class</th>
+<th>Crystal class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>‘Integer`</td>
+<td>‘UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
+</tr>
+<tr>
+<td>‘Float`</td>
+<td>‘Float32` `Float64`</td>
+</tr>
+<tr>
+<td>‘Array&lt;Integer&gt;`</td>
+<td>‘UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`</td>
+</tr>
+<tr>
+<td>‘Array&lt;Integer&gt;`</td>
+<td>‘Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
+</tr>
+<tr>
+<td>‘Array&lt;Float&gt;`</td>
+<td>‘Float32*` `Float64*`</td>
+</tr>
+<tr>
+<td>‘Array&lt;Float&gt;`</td>
+<td>‘Array(Float32)` `Array(Float32)`</td>
+</tr>
+<tr>
+<td>‘String`</td>
+<td>‘String`</td>
+</tr>
+</tbody>
+</table>
 
 <h4 id="label-Return+values+-28+Crystal+---3E+Ruby+-29">Return values ( Crystal –&gt; Ruby )</h4>
 
-<p>| Crystal class | Ruby class | | ————————————————————————————————————————- | ———————————– | | <code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code> | <code>Integer</code> | | <code>Float32</code> <code>Float64</code> | <code>Float</code> | | <code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> | View object of Wasmer (wasmer only) | | <code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code> | <code>Array&lt;Integer&gt;</code> | | <code>Array(Float32)</code> <code>Array(Float32)</code> | <code>Array&lt;Float&gt;</code> | | <code>String</code> | <code>String</code> | | <code>Void</code> | <code>Nil</code> |</p>
+<table role="table">
+<thead>
+<tr>
+<th>Crystal class</th>
+<th>Ruby class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>‘UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
+<td>‘Integer`</td>
+</tr>
+<tr>
+<td>‘Float32` `Float64`</td>
+<td>‘Float`</td>
+</tr>
+<tr>
+<td>‘UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`</td>
+<td>View object of Wasmer (wasmer only)</td>
+</tr>
+<tr>
+<td>‘Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
+<td>‘Array&lt;Integer&gt;`</td>
+</tr>
+<tr>
+<td>‘Array(Float32)` `Array(Float32)`</td>
+<td>‘Array&lt;Float&gt;`</td>
+</tr>
+<tr>
+<td>‘String`</td>
+<td>‘String`</td>
+</tr>
+<tr>
+<td>‘Void`</td>
+<td>‘Nil`</td>
+</tr>
+</tbody>
+</table>
 
 <p>Why is <code>Symbol</code> not supported? In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
 
@@ -241,9 +315,9 @@ bundle exec rake spec
 </div></div>
 
       <div id="footer">
-  Generated on Wed Dec 21 06:58:39 2022 by
+  Generated on Mon Dec 26 06:22:12 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.28 (ruby-3.1.3).
+  0.9.28 (ruby-3.2.0).
 </div>
 
     </div>
