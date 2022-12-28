@@ -32,7 +32,7 @@ Fibonacci.new.fib(40)         # (4) Call Wasm Function
 ```
 
 1. Extend Cry::Wasm module to your Ruby class.
-2. Write Crystal type signatures for Ruby methods. The syntax is `[arg_t1, arg_t2], ret_t`
+2. Write Crystal type signatures for Ruby methods. The syntax is `[arg_t1, arg_t2], ret_t` (Symbol or String).
 3. Crystal compiler compile the Ruby methods into WebAssembly as Crystal functions.
 4. Finally, call the wasm function!
 
