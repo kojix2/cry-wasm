@@ -113,10 +113,17 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 | `String`                                                                                                                  | `String`                            |
 | `Void`                                                                                                                    | `Nil`                               |
 
-Why is `Symbol` not supported?
+#### Why is `Symbol` not supported?
+
 In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use `String` instead of `Symbol`.
 
-`Cry::Numeric` can use Refinements to add methods such as `to_i8`, `to_u8`, and `to_f32` to Ruby's numeric classes. These are useful if you want to prevent errors and get the same result as Crystal when you run Ruby.
+#### Cry::Numeric uses Refinement to add methods to Ruby's numeric classes
+
+`Cry::Numeric` can use Refinements to add methods such as `to_i8`, `to_u8`, and `to_f32` to Ruby's numeric classes. These methods are the same as `to_i` and `to_f` (the range of values is not checked). These are useful if you want to prevent errors when running your code as Ruby and get the same results as if you had run it as Crystal.
+
+#### Why is it very slow to return arrays?
+
+Currently reading memory in wasm and converting it to Ruby arrays takes quite a bit of time. As a result, it may take longer to run with cry-wasm than when run as pure Ruby. Also note that currently (2022/12) wasmtime-rb is faster than wasmer-ruby when it comes to reading memory. If you are interested in improving these issues, please consider contributing to wasmer-ruby or wasmtime-rb.
 
 ## Installation
 
