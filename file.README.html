@@ -248,9 +248,17 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </tbody>
 </table>
 
-<p>Why is <code>Symbol</code> not supported? In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
+<h4 id="label-Why+is+Symbol+not+supported-3F">Why is <code>Symbol</code> not supported?</h4>
 
-<p><code>Cry::Numeric</code> can use Refinements to add methods such as <code>to_i8</code>, <code>to_u8</code>, and <code>to_f32</code> to Ruby’s numeric classes. These are useful if you want to prevent errors and get the same result as Crystal when you run Ruby.</p>
+<p>In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
+
+<h4 id="label-Cry-3A-3ANumeric+uses+Refinement+to+add+methods+to+Ruby-27s+numeric+classes">Cry::Numeric uses Refinement to add methods to Ruby’s numeric classes</h4>
+
+<p><code>Cry::Numeric</code> can use Refinements to add methods such as <code>to_i8</code>, <code>to_u8</code>, and <code>to_f32</code> to Ruby’s numeric classes. These methods are the same as <code>to_i</code> and <code>to_f</code> (the range of values is not checked). These are useful if you want to prevent errors when running your code as Ruby and get the same results as if you had run it as Crystal.</p>
+
+<h4 id="label-Why+is+it+very+slow+to+return+arrays-3F">Why is it very slow to return arrays?</h4>
+
+<p>Currently reading memory in wasm and converting it to Ruby arrays takes quite a bit of time. As a result, it may take longer to run with cry-wasm than when run as pure Ruby. Also note that currently (2022/12) wasmtime-rb is faster than wasmer-ruby when it comes to reading memory. If you are interested in improving these issues, please consider contributing to wasmer-ruby or wasmtime-rb.</p>
 
 <h2 id="label-Installation">Installation</h2>
 
@@ -315,7 +323,7 @@ bundle exec rake spec
 </div></div>
 
       <div id="footer">
-  Generated on Mon Dec 26 06:22:12 2022 by
+  Generated on Wed Dec 28 09:14:41 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.0).
 </div>
