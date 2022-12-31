@@ -147,6 +147,7 @@ Installation
 
 ```
 bundle install
+bundle exec rake vendor:wasi_libs
 bundle exec rake install
 ```
 
