@@ -6,13 +6,13 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "README";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -57,19 +59,14 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<h1 id="label-cry-wasm">cry-wasm</h1>
-
-<p><a href="https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml"><img src="https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg" alt="CI"></a> <a href="https://kojix2.github.io/cry-wasm/"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Docs Latest"></a></p>
-
+      <div id="content"><div id='filecontents'><h1 id="cry_wasm">cry-wasm</h1>
+<p><a href="https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml"><img src="https://github.com/kojix2/cry-wasm/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+<a href="https://kojix2.github.io/cry-wasm/"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Docs Latest" /></a></p>
 <p>:zap: cry-wasm speeds up <a href="https://github.com/ruby/ruby">Ruby</a> code.</p>
-
 <p>By applying simple type restrictions to Ruby code, convert it to <a href="https://github.com/crystal-lang/crystal">Crystal</a> code, compile it to <a href="https://webassembly.org/">WebAssembly</a>, and call it with <a href="https://github.com/wasmerio/wasmer">Wasmer</a> or <a href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a>.</p>
 <div align="center"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/overview.drawio.png" width=50% height=50%></div>
 <p>:space_invader: experimental</p>
-
-<h2 id="label-Quick+Start">Quick Start</h2>
-
+<h2 id="Quick_Start">Quick Start</h2>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cry/wasm</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='kw'>class</span> <span class='const'>Fibonacci</span>
@@ -86,38 +83,27 @@
 
 <span class='const'>Fibonacci</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_fib'>fib</span><span class='lparen'>(</span><span class='int'>40</span><span class='rparen'>)</span>         <span class='comment'># (4) Call Wasm Function
 </span></code></pre>
-<ol><li>
-<p>Extend Cry::Wasm module to your Ruby class.</p>
-</li><li>
-<p>Write Crystal type signatures for Ruby methods. The syntax is <code>[arg_t1, arg_t2], ret_t</code> (Symbol or String).</p>
-</li><li>
-<p>Crystal compiler compile the Ruby methods into WebAssembly as Crystal functions.</p>
-</li><li>
-<p>Finally, call the wasm function!</p>
-</li></ol>
-
-<h2 id="label-Benchmark">Benchmark</h2>
-
+<ol>
+<li>Extend Cry::Wasm module to your Ruby class.</li>
+<li>Write Crystal type signatures for Ruby methods. The syntax is <code>[arg_t1, arg_t2], ret_t</code> (Symbol or String).</li>
+<li>Crystal compiler compile the Ruby methods into WebAssembly as Crystal functions.</li>
+<li>Finally, call the wasm function!</li>
+</ol>
+<h2 id="Benchmark">Benchmark</h2>
 <p><a href="https://github.com/kojix2/cry-wasm/blob/main/examples/fib_bench.rb">fib_bench.rb</a> - 10 x faster on the <a href="https://crystal-lang.org/2016/07/15/fibonacci-benchmark/">Fibonacci benchmark</a>.</p>
-
-<pre class="code ruby"><code class="ruby">user     system      total        real
+<pre class="code ruby"><code class="ruby">                       user     system      total        real
 ruby     fib(40)   5.305503   0.000000   5.305503 (  5.305696)
 wasmtime fib(40)   0.462232   0.000000   0.462232 (  0.462247)
 wasmer   fib(40)   0.381384   0.000000   0.381384 (  0.381401)
 </code></pre>
-
-<p>&lt;img src=“<a href="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark.svg">raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark.svg</a>” width=“40%” height=“40%”&gt;&lt;img src=“<img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark_plot.png" />” width=25% height=“25%”&gt;</p>
-<ul><li>
-<p>In this benchmark, Wasmer is about 10% faster than Wasmtime as of December 2022.</p>
-</li><li>
-<p>Both Wasmer and Wasmtime tend to take a little longer for the first call. (see line graph at n=1)</p>
-</li><li>
-<p>Wasm is only about twice as slow as native functions, making it highly efficient. (according to my measurements)</p>
-</li></ul>
-
-<h2 id="label-How+does+this+work-3F">How does this work?</h2>
-
-<pre class="code ruby"><code class="ruby">flowchart LR
+<p><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark.svg" width="40%" height="40%"><img src="https://raw.githubusercontent.com/kojix2/cry-wasm/main/doc/benchmark_plot.png" width=25% height="25%"></p>
+<ul>
+<li>In this benchmark, Wasmer is about 10% faster than Wasmtime as of December 2022.</li>
+<li>Both Wasmer and Wasmtime tend to take a little longer for the first call. (see line graph at n=1)</li>
+<li>Wasm is only about twice as slow as native functions, making it highly efficient. (according to my measurements)</li>
+</ul>
+<h2 id="How_does_this_work_">How does this work?</h2>
+<pre class="code mermaid"><code class="mermaid">flowchart LR
 style id1 fill:#c5c,stroke:#f66,stroke-width:1px,color:#fff
 style id2 fill:#555,stroke:#3ff,stroke-width:1px,color:#fff
 style id3 fill:#66f,stroke:#f66,stroke-width:1px,color:#fff
@@ -125,50 +111,40 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
     id1(Ruby Methods) -- Ripper + Sorcerer --&gt; id2(Crystal Functions) -- Crystal Compiler --&gt; id3[WebAssembly]
     id4(Ruby Code) &lt;-- Wasmer/Wasmtime --&gt; id3[WebAssembly]
 </code></pre>
-<ol><li>
-<p>Extend the Cry::Wasm module to the target class.</p>
-</li><li>
-<p>Write the type information just before the method.</p>
-</li><li>
-<p>Use the <code>cry</code> method to restrict argument types and return types.</p>
-</li><li>
-<p>Once the method is defined, Cry::Wasm captures the source code.</p>
-</li><li>
-<p><a href="https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html">Ripper</a> converts source code to <a href="https://en.wikipedia.org/wiki/S-expression">S-expression</a>.</p>
-</li><li>
-<p>Extracts the S-expression of the target method from the S-expression.</p>
-</li><li>
-<p><a href="https://github.com/rspec-given/sorcerer">Sorcerer</a> recovers the Ruby source code of the target method from the S-expression.</p>
-</li><li>
-<p>Add Crystal type restrictions to the Ruby source code to generate a Crystal code block.</p>
-</li><li>
-<p>Cry::Wasm stores the Crystal code block.</p>
-</li><li>
-<p>The Crystal compiler and wasm-ld compile the Crystal code into WebAssembly.</p>
-</li><li>
-<p>Call the <code>cry_build</code> method to build the crystal code blocks.</p>
-</li><li>
-<p>The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.</p>
-</li><li>
-<p>The target methods are dynamically redefined to call Wasmer/Wasmtime functions.</p>
-</li></ol>
-
-<h2 id="label-Usage">Usage</h2>
-
-<h3 id="label-It+define+crystal+functions-2C+not+Crystal+methods">It define crystal functions, not Crystal methods</h3>
-<ul><li>
-<p>Default arguments, keyword arguments, and block arguments are not available.</p>
-</li><li>
-<p>Instance variables and class variables are not available on the top level function.</p>
-</li><li>
-<p>To use your own Crystal class, use <code>cry_load(path)</code> to pre-load your crystal source code.</p>
-</li></ul>
-
-<h3 id="label-Type+conversion">Type conversion</h3>
-
-<h4 id="label-Arguments+-28+Ruby+---3E+Crystal+-29">Arguments ( Ruby –&gt; Crystal )</h4>
-
-<table role="table">
+<ol>
+<li>Extend the Cry::Wasm module to the target class.</li>
+<li>Write the type information just before the method.
+<ol>
+<li>Use the <code>cry</code> method to restrict argument types and return types.</li>
+</ol>
+</li>
+<li>Once the method is defined, Cry::Wasm captures the source code.
+<ol>
+<li><a href="https://ruby-doc.org/stdlib-3.1.2/libdoc/ripper/rdoc/Ripper.html">Ripper</a> converts source code to <a href="https://en.wikipedia.org/wiki/S-expression">S-expression</a>.</li>
+<li>Extracts the S-expression of the target method from the S-expression.</li>
+<li><a href="https://github.com/rspec-given/sorcerer">Sorcerer</a> recovers the Ruby source code of the target method from the S-expression.</li>
+<li>Add Crystal type restrictions to the Ruby source code to generate a Crystal code block.</li>
+<li>Cry::Wasm stores the Crystal code block.</li>
+</ol>
+</li>
+<li>The Crystal compiler and wasm-ld compile the Crystal code into WebAssembly.
+<ol>
+<li>Call the <code>cry_build</code> method to build the crystal code blocks.</li>
+</ol>
+</li>
+<li>The compiled byte_code is read, and an instance of Wasmer/Wasmtime is created.</li>
+<li>The target methods are dynamically redefined to call Wasmer/Wasmtime functions.</li>
+</ol>
+<h2 id="Usage">Usage</h2>
+<h3 id="It_define_crystal_functions__not_Crystal_methods">It define crystal functions, not Crystal methods</h3>
+<ul>
+<li>Default arguments, keyword arguments, and block arguments are not available.</li>
+<li>Instance variables and class variables are not available on the top level function.</li>
+<li>To use your own Crystal class, use <code>cry_load(path)</code> to pre-load your crystal source code.</li>
+</ul>
+<h3 id="Type_conversion">Type conversion</h3>
+<h4 id="Arguments___Ruby_____Crystal__">Arguments ( Ruby --&gt; Crystal )</h4>
+<table>
 <thead>
 <tr>
 <th>Ruby class</th>
@@ -177,39 +153,37 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </thead>
 <tbody>
 <tr>
-<td>‘Integer`</td>
-<td>‘UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
+<td><code>Integer</code></td>
+<td><code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code></td>
 </tr>
 <tr>
-<td>‘Float`</td>
-<td>‘Float32` `Float64`</td>
+<td><code>Float</code></td>
+<td><code>Float32</code> <code>Float64</code></td>
 </tr>
 <tr>
-<td>‘Array&lt;Integer&gt;`</td>
-<td>‘UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*` `UInt64*` `Int64*`</td>
+<td><code>Array&lt;Integer&gt;</code></td>
+<td><code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code> <code>UInt64*</code> <code>Int64*</code></td>
 </tr>
 <tr>
-<td>‘Array&lt;Integer&gt;`</td>
-<td>‘Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
+<td><code>Array&lt;Integer&gt;</code></td>
+<td><code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code></td>
 </tr>
 <tr>
-<td>‘Array&lt;Float&gt;`</td>
-<td>‘Float32*` `Float64*`</td>
+<td><code>Array&lt;Float&gt;</code></td>
+<td><code>Float32*</code> <code>Float64*</code></td>
 </tr>
 <tr>
-<td>‘Array&lt;Float&gt;`</td>
-<td>‘Array(Float32)` `Array(Float32)`</td>
+<td><code>Array&lt;Float&gt;</code></td>
+<td><code>Array(Float32)</code> <code>Array(Float32)</code></td>
 </tr>
 <tr>
-<td>‘String`</td>
-<td>‘String`</td>
+<td><code>String</code></td>
+<td><code>String</code></td>
 </tr>
 </tbody>
 </table>
-
-<h4 id="label-Return+values+-28+Crystal+---3E+Ruby+-29">Return values ( Crystal –&gt; Ruby )</h4>
-
-<table role="table">
+<h4 id="Return_values___Crystal_____Ruby__">Return values ( Crystal --&gt; Ruby )</h4>
+<table>
 <thead>
 <tr>
 <th>Crystal class</th>
@@ -218,115 +192,96 @@ style id4 fill:#c5c,stroke:#ff1,stroke-width:1px,color:#fff
 </thead>
 <tbody>
 <tr>
-<td>‘UInt8` `Int8` `UInt16` `Int16` `UInt32` `Int32` `UInt64` `Int64`</td>
-<td>‘Integer`</td>
+<td><code>UInt8</code> <code>Int8</code> <code>UInt16</code> <code>Int16</code> <code>UInt32</code> <code>Int32</code> <code>UInt64</code> <code>Int64</code></td>
+<td><code>Integer</code></td>
 </tr>
 <tr>
-<td>‘Float32` `Float64`</td>
-<td>‘Float`</td>
+<td><code>Float32</code> <code>Float64</code></td>
+<td><code>Float</code></td>
 </tr>
 <tr>
-<td>‘UInt8*` `Int8*` `UInt16*` `Int16*` `UInt32*` `Int32*`</td>
+<td><code>UInt8*</code> <code>Int8*</code> <code>UInt16*</code> <code>Int16*</code> <code>UInt32*</code> <code>Int32*</code></td>
 <td>View object of Wasmer (wasmer only)</td>
 </tr>
 <tr>
-<td>‘Array(UInt8)` `Array(Int8)` `Array(UInt16)` `Array(Int16)` `Array(UInt32)` `Array(Int32)` `Array(UInt64)` `Array(Int64)`</td>
-<td>‘Array&lt;Integer&gt;`</td>
+<td><code>Array(UInt8)</code> <code>Array(Int8)</code> <code>Array(UInt16)</code> <code>Array(Int16)</code> <code>Array(UInt32)</code> <code>Array(Int32)</code> <code>Array(UInt64)</code> <code>Array(Int64)</code></td>
+<td><code>Array&lt;Integer&gt;</code></td>
 </tr>
 <tr>
-<td>‘Array(Float32)` `Array(Float32)`</td>
-<td>‘Array&lt;Float&gt;`</td>
+<td><code>Array(Float32)</code> <code>Array(Float32)</code></td>
+<td><code>Array&lt;Float&gt;</code></td>
 </tr>
 <tr>
-<td>‘String`</td>
-<td>‘String`</td>
+<td><code>String</code></td>
+<td><code>String</code></td>
 </tr>
 <tr>
-<td>‘Void`</td>
-<td>‘Nil`</td>
+<td><code>Void</code></td>
+<td><code>Nil</code></td>
 </tr>
 </tbody>
 </table>
-
-<h4 id="label-Why+is+Symbol+not+supported-3F">Why is <code>Symbol</code> not supported?</h4>
-
+<h4 id="Why_is__Symbol__not_supported_">Why is <code>Symbol</code> not supported?</h4>
 <p>In the Crystal language, Symbol is converted to an integer at compile time, so there is no way to get Symbol from a String; use <code>String</code> instead of <code>Symbol</code>.</p>
-
-<h4 id="label-Cry-3A-3ANumeric+uses+Refinement+to+add+methods+to+Ruby-27s+numeric+classes">Cry::Numeric uses Refinement to add methods to Ruby’s numeric classes</h4>
-
-<p><code>Cry::Numeric</code> can use Refinements to add methods such as <code>to_i8</code>, <code>to_u8</code>, and <code>to_f32</code> to Ruby’s numeric classes. These methods are the same as <code>to_i</code> and <code>to_f</code> (the range of values is not checked). These are useful if you want to prevent errors when running your code as Ruby and get the same results as if you had run it as Crystal.</p>
-
-<h4 id="label-Why+is+it+very+slow+to+return+arrays-3F">Why is it very slow to return arrays?</h4>
-
+<h4 id="Cry__Numeric_uses_Refinement_to_add_methods_to_Ruby_s_numeric_classes">Cry::Numeric uses Refinement to add methods to Ruby's numeric classes</h4>
+<p><code>Cry::Numeric</code> can use Refinements to add methods such as <code>to_i8</code>, <code>to_u8</code>, and <code>to_f32</code> to Ruby's numeric classes. These methods are the same as <code>to_i</code> and <code>to_f</code> (the range of values is not checked). These are useful if you want to prevent errors when running your code as Ruby and get the same results as if you had run it as Crystal.</p>
+<h4 id="Why_is_it_very_slow_to_return_arrays_">Why is it very slow to return arrays?</h4>
 <p>Currently reading memory in wasm and converting it to Ruby arrays takes quite a bit of time. As a result, it may take longer to run with cry-wasm than when run as pure Ruby. Also note that currently (2022/12) wasmtime-rb is faster than wasmer-ruby when it comes to reading memory. If you are interested in improving these issues, please consider contributing to wasmer-ruby or wasmtime-rb.</p>
-
-<h2 id="label-Installation">Installation</h2>
-
+<h2 id="Installation">Installation</h2>
 <p>Requirements</p>
-<ol><li>
-<p><a href="https://github.com/crystal-lang/crystal">Crystal</a> - Follow the installation instructions <a href="https://crystal-lang.org/install/">here</a> for your platform.</p>
-</li><li>
-<p><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer-ruby</a> or <a href="https://github.com/bytecodealliance/wasmtime-rb">wasmtime-rb</a>.</p>
-</li><li>
-<p><a href="https://llvm.org/">LLVM</a> for macOS:</p>
-</li><li>
-<p>Install LLVM by running <code>brew install llvm</code></p>
-</li><li>
-<p>Find the path to wasm-ld by running <code>brew ls llvm | grep wasm-ld</code>.</p>
-</li><li>
-<p>Set the PATH environment variable so that <code>wasm-ld</code> can be called.</p>
-</li><li>
-<p><a href="https://lld.llvm.org/">LLD</a> for Ubuntu:</p>
-</li><li>
-<p>Install LLD by running <code>sudo apt install lld</code>.</p>
-</li><li>
-<p>Find the path to wasm-ld by running <code>dpkg -L lld | grep wasm-ld</code>.</p>
-</li><li>
-<p>If necessary, create a symbolic link for <code>wasm-ld-9</code> or <code>wasm-ld-10</code>.</p>
-</li><li>
-<p><a href="https://github.com/lbguilherme/wasm-libs">WebAssembly Libs for WASI</a></p>
-</li><li>
-<p>Use the <code>rake vendor:wasi_libs</code> task to download the libs to the vendor directory.</p>
-</li><li>
-<p>If you install the libs outside the given directory, set the <code>CRYSTAL_LIBRARY_PATH</code> environment variable.</p>
-</li></ol>
-
+<ol>
+<li><a href="https://github.com/crystal-lang/crystal">Crystal</a> - Follow the installation instructions <a href="https://crystal-lang.org/install/">here</a> for your platform.</li>
+<li><a href="https://www.rust-lang.org/">Rust</a> - Rust is required to compile the <a href="https://github.com/wasmerio/wasmer-ruby">wasmer-ruby</a> or <a href="https://github.com/bytecodealliance/wasmtime-rb">wasmtime-rb</a>.</li>
+<li>
+<a href="https://llvm.org/">LLVM</a> for macOS:
+<ol>
+<li>Install LLVM by running <code>brew install llvm</code></li>
+<li>Find the path to wasm-ld by running <code>brew ls llvm | grep wasm-ld</code>.</li>
+<li>Set the PATH environment variable so that <code>wasm-ld</code> can be called.</li>
+</ol>
+</li>
+<li>
+<a href="https://lld.llvm.org/">LLD</a> for Ubuntu:
+<ol>
+<li>Install LLD by running <code>sudo apt install lld</code>.</li>
+<li>Find the path to wasm-ld by running <code>dpkg -L lld | grep wasm-ld</code>.</li>
+<li>If necessary, create a symbolic link for <code>wasm-ld-9</code> or <code>wasm-ld-10</code>.</li>
+</ol>
+</li>
+<li>
+<a href="https://github.com/lbguilherme/wasm-libs">WebAssembly Libs for WASI</a>
+<ol>
+<li>Use the <code>rake vendor:wasi_libs</code> task to download the libs to the vendor directory.</li>
+<li>If you install the libs outside the given directory, set the <code>CRYSTAL_LIBRARY_PATH</code> environment variable.</li>
+</ol>
+</li>
+</ol>
 <p>Installation</p>
-
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
 <span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='label'>vendor:</span><span class='id identifier rubyid_wasi_libs'>wasi_libs</span>
 <span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_install'>install</span>
 </code></pre>
-
 <p>Please note that cry-wasm depends on the latest API of wasmer-ruby and wasmtime-rb, so we have to use the GitHub master rather than the stable version.</p>
-
 <p>Tested on macOS and Ubuntu using <a href="https://github.com/kojix2/cry-wasm/blob/main/.github/workflows/ci.yml">Github Actions</a>. Windows is not yet supported.</p>
-
-<h2 id="label-Development">Development</h2>
-
+<h2 id="Development">Development</h2>
 <pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/cry-wasm
 cd cry-wasm
 bundle install
 bundle exec rake vendor:wasi_libs
 bundle exec rake spec
 </code></pre>
-<ul><li>
-<p><a href="https://forum.crystal-lang.org/t/trying-out-wasm-support/4508">Trying out WASM Support</a> - A thread in the Crystal Forum on how to compile a wasm from crystal.</p>
-</li><li>
-<p><a href="https://github.com/lbguilherme/wasm-libs">wasm-libs</a> - WebAssembly Libs for WASI. You need to download the compiled wasm library.</p>
-</li></ul>
-
+<ul>
+<li><a href="https://forum.crystal-lang.org/t/trying-out-wasm-support/4508">Trying out WASM Support</a> - A thread in the Crystal Forum on how to compile a wasm from crystal.</li>
+<li><a href="https://github.com/lbguilherme/wasm-libs">wasm-libs</a> - WebAssembly Libs for WASI. You need to download the compiled wasm library.</li>
+</ul>
 <p>Even small improvements like fixing typos are welcome! Please feel free to send us your PR.</p>
-
-<h2 id="label-license">license</h2>
-
-<p>MIT</p>
-</div></div>
+<h2 id="license">license</h2>
+<p>MIT</p></div></div>
 
       <div id="footer">
-  Generated on Fri Nov 21 09:14:13 2025 by
+  Generated on Fri Jun 19 00:33:51 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.7).
+  0.9.44 (ruby-4.0.5).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Module: Cry::Wasm
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Cry::Wasm";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -78,8 +80,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/cry/wasm.rb<span class="defines">,<br />
+    <dd>lib/cry/wasm.rb<span class="defines">,<br>
   lib/cry/wasm/version.rb</span>
+
 </dd>
   </dl>
   
@@ -87,9 +90,9 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>The Cry::Wasm module is for defining Ruby methods that will be compiled into WASM. use ‘cry` to define the method signature. use `cry_build` to compile the method to WASM.</p>
-
+    <p>The Cry::Wasm module is for defining Ruby methods that will be compiled into WASM.
+use <code>cry</code> to define the method signature.
+use <code>cry_build</code> to compile the method to WASM.</p>
 
   </div>
 </div>
@@ -210,6 +213,7 @@
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -235,9 +239,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Defines the method signature.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Defines the method signature.</p></div></span>
   
 </li>
 
@@ -259,9 +261,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Compile the method to WASM.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Compile the method to WASM.</p></div></span>
   
 </li>
 
@@ -283,9 +283,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Add crystal code before compiling to WASM.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Add crystal code before compiling to WASM.</p></div></span>
   
 </li>
 
@@ -307,9 +305,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Loads the crystal code before compiling to WASM.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Loads the crystal code before compiling to WASM.</p></div></span>
   
 </li>
 
@@ -359,6 +355,7 @@
 
       
     </ul>
+    
   
 
 
@@ -502,9 +499,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Defines the method signature. This method must be called before the target method is defined.</p>
-
+    <p>Defines the method signature.
+This method must be called before the target method is defined.</p>
 
   </div>
 </div>
@@ -522,9 +518,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>crystal argument types</p>
-</div>
+        <div class='inline'><p>crystal argument types</p></div>
       
     </li>
   
@@ -538,9 +532,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>crystal return type</p>
-</div>
+        <div class='inline'><p>crystal return type</p></div>
       
     </li>
   
@@ -610,9 +602,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Compile the method to WASM. This method must be called after the target methods are defined.</p>
-
+    <p>Compile the method to WASM.
+This method must be called after the target methods are defined.</p>
 
   </div>
 </div>
@@ -632,9 +623,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>output path of WASM</p>
-</div>
+        <div class='inline'><p>output path of WASM</p></div>
       
     </li>
   
@@ -648,9 +637,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>options for Cry::Compiler#build_wasm</p>
-</div>
+        <div class='inline'><p>options for Cry::Compiler#build_wasm</p></div>
       
     </li>
   
@@ -667,9 +654,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method names that were compiled to WASM</p>
-</div>
+        <div class='inline'><p>method names that were compiled to WASM</p></div>
       
     </li>
   
@@ -846,14 +831,12 @@
     
   <div class="note notetag">
     <strong>Note:</strong>
-    <div class='inline'>
-<p>naming. ‘cry_code` or `cry_soruce` is better?</p>
-</div>
+    <div class='inline'><p>naming. <code>cry_code</code> or <code>cry_soruce</code> is better?</p></div>
   </div>
 
-
-<p>Add crystal code before compiling to WASM. You can pass the crystal code as a string. Use load to load the crystal code from a file.</p>
-
+<p>Add crystal code before compiling to WASM.
+You can pass the crystal code as a string.
+Use load to load the crystal code from a file.</p>
 
   </div>
 </div>
@@ -871,9 +854,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>crystal code</p>
-</div>
+        <div class='inline'><p>crystal code</p></div>
       
     </li>
   
@@ -889,9 +870,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>function names to be exported</p>
-</div>
+        <div class='inline'><p>function names to be exported</p></div>
       
     </li>
   
@@ -961,9 +940,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Loads the crystal code before compiling to WASM.</p>
-
+    <p>Loads the crystal code before compiling to WASM.</p>
 
   </div>
 </div>
@@ -981,9 +958,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>crystal file path</p>
-</div>
+        <div class='inline'><p>crystal file path</p></div>
       
     </li>
   
@@ -999,9 +974,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>base directory</p>
-</div>
+        <div class='inline'><p>base directory</p></div>
       
     </li>
   
@@ -1018,9 +991,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true</p>
-</div>
+        <div class='inline'><p>true</p></div>
       
     </li>
   
@@ -1148,9 +1119,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 21 09:14:14 2025 by
+  Generated on Fri Jun 19 00:33:51 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.7).
+  0.9.44 (ruby-4.0.5).
 </div>
 
     </div>
